@@ -8,8 +8,8 @@ chai.use(chaiHttp);
 it('should show home page on / GET', (done) => {
     chai.request('http://localhost:3000')
         .get('/')
-        .end(function(err, res) {
+        .end(function (err, res) {
             res.should.have.status(200);
             done();
         });
-}) ;
+});
