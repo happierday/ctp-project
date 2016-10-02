@@ -1,3 +1,5 @@
+"use strict";
+
 let express = require('express');
 let path = require('path');
 let favicon = require('serve-favicon');
@@ -9,7 +11,6 @@ let routes = require('./routes/index');
 let users = require('./routes/users');
 let profile = require('./routes/profile');
 let signin = require('./routes/signin');
-let signup = require('./routes/signup');
 
 let app = express();
 
@@ -28,7 +29,6 @@ app.use('/', routes);
 app.use('/users', users);
 app.use('/profile', profile);
 app.use('/signin',signin);
-app.use('/signup',signup);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

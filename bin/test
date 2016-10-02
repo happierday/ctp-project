@@ -1,3 +1,5 @@
+"use strict";
+
 let server = require('./www');
 
 let tests = require('../tests');
