@@ -2,4 +2,10 @@
 
 let server = require('./www');
 
-let tests = require('../tests');
+let fs = require('fs');
+
+fs
+    .readdirSync(__dirname + '/../tests')
+    .forEach(function (file) {
+        require(__dirname + '/../tests/' + file);
+    });
