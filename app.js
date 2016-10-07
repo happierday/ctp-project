@@ -1,18 +1,21 @@
 "use strict";
 
-let express = require('express');
-let path = require('path');
-let favicon = require('serve-favicon');
-let logger = require('morgan');
-let cookieParser = require('cookie-parser');
-let bodyParser = require('body-parser');
+const express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 
-let routes = require('./routes/index');
-let users = require('./routes/users');
-let profile = require('./routes/profile');
-let signin = require('./routes/signin');
+const routes = require('./routes/index');
+const users = require('./routes/users');
+const profile = require('./routes/profile');
+const signin = require('./routes/signin');
 
-let app = express();
+const app = express();
+
+const config = require('./config/config.json')[app.get('env')];
+const db = require('./models/index');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -28,7 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 app.use('/profile', profile);
-app.use('/signin', signin);
+app.use('/signin', signin)(db.User);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
