@@ -1,6 +1,12 @@
 "use strict";
 
 const express = require('express');
+
+const app = express();
+
+const config = require('./config/config.json')[app.get('env')];
+const db = require('./models/index');
+
 const path = require('path');
 const favicon = require('serve-favicon');
 const logger = require('morgan');
@@ -10,12 +16,7 @@ const bodyParser = require('body-parser');
 const routes = require('./routes/index');
 const users = require('./routes/users');
 const profile = require('./routes/profile');
-const signin = require('./routes/signin');
-
-const app = express();
-
-const config = require('./config/config.json')[app.get('env')];
-const db = require('./models/index');
+const signin = require('./routes/signin')(db.User);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -31,7 +32,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 app.use('/profile', profile);
-app.use('/signin', signin)(db.User);
+app.use('/signin', signin);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
