@@ -1,0 +1,14 @@
+{
+  "development": {
+    "domain": "platucation.auth0.com",
+    "clientID": "qCNwFHgQhBM9GXokNVikZYy2cjhPiot1",
+    "clientSecret": "JaE7_gSAcSY1IkLqCB2heE9TMeiZ1UNBxAk2Dbkb14oEkg3_NlRmQDLTVB00V20O",
+    "callbackURL": "http://localhost:3000/signin"
+  },
+  "production": {
+    "domain": "platucation.auth0.com",
+    "clientID": "qCNwFHgQhBM9GXokNVikZYy2cjhPiot1",
+    "clientSecret": "JaE7_gSAcSY1IkLqCB2heE9TMeiZ1UNBxAk2Dbkb14oEkg3_NlRmQDLTVB00V20O",
+    "callbackURL": "{DOMAIN TO BE DECIDED}"
+  }
+}

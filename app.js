@@ -4,8 +4,7 @@ const express = require('express');
 
 const app = express();
 
-const config = require('./config/config.json')[app.get('env')];
-const db = require('./models/index');
+const db = require('./models');
 
 const path = require('path');
 const favicon = require('serve-favicon');
@@ -18,6 +17,41 @@ const users = require('./routes/users');
 const profile = require('./routes/profile');
 const signin = require('./routes/signin')(db.User);
 
+const passport = require('passport');
+const Auth0Strategy = require('passport-auth0');
+
+const auth0Config = require('./config/auth0.json')[app.get('env')];
+
+// Configure Passport to use Auth0
+var strategy = new Auth0Strategy(auth0Config, function(accessToken, refreshToken, extraParams, profile, done) {
+    // accessToken is the token to call Auth0 API (not needed in the most cases)
+    // extraParams.id_token has the JSON Web Token
+    // profile has all the information from the user
+    console.log(profile);
+    db.User.upsert({
+        externalID: profile.id,
+        name: profile.displayName,
+        email: profile.emails[0].value
+    }).then(function () {
+        done(null, profile);
+    }).catch(function (err) {
+        console.log(err);
+        done(err);
+    });
+});
+
+passport.use(strategy);
+
+// This can be used to keep a smaller payload
+passport.serializeUser(function(user, done) {
+    done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+    done(null, user);
+});
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -28,6 +62,20 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(function (req, res, next) {
+   if (req.method === 'GET') {
+       res.locals.user = req.user;
+       res.locals.auth0 = auth0Config;
+   }
+
+   next();
+});
+
+
 
 app.use('/', routes);
 app.use('/users', users);

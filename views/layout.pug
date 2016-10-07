@@ -1,14 +1,42 @@
 doctype html
 html
-  head
-    title= title
+    head
+        title= title
 
-    link(rel='stylesheet', href='//fonts.googleapis.com/icon?family=Material+Icons')
-    link(rel='stylesheet', href='//code.getmdl.io/1.2.1/material.indigo-pink.min.css')
-    link(rel='stylesheet', href='/stylesheets/style.css')
+        link(rel='stylesheet', href='//fonts.googleapis.com/icon?family=Material+Icons')
+        link(rel='stylesheet', href='//code.getmdl.io/1.2.1/material.indigo-pink.min.css')
+        link(rel='stylesheet', href='/stylesheets/layout.css')
 
-    script(src='//code.getmdl.io/1.2.1/material.min.js' async defer)
 
-    block js
-  body
-    block content
+        script(src='//code.getmdl.io/1.2.1/material.min.js' async defer)
+
+        block js
+        block css
+    body
+        div.mdl-layout.mdl-js-layout.mdl-layout--fixed-header
+            div.mdl-layout__header.mdl-layout__header--waterfall
+                div.mdl-layout__header-row
+                    span.mdl-layout-title
+                        img.android-logo-image(src='images/android-logo.png')
+                    div.mdl-layout-spacer
+                    nav.mdl-navigation
+                        if (user)
+                            button.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect.mdl-button--accent(onclick='lock.show()') Log Out
+                        else
+                            button.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect.mdl-button--accent(onclick='lock.show()') Log in / Sign Up
+
+            block content
+
+
+            if (!user)
+                script(src="//cdn.auth0.com/js/lock/10.3/lock.min.js")
+                script.
+                    var lock = new Auth0Lock('#{auth0.clientID}', '#{auth0.domain}', {
+                        auth: {
+                            redirectUrl: '#{auth0.callbackURL}'
+                            , responseType: 'code'
+                            , params: {
+                                scope: 'openid name email picture'
+                            }
+                        }
+                    });
