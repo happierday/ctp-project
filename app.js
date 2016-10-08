@@ -1,18 +1,22 @@
 "use strict";
 
-let express = require('express');
-let path = require('path');
-let favicon = require('serve-favicon');
-let logger = require('morgan');
-let cookieParser = require('cookie-parser');
-let bodyParser = require('body-parser');
+const express = require('express');
 
-let routes = require('./routes/index');
-let users = require('./routes/users');
-let profile = require('./routes/profile');
-let signin = require('./routes/signin');
+const app = express();
 
-let app = express();
+const config = require('./config/config.json')[app.get('env')];
+const db = require('./models/index');
+
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+
+const routes = require('./routes/index');
+const users = require('./routes/users');
+const profile = require('./routes/profile');
+const signin = require('./routes/signin')(db.User);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
