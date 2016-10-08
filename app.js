@@ -31,7 +31,8 @@ const strategy = new Auth0Strategy(auth0Config, function(accessToken, refreshTok
     db.User.upsert({
         externalID: profile.id,
         name: profile.displayName,
-        email: profile.emails[0].value
+        email: profile.emails[0].value,
+        picture: profile.picture
     }).then(function () {
         done(null, profile);
     }).catch(function (err) {
