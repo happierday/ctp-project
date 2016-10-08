@@ -14,7 +14,7 @@ const bodyParser = require('body-parser');
 
 const routes = require('./routes/index');
 const users = require('./routes/users');
-const profile = require('./routes/profile');
+const profile = require('./routes/profile')(db.User);
 const signin = require('./routes/signin')(db.User);
 
 const passport = require('passport');
@@ -23,7 +23,7 @@ const Auth0Strategy = require('passport-auth0');
 const auth0Config = require('./config/auth0.json')[app.get('env')];
 
 // Configure Passport to use Auth0
-var strategy = new Auth0Strategy(auth0Config, function(accessToken, refreshToken, extraParams, profile, done) {
+const strategy = new Auth0Strategy(auth0Config, function(accessToken, refreshToken, extraParams, profile, done) {
     // accessToken is the token to call Auth0 API (not needed in the most cases)
     // extraParams.id_token has the JSON Web Token
     // profile has all the information from the user
@@ -68,6 +68,7 @@ app.use(passport.session());
 
 app.use(function (req, res, next) {
    if (req.method === 'GET') {
+       console.log(req.user);
        res.locals.user = req.user;
        res.locals.auth0 = auth0Config;
    }
