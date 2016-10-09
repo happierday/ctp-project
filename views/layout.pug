@@ -17,12 +17,13 @@ html
             div.mdl-layout__header.mdl-layout__header--waterfall
                 div.mdl-layout__header-row
                     span.mdl-layout-title
-                        img.android-logo-image(src='images/android-logo.png')
+                        img(src='images/logo.png')
                     div.mdl-layout-spacer
                     nav.mdl-navigation
                         a.mdl-navigation__link.mdl-typography--text-uppercase(href='/') Home
 
                         if (user)
+                            img.user-avatar(src=user.picture)
                             button.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect.mdl-button--accent(onclick='lock.show()') Log Out
                         else
                             button.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect.mdl-button--accent(onclick='lock.show()') Log in / Sign Up

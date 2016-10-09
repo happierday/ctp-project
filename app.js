@@ -12,10 +12,28 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
-const routes = require('./routes/index');
+const index = require('./routes/index');
 const users = require('./routes/users');
 const profile = require('./routes/profile')(db.User);
 const signin = require('./routes/signin')(db.User);
+
+const session = require('express-session');
+const sessionStore = require('connect-session-sequelize')(session.Store);
+const sessionMiddleware = session({
+    name: 'sid',
+    secret: 'hYemGJJsMqaDhXeLt7a91fGrIs5GOIVAK2eI6F5WpYA9Q9fqOflzVFDWpVYYxqm',
+    saveUninitialized: false,
+    resave: false,
+    proxy: false,
+    store: new sessionStore({
+        db: db.sequelize
+    }),
+    cookie: {
+        httpOnly: true,
+        maxAge: 2592000000
+    }
+});
+
 
 const passport = require('passport');
 const Auth0Strategy = require('passport-auth0');
@@ -23,7 +41,7 @@ const Auth0Strategy = require('passport-auth0');
 const auth0Config = require('./config/auth0.json')[app.get('env')];
 
 // Configure Passport to use Auth0
-const strategy = new Auth0Strategy(auth0Config, function(accessToken, refreshToken, extraParams, profile, done) {
+const strategy = new Auth0Strategy(auth0Config, (accessToken, refreshToken, extraParams, profile, done) => {
     // accessToken is the token to call Auth0 API (not needed in the most cases)
     // extraParams.id_token has the JSON Web Token
     // profile has all the information from the user
@@ -33,10 +51,16 @@ const strategy = new Auth0Strategy(auth0Config, function(accessToken, refreshTok
         name: profile.displayName,
         email: profile.emails[0].value,
         picture: profile.picture
-    }).then(function () {
-        done(null, profile);
-    }).catch(function (err) {
-        console.log(err);
+    }).then(() => {
+        return db.User.findOne({
+            $where: {
+                externalID: profile.id
+            }
+        });
+    }).then((user) => {
+        done(null, user);
+    }).catch((err) => {
+        logger(err);
         done(err);
     });
 });
@@ -44,12 +68,16 @@ const strategy = new Auth0Strategy(auth0Config, function(accessToken, refreshTok
 passport.use(strategy);
 
 // This can be used to keep a smaller payload
-passport.serializeUser(function(user, done) {
-    done(null, user);
+passport.serializeUser((user, done) => {
+    done(null, user.id);
 });
 
-passport.deserializeUser(function(user, done) {
-    done(null, user);
+passport.deserializeUser((id, done) => {
+    db.User.findById(id).then((user) => {
+        done(null, user);
+    }).catch((err) => {
+        done(err);
+    });
 });
 
 
@@ -63,23 +91,20 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(sessionMiddleware);
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(function (req, res, next) {
-   if (req.method === 'GET') {
-       console.log(req.user);
-       res.locals.user = req.user;
-       res.locals.auth0 = auth0Config;
-   }
+app.use((req, res, next) => {
+    if (req.method === 'GET') {
+        res.locals.user = req.user;
+        res.locals.auth0 = auth0Config;
+    }
 
-   next();
+    next();
 });
 
-
-
-app.use('/', routes);
+app.use('/', index);
 app.use('/users', users);
 app.use('/profile', profile);
 app.use('/signin', signin);
