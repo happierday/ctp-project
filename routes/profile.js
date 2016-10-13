@@ -6,13 +6,19 @@ module.exports = function (User) {
 
     /* GET Public Profile */
     router.get('/', (req, res, next) => {
-        res.render('public_profile', {username: 'John Doe', degrees: "Ph.D Fishing"});
+        User.findAll().then((users) => {
+            //for(Object user in users){
+            res.render('public_profile', {users:users});
+        });
+        //res.render('public_profile', {users:});
+
     });
 
     /* GET Shared User Content. */
     router.get('/sharedContent', (req, res, next) => {
         res.render('shared_content');
     });
+
 
     return router;
 };
