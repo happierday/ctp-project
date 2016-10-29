@@ -12,10 +12,10 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
-const index = require('./routes/index');
-const users = require('./routes/users');
+const index = require('./routes/index')();
+const signin = require('./routes/signin')();
 const profile = require('./routes/profile')(db.User);
-const signin = require('./routes/signin')(db.User);
+const domain = require('./routes/domain')();
 
 const session = require('express-session');
 const sessionStore = require('connect-session-sequelize')(session.Store);
@@ -105,16 +105,19 @@ app.use((req, res, next) => {
 });
 
 app.use('/', index);
-app.use('/users', users);
 app.use('/profile', profile);
 app.use('/signin', signin);
+app.use('/domain', domain);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
-    let err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+    next(404);
 });
+
+const errorMessages = {
+    401: '401. Unauthorized. You do not have the required permissions to access this resource.',
+    404: '404. Not Found.'
+};
 
 // error handlers
 
@@ -122,22 +125,45 @@ app.use((req, res, next) => {
 // will print stacktrace
 if (app.get('env') === 'development') {
     app.use((err, req, res, next) => {
+        if (typeof err === 'number') {
+            err = {
+                status: err,
+                message: errorMessages[err]
+            }
+        }
         res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: err
-        });
+
+        if (req.method === 'GET') {
+            res.render('error', {
+                message: err.message,
+                error: err
+            });
+        } else {
+            res.send(err);
+        }
     });
 }
 
 // production error handler
 // no stacktraces leaked to user
 app.use(function (err, req, res, next) {
+    if (typeof err === 'number') {
+        err = {
+            status: err,
+            message: errorMessages[err]
+        }
+    }
+
     res.status(err.status || 500);
-    res.render('error', {
-        message: err.message,
-        error: {}
-    });
+
+    if (req.method === 'GET') {
+        res.render('error', {
+            message: err.message,
+            error: {}
+        });
+    } else {
+        res.send(err.message);
+    }
 });
 
 

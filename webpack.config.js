@@ -6,11 +6,17 @@ const webpack = require('webpack');
 
 module.exports = {
     entry: {
-        'domain.create': path.join(__dirname, 'src', 'javascripts', 'domain.create.js')
+        'domain-create': path.join(__dirname, 'src', 'javascripts', 'domain-create.js')
     },
     output: {
         path: path.join(__dirname, 'assets', 'build', 'javascripts'),
-        filename: "[name].[chunkhash].js"
+        publicPath: '/javascripts/',
+        filename: "[name]-[chunkhash].js"
+    },
+    resolve: {
+        alias: {
+            'vue$': 'vue/dist/vue.js'
+        }
     },
     plugins: [
         new webpack.optimize.OccurrenceOrderPlugin(),
@@ -38,7 +44,7 @@ module.exports = {
 
                             if (extensionName === 'css') {
                                 const oldName = newFileName;
-                                newFileName = newFileName.replace('.css', '.' + crypto.createHash('md5').update(fs.readFileSync(path.join(__dirname, 'assets', 'build', 'stylesheets', newFileName), "utf8")).digest('hex') + '.css');
+                                newFileName = newFileName.replace('.css', '-' + crypto.createHash('md5').update(fs.readFileSync(path.join(__dirname, 'assets', 'build', 'stylesheets', newFileName), "utf8")).digest('hex') + '.css');
                                 fs.renameSync(path.join(__dirname, 'assets', 'build', 'stylesheets', oldName), path.join(__dirname, 'assets', 'build', 'stylesheets', newFileName));
                             }
 
