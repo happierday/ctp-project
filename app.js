@@ -34,7 +34,6 @@ const sessionMiddleware = session({
     }
 });
 
-
 const passport = require('passport');
 const Auth0Strategy = require('passport-auth0');
 
@@ -90,7 +89,8 @@ app.set('view engine', 'pug');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'assets', 'build')));
+app.use(express.static(path.join(__dirname, 'assets', 'static')));
 app.use(sessionMiddleware);
 app.use(passport.initialize());
 app.use(passport.session());

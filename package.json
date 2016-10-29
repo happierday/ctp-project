@@ -4,7 +4,10 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "start:nodemon": "nodemon ./bin/www",
+    "dev:nodemon": "nodemon ./bin/www",
+    "dev:watch-assets": "watch \"npm run build\" src",
+    "dev": "npm-run-all --parallel dev:nodemon dev:watch-assets",
+    "build": "rimraf assets/build && node-sass --output-style compressed src/stylesheets/ -o assets/build/stylesheets/ && webpack",
     "test": "mocha ./bin/test",
     "migrate": "sequelize db:migrate:undo:all && sequelize db:migrate"
   },
@@ -29,6 +32,11 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "chai-http": "^3.0.0",
-    "mocha": "^3.1.0"
+    "mocha": "^3.1.0",
+    "node-sass": "^3.10.1",
+    "npm-run-all": "^3.1.1",
+    "rimraf": "^2.5.4",
+    "watch": "^1.0.1",
+    "webpack": "^2.1.0-beta.25"
   }
 }
