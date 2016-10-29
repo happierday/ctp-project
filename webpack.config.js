@@ -19,9 +19,9 @@ module.exports = {
         }
     },
     plugins: [
-        new webpack.optimize.OccurrenceOrderPlugin(),
-        new webpack.optimize.DedupePlugin(),
-        new webpack.optimize.UglifyJsPlugin(),
+        // new webpack.optimize.OccurrenceOrderPlugin(),
+        // new webpack.optimize.DedupePlugin(),
+        // new webpack.optimize.UglifyJsPlugin(),
         function updatePugAssets() { //Hashes css files for cache busting and updates asset paths in pug files
             this.plugin("done", function (statsData) {
                 const stats = statsData.toJson();
