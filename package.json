@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "dev:nodemon": "nodemon ./bin/www",
+    "dev:nodemon": "nodemon ./bin/www --ignore src/ --ignore tests/ --ignore assets/ --ignore webpack.config.js",
     "dev:watch-assets": "watch \"npm run build\" src",
     "dev": "npm-run-all --parallel dev:nodemon dev:watch-assets",
     "build": "rimraf assets/build && node-sass --output-style compressed src/stylesheets/ -o assets/build/stylesheets/ && webpack",
