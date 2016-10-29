@@ -37,7 +37,7 @@ module.exports = {
                             const extensionName = separatorSplit[separatorSplit.length - 1];
 
                             if (extensionName === 'css') {
-                                var oldName = newFileName;
+                                const oldName = newFileName;
                                 newFileName = newFileName.replace('.css', '.' + crypto.createHash('md5').update(fs.readFileSync(path.join(__dirname, 'assets', 'build', 'stylesheets', newFileName), "utf8")).digest('hex') + '.css');
                                 fs.renameSync(path.join(__dirname, 'assets', 'build', 'stylesheets', oldName), path.join(__dirname, 'assets', 'build', 'stylesheets', newFileName));
                             }
