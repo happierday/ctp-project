@@ -1,3 +1,4 @@
+var moment = {};
 require(['vue', 'vuikit'], function (Vue, Vuikit) {
     Vue.use(Vuikit);
 

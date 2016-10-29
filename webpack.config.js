@@ -1,8 +1,13 @@
 const fs = require('fs');
 const path = require('path');
+const execSync = require("child_process").execSync;
 const crypto = require('crypto');
+const SEPARATOR = process.platform === "win32" ? ";" : ":";
+const env = Object.assign({}, process.env);
+env.PATH = path.resolve("./node_modules/.bin") + SEPARATOR + env.PATH;
 
 const webpack = require('webpack');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
     entry: {
@@ -19,14 +24,20 @@ module.exports = {
         }
     },
     plugins: [
+        new CleanWebpackPlugin(['assets/build']),
         // new webpack.optimize.OccurrenceOrderPlugin(),
         // new webpack.optimize.DedupePlugin(),
         // new webpack.optimize.UglifyJsPlugin(),
-        function updatePugAssets() { //Hashes css files for cache busting and updates asset paths in pug files
+        function minifyCssAndUpdatePugAssets() { //Minifies and hashes css files for cache busting and updates asset paths in pug files
             this.plugin("done", function (statsData) {
                 const stats = statsData.toJson();
 
                 if (!stats.errors.length) {
+                    execSync('npm run build:css', {
+                        cwd: process.cwd(),
+                        env: env
+                    });
+
                     const pugFiles = fs.readdirSync(path.join(__dirname, 'views'), "utf8");
                     const buildFiles = fs.readdirSync(path.join(__dirname, 'assets', 'build'), "utf8")
                         .map((folder) =>fs.readdirSync(path.join(__dirname, 'assets', 'build', folder), "utf8"))
