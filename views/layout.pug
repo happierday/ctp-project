@@ -1,6 +1,11 @@
 doctype html
 html
     head
+        meta(charset="utf-8")
+        meta(http-equiv="X-UA-Compatible" content="IE=edge")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0")
+        meta(name="description" content=".")
+
         title= title
 
         script(src='//code.getmdl.io/1.2.1/material.min.js' async defer)
@@ -13,33 +18,44 @@ html
         block js
         block css
     body
-        div.mdl-layout.mdl-js-layout.mdl-layout--fixed-header
-            div.mdl-layout__header
-                div.mdl-layout__header-row
-                    span.mdl-layout-title
-                        img(src='/images/logo.png', height='40px', width='40px')
-                    div.mdl-layout-spacer
+        div.mdl-layout__container
+            div.mdl-layout.mdl-js-layout.mdl-layout--no-desktop-drawer-button
+                div.mdl-layout__header
+                    div.mdl-layout__header-row
+                        span.mdl-layout-title
+                            img(src='/images/logo.png', height='40px', width='40px')
+                        div.mdl-layout-spacer
+                        nav.mdl-navigation
+                            a.mdl-navigation__link.mdl-typography--text-uppercase(href='/') Home
+
+                            if (user)
+                                img.user-avatar(src=user.picture)
+                                button.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect.mdl-button--accent(onclick='lock.show()') Log Out
+                            else
+                                button.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect.mdl-button--accent(onclick='lock.show()') Log in / Sign Up
+                div.mdl-layout__drawer
+                    span.mdl-layout__title EduPlat
                     nav.mdl-navigation
                         a.mdl-navigation__link.mdl-typography--text-uppercase(href='/') Home
-
+                    div.mdl-layout-spacer
+                    nav.mdl-navigation
                         if (user)
-                            img.user-avatar(src=user.picture)
                             button.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect.mdl-button--accent(onclick='lock.show()') Log Out
                         else
                             button.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect.mdl-button--accent(onclick='lock.show()') Log in / Sign Up
 
-            block content
+                div.mdl-layout__content
+                    block content
 
-
-            if (!user)
-                script(src="//cdn.auth0.com/js/lock/10.3/lock.min.js")
-                script.
-                    var lock = new Auth0Lock('#{auth0.clientID}', '#{auth0.domain}', {
-                        auth: {
-                            redirectUrl: '#{auth0.callbackURL}'
-                            , responseType: 'code'
-                            , params: {
-                                scope: 'openid name email picture'
-                            }
+        if (!user)
+            script(src="//cdn.auth0.com/js/lock/10.3/lock.min.js")
+            script.
+                var lock = new Auth0Lock('#{auth0.clientID}', '#{auth0.domain}', {
+                    auth: {
+                        redirectUrl: '#{auth0.callbackURL}'
+                        , responseType: 'code'
+                        , params: {
+                            scope: 'openid name email picture'
                         }
-                    });
+                    }
+                });

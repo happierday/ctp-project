@@ -1,12 +1,16 @@
 doctype html
 html
     head
+        meta(charset="utf-8")
+        meta(http-equiv="X-UA-Compatible" content="IE=edge")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0")
+        meta(name="description" content=".")
         title= 'Create a new domain'
-        script(src='/javascripts/domain_create-9f00b545dc059cb86322.js' async defer)
+        script(src='/javascripts/domain_create-9df5bf28ca44c960f2ad.js' async defer)
         link(rel='stylesheet' href='//fonts.googleapis.com/css?family=Roboto:300,400,500,700')
         link(rel='stylesheet' href='//fonts.googleapis.com/icon?family=Material+Icons')
-        link(rel='stylesheet' href='/stylesheets/domain_create-0ded81cd77c921059fc0252fd1feb570.css')
+        link(rel='stylesheet' href='/stylesheets/domain_create-6d816f7040498ed70d70e296fb7ebc5f.css')
     body
         div#app(v-md-theme="'default'")
-            transition(appear name="slide-fade" mode='out-in')
+            transition(appear name="slide-fade")
                 router-view
