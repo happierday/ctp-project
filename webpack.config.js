@@ -95,6 +95,9 @@ module.exports = {
                 if (!stats.errors.length) {
                     const stylesheets = fs.readdirSync(PATHS.stylesheets)
                         .map((scss) => {
+                            if (!scss.endsWith('.scss')) {
+                                return undefined;
+                            }
                             return {
                                 name: scss.substr(0, scss.length - 5),
                                 output: sass.renderSync({
@@ -105,6 +108,10 @@ module.exports = {
                         });
 
                     stylesheets.forEach((stylesheet) => {
+                        if (stylesheet === undefined) {
+                            return;
+                        }
+
                         var filePath = path.join(PATHS.builtStylesheets, stylesheet.name + '-' + crypto.createHash('md5').update(stylesheet.output).digest('hex') + '.css');
                         ensureDirectoryExistence(filePath);
                         fs.writeFileSync(filePath, stylesheet.output);
