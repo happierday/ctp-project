@@ -2,7 +2,11 @@ doctype html
 html
     head
         title= 'Create a new domain'
-        script(src='/javascripts/domain_create-f9c5da74b428aeadba17.js' async defer)
-        link(rel='stylesheet' href='/stylesheets/domain_create-a933621d7c27420160ab510354cc28cf.css')
+        script(src='/javascripts/domain_create-9f00b545dc059cb86322.js' async defer)
+        link(rel='stylesheet' href='//fonts.googleapis.com/css?family=Roboto:300,400,500,700')
+        link(rel='stylesheet' href='//fonts.googleapis.com/icon?family=Material+Icons')
+        link(rel='stylesheet' href='/stylesheets/domain_create-0ded81cd77c921059fc0252fd1feb570.css')
     body
-        div#app
+        div#app(v-md-theme="'default'")
+            transition(appear name="slide-fade" mode='out-in')
+                router-view

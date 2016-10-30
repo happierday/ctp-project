@@ -1,12 +1,44 @@
-body {
-    background: linear-gradient(307deg, #6773d9, #5db989);
+@import "partials/_transitions";
+
+html, body, #app {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+
+#app {
+    background: linear-gradient(157deg, #78e4c8, #789ce4);
     background-size: 400% 400%;
 
-    animation: AnimationName 18s ease infinite;
+    animation: AnimationName 15s ease infinite;
 
     @keyframes AnimationName {
-        0%{background-position:0 43%}
-        50%{background-position:100% 58%}
-        100%{background-position:0 43%}
+        0% {
+            background-position: 34% 0
+        }
+        50% {
+            background-position: 67% 100%
+        }
+        100% {
+            background-position: 34% 0
+        }
+    }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    * {
+        color: rgba(255, 255, 255, 0.87);
+        text-align: center;
+    }
+
+    > div > * {
+        margin-top: 50px;
+        margin-bottom: 50px;
+    }
+
+    .md-input-container > input {
+        text-shadow: 0 0 0 rgba(255, 255, 255, 0.87);
+        font-size: 18px;
     }
 }
