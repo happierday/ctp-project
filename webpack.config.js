@@ -95,7 +95,7 @@ module.exports = {
                 if (!stats.errors.length) {
                     const stylesheets = fs.readdirSync(PATHS.stylesheets)
                         .map((scss) => {
-                            if (!scss.endsWith('.scss')) {
+                            if (!scss.endsWith('.scss') || scss.startsWith('_')) {
                                 return undefined;
                             }
                             return {
