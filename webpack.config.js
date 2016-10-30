@@ -34,7 +34,7 @@ function directoryExists(path) {
 
 module.exports = {
     entry: {
-        'domain_create': path.join(PATHS.javascripts, 'domain_create', 'app.js')
+        'domain_create': path.join(PATHS.javascripts, 'domain_create', 'domain_create.js')
     },
     output: {
         path: PATHS.builtJavascripts,
@@ -77,8 +77,11 @@ module.exports = {
                                     rimraf.sync(PATHS.builtStylesheets);
                                 }
 
-                                if (filesModified.some((file) => file.endsWith('.js'))) {
-                                    rimraf.sync(PATHS.builtJavascripts);
+                                const jsFiles = filesModified.filter((file) => file.endsWith('.js')).map((file) => path.parse(file).name);
+
+                                if (jsFiles.length) {
+                                    const relevantFiles = fs.readdirSync(PATHS.builtJavascripts).filter((file) => jsFiles.some((f) => file.startsWith(f)));
+                                    relevantFiles.forEach((file) => rimraf.sync(path.join(PATHS.builtJavascripts, file)));
                                 }
 
                                 callback(err, filesModified, dirsModified, missingModified, fileTimestamps, dirTimestamps);
