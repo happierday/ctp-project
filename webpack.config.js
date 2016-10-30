@@ -73,11 +73,11 @@ module.exports = {
                                     return;
                                 }
 
-                                if (filesModified.some((file) => file.indexOf('stylesheets') != -1)) {
+                                if (filesModified.some((file) => file.endsWith('.scss'))) {
                                     rimraf.sync(PATHS.builtStylesheets);
                                 }
 
-                                if (filesModified.some((file) => file.indexOf('javascripts') != -1)) {
+                                if (filesModified.some((file) => file.endsWith('.js'))) {
                                     rimraf.sync(PATHS.builtJavascripts);
                                 }
 
