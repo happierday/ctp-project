@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "dev:nodemon": "nodemon ./bin/www --ignore src/ --ignore tests/ --ignore assets/ --ignore webpack.config.js",
+    "dev:nodemon": "nodemon ./bin/www --ignore src/ --ignore tests/ --ignore assets/ --ignore webpack.config.js --ignore models/ --ignore assets/",
     "dev:webpack": "webpack --watch",
     "dev": "npm-run-all --parallel dev:nodemon dev:webpack",
+    "build:clean": "rimraf assets/build",
     "build:css": "node-sass --output-style compressed src/stylesheets/ -o assets/build/stylesheets/",
     "build": "webpack",
     "test": "mocha ./bin/test",
@@ -31,13 +32,17 @@
     "serve-favicon": "^2.3.0"
   },
   "devDependencies": {
+    "babel-core": "^6.18.0",
+    "babel-loader": "^6.2.7",
+    "babel-preset-es2015": "^6.18.0",
     "chai": "^3.5.0",
     "chai-http": "^3.0.0",
-    "clean-webpack-plugin": "^0.1.13",
     "mocha": "^3.1.0",
     "node-sass": "^3.10.1",
     "npm-run-all": "^3.1.1",
+    "rimraf": "^2.5.4",
     "vue": "^2.0.3",
+    "vue-router": "^2.0.1",
     "vuikit": "^0.6.0",
     "webpack": "^2.1.0-beta.25"
   }

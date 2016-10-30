@@ -10,7 +10,7 @@ module.exports = function () {
         //     return;
         // }
 
-        res.render('domain-create');
+        res.render('domain_create');
     });
 
     return router;

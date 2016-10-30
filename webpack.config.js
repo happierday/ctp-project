@@ -7,11 +7,10 @@ const env = Object.assign({}, process.env);
 env.PATH = path.resolve("./node_modules/.bin") + SEPARATOR + env.PATH;
 
 const webpack = require('webpack');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
     entry: {
-        'domain-create': path.join(__dirname, 'src', 'javascripts', 'domain-create.js')
+        'domain_create': path.join(__dirname, 'src', 'javascripts', 'domain_create.js')
     },
     output: {
         path: path.join(__dirname, 'assets', 'build', 'javascripts'),
@@ -23,8 +22,20 @@ module.exports = {
             'vue$': 'vue/dist/vue.js'
         }
     },
+    module: {
+        loaders: [
+            { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" }
+        ]
+    },
     plugins: [
-        new CleanWebpackPlugin(['assets/build']),
+        function cleanBuildFolder() {
+            this.plugin("compile", function () {
+                execSync('npm run build:clean', {
+                    cwd: process.cwd(),
+                    env: env
+                });
+            });
+        },
         // new webpack.optimize.OccurrenceOrderPlugin(),
         // new webpack.optimize.DedupePlugin(),
         // new webpack.optimize.UglifyJsPlugin(),
@@ -59,7 +70,7 @@ module.exports = {
                                 fs.renameSync(path.join(__dirname, 'assets', 'build', 'stylesheets', oldName), path.join(__dirname, 'assets', 'build', 'stylesheets', newFileName));
                             }
 
-                            const pugOutput = pug.replace(new RegExp(assetName + '\..+\.' + extensionName, 'i'), newFileName);
+                            const pugOutput = pug.replace(new RegExp(assetName + '\-.+\.' + extensionName, 'i'), newFileName);
                             fs.writeFileSync(path.join(__dirname, 'views', file), pugOutput);
                         });
                     });
