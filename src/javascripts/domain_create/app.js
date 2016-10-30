@@ -1,8 +1,9 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Index from "./routes/index";
 import VueMaterial from "vue-material";
 import 'vue-material/dist/vue-material.css';
+import Index from "./routes/index";
+import Settings from "./routes/settings";
 
 Vue.use(VueMaterial);
 Vue.material.theme.register('default', {
@@ -12,7 +13,7 @@ Vue.material.theme.register('default', {
 
 Vue.use(VueRouter);
 
-const routes = [Index];
+const routes = [Index, Settings];
 
 const router = new VueRouter({routes, mode: 'history', base: '/domain/create/'});
 
