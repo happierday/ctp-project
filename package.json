@@ -7,8 +7,6 @@
     "dev:nodemon": "nodemon ./bin/www --ignore src/ --ignore tests/ --ignore assets/ --ignore webpack.config.js --ignore models/ --ignore assets/",
     "dev:webpack": "webpack --watch",
     "dev": "npm-run-all --parallel dev:nodemon dev:webpack",
-    "build:clean": "rimraf assets/build",
-    "build:css": "node-sass --output-style compressed src/stylesheets/ -o assets/build/stylesheets/",
     "build": "webpack",
     "test": "mocha ./bin/test",
     "migrate": "sequelize db:migrate:undo:all && sequelize db:migrate"

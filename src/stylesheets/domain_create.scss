@@ -1,0 +1,12 @@
+body {
+    background: linear-gradient(307deg, #6773d9, #5db989);
+    background-size: 400% 400%;
+
+    animation: AnimationName 18s ease infinite;
+
+    @keyframes AnimationName {
+        0%{background-position:0 43%}
+        50%{background-position:100% 58%}
+        100%{background-position:0 43%}
+    }
+}

@@ -1,19 +1,43 @@
 const fs = require('fs');
 const path = require('path');
-const execSync = require("child_process").execSync;
 const crypto = require('crypto');
-const SEPARATOR = process.platform === "win32" ? ";" : ":";
-const env = Object.assign({}, process.env);
-env.PATH = path.resolve("./node_modules/.bin") + SEPARATOR + env.PATH;
+
+const rimraf = require('rimraf');
+const sass = require('node-sass');
 
 const webpack = require('webpack');
 
+const PATHS = {
+    javascripts: path.join(__dirname, 'src', 'javascripts'),
+    stylesheets: path.join(__dirname, 'src', 'stylesheets'),
+    builtJavascripts: path.join(__dirname, 'assets', 'build', 'javascripts'),
+    builtStylesheets: path.join(__dirname, 'assets', 'build', 'stylesheets')
+};
+
+function ensureDirectoryExistence(filePath) {
+    var dirname = path.dirname(filePath);
+    if (directoryExists(dirname)) {
+        return true;
+    }
+    ensureDirectoryExistence(dirname);
+    fs.mkdirSync(dirname);
+}
+
+function directoryExists(path) {
+    try {
+        return fs.statSync(path).isDirectory();
+    }
+    catch (err) {
+        return false;
+    }
+}
+
 module.exports = {
     entry: {
-        'domain_create': path.join(__dirname, 'src', 'javascripts', 'domain_create', 'app.js')
+        'domain_create': path.join(PATHS.javascripts, 'domain_create', 'app.js')
     },
     output: {
-        path: path.join(__dirname, 'assets', 'build', 'javascripts'),
+        path: PATHS.builtJavascripts,
         publicPath: '/javascripts/',
         filename: "[name]-[chunkhash].js"
     },
@@ -24,38 +48,77 @@ module.exports = {
     },
     module: {
         loaders: [
-            { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" }
+            {test: /\.js$/, exclude: /node_modules/, loader: "babel-loader"}
         ]
     },
     plugins: [
-        function cleanBuildFolder() {
-            this.plugin("compile", function () {
-                execSync('npm run build:clean', {
-                    cwd: process.cwd(),
-                    env: env
-                });
-            });
-        },
         // new webpack.optimize.OccurrenceOrderPlugin(),
         // new webpack.optimize.DedupePlugin(),
         // new webpack.optimize.UglifyJsPlugin(),
-        function minifyCssAndUpdatePugAssets() { //Minifies and hashes css files for cache busting and updates asset paths in pug files
-            this.plugin("done", function (statsData) {
+        function () {
+            rimraf.sync(path.join(__dirname, 'assets', 'build'));
+
+            function includingWatchFileSystem(wfs, paths) {
+                this.wfs = wfs;
+                this.paths = paths.map((p) => path.join(__dirname, p));
+                return {
+                    watch: (files, dirs, missing, startTime, options, callback, callbackUndelayed)=> {
+                        this.wfs.watch(
+                            files.concat(this.paths.map((p) => fs.readdirSync(p).map((file) => path.join(p, file))).reduce((a, b) => a.concat(b))),
+                            dirs.concat(this.paths), missing, startTime, options, function (err, filesModified, dirsModified, missingModified, fileTimestamps, dirTimestamps) {
+                                if (err) {
+                                    callback(err);
+                                    return;
+                                }
+
+                                if (filesModified.some((file) => file.endsWith('.scss'))) {
+                                    rimraf.sync(PATHS.builtStylesheets);
+                                }
+
+                                if (filesModified.some((file) => file.endsWith('.js'))) {
+                                    rimraf.sync(PATHS.builtJavascripts);
+                                }
+
+                                callback(err, filesModified, dirsModified, missingModified, fileTimestamps, dirTimestamps);
+                            }, callbackUndelayed);
+                    }
+                }
+            }
+
+            this.plugin('after-environment', function watchSassFiles() {
+                this.watchFileSystem = includingWatchFileSystem(this.watchFileSystem, ['src/stylesheets']);
+            });
+
+            this.plugin("done", function minifyCssAndUpdatePugAssets(statsData) { //Minifies and hashes css files for cache busting and updates asset paths in pug files
                 const stats = statsData.toJson();
 
                 if (!stats.errors.length) {
-                    execSync('npm run build:css', {
-                        cwd: process.cwd(),
-                        env: env
+                    const stylesheets = fs.readdirSync(PATHS.stylesheets)
+                        .map((scss) => {
+                            return {
+                                name: scss.substr(0, scss.length - 5),
+                                output: sass.renderSync({
+                                    file: path.join(PATHS.stylesheets, scss),
+                                    outputStyle: 'compressed'
+                                }).css
+                            }
+                        });
+
+                    stylesheets.forEach((stylesheet) => {
+                        var filePath = path.join(PATHS.builtStylesheets, stylesheet.name + '-' + crypto.createHash('md5').update(stylesheet.output).digest('hex') + '.css');
+                        ensureDirectoryExistence(filePath);
+                        fs.writeFileSync(filePath, stylesheet.output);
                     });
 
-                    const pugFiles = fs.readdirSync(path.join(__dirname, 'views'), "utf8");
-                    const buildFiles = fs.readdirSync(path.join(__dirname, 'assets', 'build'), "utf8")
-                        .map((folder) =>fs.readdirSync(path.join(__dirname, 'assets', 'build', folder), "utf8"))
+                    console.log('SASS rendered!');
+
+                    const pugFiles = fs.readdirSync(path.join(__dirname, 'views'));
+                    const buildFiles = fs.readdirSync(path.join(__dirname, 'assets', 'build'))
+                        .map((folder) =>fs.readdirSync(path.join(__dirname, 'assets', 'build', folder)))
                         .reduce((fileArrayA, fileArrayB) => fileArrayA.concat(fileArrayB));
 
                     pugFiles.forEach(function (file) {
-                        const pug = fs.readFileSync(path.join(__dirname, 'views', file), "utf8");
+                        let pug = fs.readFileSync(path.join(__dirname, 'views', file), 'utf8');
                         const assetName = file.substr(0, file.length - 4);
 
                         const relevantBuiltFiles = buildFiles.filter((file) => file.startsWith(assetName));
@@ -64,15 +127,10 @@ module.exports = {
                             const separatorSplit = newFileName.split('.');
                             const extensionName = separatorSplit[separatorSplit.length - 1];
 
-                            if (extensionName === 'css') {
-                                const oldName = newFileName;
-                                newFileName = newFileName.replace('.css', '-' + crypto.createHash('md5').update(fs.readFileSync(path.join(__dirname, 'assets', 'build', 'stylesheets', newFileName), "utf8")).digest('hex') + '.css');
-                                fs.renameSync(path.join(__dirname, 'assets', 'build', 'stylesheets', oldName), path.join(__dirname, 'assets', 'build', 'stylesheets', newFileName));
-                            }
-
-                            const pugOutput = pug.replace(new RegExp(assetName + '\-.+\.' + extensionName, 'i'), newFileName);
-                            fs.writeFileSync(path.join(__dirname, 'views', file), pugOutput);
+                            pug = pug.replace(new RegExp(assetName + '\-[a-z0-9]+\.' + extensionName), newFileName);
                         });
+
+                        fs.writeFileSync(path.join(__dirname, 'views', file), pug);
                     });
                 }
             });
