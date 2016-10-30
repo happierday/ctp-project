@@ -10,7 +10,7 @@ const webpack = require('webpack');
 
 module.exports = {
     entry: {
-        'domain_create': path.join(__dirname, 'src', 'javascripts', 'domain_create.js')
+        'domain_create': path.join(__dirname, 'src', 'javascripts', 'domain_create', 'app.js')
     },
     output: {
         path: path.join(__dirname, 'assets', 'build', 'javascripts'),
