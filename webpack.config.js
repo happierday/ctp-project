@@ -77,13 +77,6 @@ module.exports = {
                                     rimraf.sync(PATHS.builtStylesheets);
                                 }
 
-                                const jsFiles = filesModified.filter((file) => file.endsWith('.js')).map((file) => path.parse(file).name);
-
-                                if (jsFiles.length) {
-                                    const relevantFiles = fs.readdirSync(PATHS.builtJavascripts).filter((file) => jsFiles.some((f) => file.startsWith(f)));
-                                    relevantFiles.forEach((file) => rimraf.sync(path.join(PATHS.builtJavascripts, file)));
-                                }
-
                                 callback(err, filesModified, dirsModified, missingModified, fileTimestamps, dirTimestamps);
                             }, callbackUndelayed);
                     }
@@ -125,9 +118,26 @@ module.exports = {
                     console.log('SASS rendered!');
 
                     const pugFiles = fs.readdirSync(path.join(__dirname, 'views'));
-                    const buildFiles = fs.readdirSync(path.join(__dirname, 'assets', 'build'))
-                        .map((folder) =>fs.readdirSync(path.join(__dirname, 'assets', 'build', folder)))
+                    let buildFiles = fs.readdirSync(path.join(__dirname, 'assets', 'build'))
+                        .map((folder) => fs.readdirSync(path.join(__dirname, 'assets', 'build', folder)))
                         .reduce((fileArrayA, fileArrayB) => fileArrayA.concat(fileArrayB));
+
+                    const oldFiles = buildFiles.filter((file) => {
+                        if (!file.endsWith('.js')) {
+                            return false;
+                        }
+
+                        for (const key of Object.keys(stats.assetsByChunkName)) {
+                            if (file.startsWith(key)) {
+                                return stats.assetsByChunkName[key] !== file;
+                            }
+                        }
+
+                        return false;
+                    });
+                    oldFiles.forEach((file) => rimraf.sync(path.join(PATHS.builtJavascripts, file)));
+
+                    buildFiles = buildFiles.filter((file) => !oldFiles.includes(file));
 
                     pugFiles.forEach(function (file) {
                         let pug = fs.readFileSync(path.join(__dirname, 'views', file), 'utf8');
