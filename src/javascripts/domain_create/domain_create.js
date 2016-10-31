@@ -1,5 +1,7 @@
 import Vue from "vue";
+import store from './store';
 import VueRouter from "vue-router";
+import VueResource from 'vue-resource';
 import VueMaterial from "vue-material";
 import 'vue-material/dist/vue-material.css';
 import Index from "./routes/index";
@@ -12,9 +14,10 @@ Vue.material.theme.register('default', {
 });
 
 Vue.use(VueRouter);
-
 const routes = [Index, Settings];
-
 const router = new VueRouter({routes, mode: 'history', base: '/domain/create/'});
 
-const app = new Vue({router}).$mount('#app');
+Vue.use(VueResource);
+Vue.http.options.root = '/domain/create';
+
+const app = new Vue({router, store}).$mount('#app');

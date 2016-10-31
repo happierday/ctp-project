@@ -6,7 +6,7 @@ component.template = '<div>' +
     '<h2>asdasdas?</h2>' +
     '<div>' +
     '<md-input-container><md-input></md-input></md-input-container>' +
-    '<router-link to="/"><md-button class="md-fab"><md-icon>send</md-icon></md-button></router-link>' +
+    '<router-link to="/"><md-button class="md-fab"><md-icon>arrow_backward</md-icon></md-button></router-link>' +
     '</div>' +
     '</div>';
 
