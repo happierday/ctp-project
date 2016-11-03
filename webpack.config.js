@@ -49,8 +49,9 @@ module.exports = {
     module: {
         loaders: [
             {test: /\.js$/, exclude: /node_modules/, loader: "babel-loader"},
-            {test: /\.css$/, exclude: /\.useable\.css$/, loader: "style!css"},
-            {test: /\.useable\.css$/, loader: "style/useable!css"}
+            {test: /\.css$/, loader: "style!css"},
+            {test: /\.scss$/, loader: "sass!style!css"},
+            {test: /\.pug$/, loader: "pug"}
         ]
     },
     plugins: [
@@ -110,9 +111,10 @@ module.exports = {
                             return;
                         }
 
-                        var filePath = path.join(PATHS.builtStylesheets, stylesheet.name + '-' + crypto.createHash('md5').update(stylesheet.output).digest('hex') + '.css');
+                        const name = stylesheet.name + '-' + crypto.createHash('md5').update(stylesheet.output).digest('hex') + '.css';
+                        const filePath = path.join(PATHS.builtStylesheets, name);
                         ensureDirectoryExistence(filePath);
-                        fs.writeFileSync(filePath, stylesheet.output);
+                        fs.writeFile(filePath, stylesheet.output);
                     });
 
                     console.log('SASS rendered!');
@@ -122,12 +124,13 @@ module.exports = {
                         .map((folder) => fs.readdirSync(path.join(__dirname, 'assets', 'build', folder)))
                         .reduce((fileArrayA, fileArrayB) => fileArrayA.concat(fileArrayB));
 
+                    const builtKeys = Object.keys(stats.assetsByChunkName);
                     const oldFiles = buildFiles.filter((file) => {
                         if (!file.endsWith('.js')) {
                             return false;
                         }
 
-                        for (const key of Object.keys(stats.assetsByChunkName)) {
+                        for (const key of builtKeys) {
                             if (file.startsWith(key)) {
                                 return stats.assetsByChunkName[key] !== file;
                             }
