@@ -111,6 +111,14 @@ app.use('/', index);
 app.use('/profile', profile);
 app.use('/signin', signin);
 app.use('/domain', domain);
+app.post('/logout', (req, res, next) => {
+    if (req.user) {
+        req.logout();
+        res.send('OK');
+    } else {
+        next(401);
+    }
+});
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
