@@ -5,7 +5,10 @@
   "scripts": {
     "start": "node ./bin/www",
     "dev:nodemon": "nodemon ./bin/www --ignore src/ --ignore tests/ --ignore assets/ --ignore webpack.config.js --ignore models/ --ignore assets/",
+    "dev:nodemon:poll": "nodemon ./bin/www -L --ignore src/ --ignore tests/ --ignore assets/ --ignore webpack.config.js --ignore models/ --ignore assets/",
     "dev:webpack": "webpack --watch",
+    "dev:webpack:poll": "webpack --watch-poll",
+    "dev:poll": "npm-run-all --parallel dev:nodemon:poll dev:webpack:poll",
     "dev": "npm-run-all --parallel dev:nodemon dev:webpack",
     "build": "webpack",
     "test": "mocha ./bin/test",
