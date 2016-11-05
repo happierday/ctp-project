@@ -1,7 +1,9 @@
+import template from './settings.pug';
+
 const path = '/settings';
 const component = {};
 
-component.template = '';
+component.template = template();
 
 export default {
     path, component

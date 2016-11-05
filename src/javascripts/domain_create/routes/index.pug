@@ -3,7 +3,7 @@ div
     h2 What would you like your domain name to be?
     div
         md-input-container
-            md-input(@change='updateDomain')
-        router-link(to='/settings', v-bind:class='{disabled:!isDomainValid}')
-            md-button.md-fab(v-bind:disabled='!isDomainValid')
+            md-input(@change='updateDomain' @keyup.enter='')
+        router-link(to='/settings', :class='{disabled:!isDomainValid}')
+            md-button.md-fab(:disabled='!isDomainValid')
                 md-icon arrow_forward
