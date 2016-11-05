@@ -6,7 +6,8 @@ import mutations from './mutations';
 Vue.use(Vuex);
 
 const state = {
-    domain: ''
+    domain: '',
+    isDomainValid: false
 };
 
 export default new Vuex.Store({

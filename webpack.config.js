@@ -34,7 +34,7 @@ function directoryExists(path) {
 
 module.exports = {
     entry: {
-        'domain_create': path.join(PATHS.javascripts, 'domain_create', 'domain_create.js')
+        'domain': path.join(PATHS.javascripts, 'domain', 'domain.js')
     },
     output: {
         path: PATHS.builtJavascripts,
