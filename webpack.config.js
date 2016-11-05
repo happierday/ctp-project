@@ -97,12 +97,17 @@ module.exports = {
                             if (!scss.endsWith('.scss') || scss.startsWith('_')) {
                                 return undefined;
                             }
-                            return {
-                                name: scss.substr(0, scss.length - 5),
-                                output: sass.renderSync({
-                                    file: path.join(PATHS.stylesheets, scss),
-                                    outputStyle: 'compressed'
-                                }).css
+                            try {
+                                return {
+                                    name: scss.substr(0, scss.length - 5),
+                                    output: sass.renderSync({
+                                        file: path.join(PATHS.stylesheets, scss),
+                                        outputStyle: 'compressed'
+                                    }).css
+                                }
+                            } catch (e) {
+                                console.error(e);
+                                return undefined;
                             }
                         });
 
