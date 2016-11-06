@@ -5,6 +5,11 @@ img.user-avatar {
     margin-right: 24px;
 }
 
+.mdl-layout__drawer-button {
+    color: white;
+    background-color: rgba(66,66,66,0.3);
+}
+
 @media (min-width: 760px) {
     .mdl-mega-footer__middle-section {
         width: 60%;
