@@ -4,13 +4,12 @@ module.exports = function () {
     const express = require('express');
     const router = express.Router();
 
-    router.get('/create*', (req, res, next) => {
-        // if (!req.user) {
-        //     next(401);
-        //     return;
-        // }
+    router.post('/validation/domain', (req, res, next) => {
+        res.send(true);
+    });
 
-        res.render('domain_create');
+    router.get('/*', (req, res, next) => {
+        res.render('domain');
     });
 
     return router;

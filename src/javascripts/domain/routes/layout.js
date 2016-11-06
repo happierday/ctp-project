@@ -1,6 +1,6 @@
-import template from './settings.pug';
+import template from './layout.pug';
 
-const path = '/settings';
+const path = '/create/layout';
 const component = {};
 
 component.template = template();

@@ -6,7 +6,13 @@ module.exports = function () {
     const passport = require('passport');
 
     router.get('/', passport.authenticate('auth0', {failureRedirect: '/'}), function (req, res) {
-        res.redirect(req.session.returnTo || '/');
+        var returnTo = req.session.returnTo;
+        if (returnTo) {
+            delete req.session.returnTo;
+        }
+        req.session.save(function () {
+            res.redirect(returnTo || '/profile');
+        });
     });
 
     return router;

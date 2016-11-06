@@ -9,14 +9,15 @@ html
         title= title
 
         script(src='//code.getmdl.io/1.2.1/material.min.js' async defer)
-
-        link(rel='stylesheet' href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700")
-        link(rel='stylesheet' href='//fonts.googleapis.com/icon?family=Material+Icons')
-        link(rel='stylesheet' href='//code.getmdl.io/1.2.1/material.deep_purple-pink.min.css')
-        link(rel='stylesheet' href='/stylesheets/layout-cd8eb0436b28aab9198d6ecc4a139e6d.css')
-
+        script(src='//cdnjs.cloudflare.com/ajax/libs/axios/0.15.2/axios.min.js' async defer)
         block js
+
+        link(rel='stylesheet', href='//fonts.googleapis.com/css?family=Roboto:300,400,500,700')
+        link(rel='stylesheet', href='//fonts.googleapis.com/icon?family=Material+Icons')
+        link(rel='stylesheet', href='//code.getmdl.io/1.2.1/material.indigo-pink.min.css')
+        link(rel='stylesheet', href='/stylesheets/layout-91b23eea032604b0ffbd6405bf1b4250.css')
         block css
+
     body
         div.mdl-layout__container
             div.mdl-layout.mdl-js-layout.mdl-layout--no-desktop-drawer-button
@@ -30,7 +31,7 @@ html
 
                             if (user)
                                 img.user-avatar(src=user.picture)
-                                button.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect.mdl-button--accent(onclick='lock.show()') Log Out
+                                button.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect.mdl-button--accent(onclick='logout()') Log Out
                             else
                                 button.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect.mdl-button--accent(onclick='lock.show()') Log in / Sign Up
                 div.mdl-layout__drawer
@@ -40,22 +41,67 @@ html
                     div.mdl-layout-spacer
                     nav.mdl-navigation
                         if (user)
-                            button.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect.mdl-button--accent(onclick='lock.show()') Log Out
+                            button.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect.mdl-button--accent(onclick='logout()') Log Out
                         else
                             button.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect.mdl-button--accent(onclick='lock.show()') Log in / Sign Up
 
                 div.mdl-layout__content
                     block content
 
-        if (!user)
+                footer.mdl-mega-footer
+                    div.mdl-mega-footer__middle-section
+                        div.mdl-mega-footer__drop-down-section
+                            div
+                                input.mdl-mega-footer__heading-checkbox(type='checkbox', checked='')
+                                h1.mdl-mega-footer__heading Features
+                                ul.mdl-mega-footer__link-list
+                                    li
+                                        a(href='#') About
+                                    li
+                                        a(href='#') Terms
+                                    li
+                                        a(href='#') Partners
+                                    li
+                                        a(href='#') Updates
+                        div.mdl-mega-footer__drop-down-section
+                            div
+                                input.mdl-mega-footer__heading-checkbox(type='checkbox', checked='')
+                                h1.mdl-mega-footer__heading Details
+                                ul.mdl-mega-footer__link-list
+                                    li
+                                        a(href='#') Specs
+                                    li
+                                        a(href='#') Tools
+                                    li
+                                        a(href='#') Resources
+                        div.mdl-mega-footer__drop-down-section
+                            div
+                                input.mdl-mega-footer__heading-checkbox(type='checkbox', checked='')
+                                h1.mdl-mega-footer__heading Technology
+                                ul.mdl-mega-footer__link-list
+                                    li
+                                        a(href='#') How it works
+                                    li
+                                        a(href='#') Patterns
+                                    li
+                                        a(href='#') Usage
+                                    li
+                                        a(href='#') Products
+                                    li
+                                        a(href='#') Contracts
+                    div.mdl-mega-footer__bottom-section
+                        div
+                            div.mdl-logo EduPlat
+                            ul.mdl-mega-footer__link-list
+                                li
+                                    a(href='#') Help
+                                li
+                                    a(href='#') Privacy &amp; Terms
+        if (user)
+            script.
+                var r=function(){location.reload()}
+                var logout=function(){axios.post('/logout').then(r).catch(r)}
+        else
             script(src="//cdn.auth0.com/js/lock/10.3/lock.min.js")
             script.
-                var lock = new Auth0Lock('#{auth0.clientID}', '#{auth0.domain}', {
-                    auth: {
-                        redirectUrl: '#{auth0.callbackURL}'
-                        , responseType: 'code'
-                        , params: {
-                            scope: 'openid name email picture'
-                        }
-                    }
-                });
+                var lock=new Auth0Lock('#{auth0.clientID}','#{auth0.domain}',{auth:{redirectUrl: '#{auth0.callbackURL}',responseType: 'code',params:{scope: 'openid name email picture'}}})

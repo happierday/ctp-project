@@ -5,3 +5,36 @@ img.user-avatar {
     margin-right: 24px;
 }
 
+@media (min-width: 760px) {
+    .mdl-mega-footer__middle-section {
+        width: 60%;
+        margin: 0 auto;
+
+        .mdl-mega-footer__drop-down-section {
+            width: 33.33%;
+
+            > div {
+                margin: 0 auto;
+                width: 112px;
+            }
+        }
+    }
+
+    .mdl-mega-footer__bottom-section {
+        padding: 0;
+        margin: 0;
+
+        > div {
+            margin: 0 auto;
+            width: 213px;
+        }
+
+        .mdl-mega-footer__link-list {
+            margin: 0;
+
+            > li:last-child {
+                margin: 0;
+            }
+        }
+    }
+}
