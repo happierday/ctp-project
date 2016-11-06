@@ -10,7 +10,9 @@ module.exports = function () {
         if (returnTo) {
             delete req.session.returnTo;
         }
-        res.redirect(returnTo || '/profile');
+        req.session.save(function () {
+            res.redirect(returnTo || '/profile');
+        });
     });
 
     return router;
