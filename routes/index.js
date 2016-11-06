@@ -6,7 +6,7 @@ module.exports = function () {
 
     /* GET home page. */
     router.get('/', (req, res, next) => {
-        res.render('index', {title: 'Express'});
+        res.render('index', {title: 'Plady'});
     });
 
     return router;
