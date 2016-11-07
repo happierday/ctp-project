@@ -1,0 +1,4 @@
+Content_creator:
+	name
+	list_of_users
+	subdomain
