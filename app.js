@@ -16,7 +16,6 @@ const bodyParser = require('body-parser');
 
 const index = require('./routes/index')();
 const signin = require('./routes/signin')();
-const profile = require('./routes/profile')(db.User);
 const domain = require('./routes/domain')();
 
 const session = require('express-session');
@@ -110,10 +109,9 @@ app.use((req, res, next) => {
 });
 
 app.use('/', index);
-app.use('/profile', profile);
 app.use('/signin', signin);
 app.use('/domain', ensureLoggedIn, domain);
-app.post('/logout', ensureLoggedIn, (req, res, next) => {
+app.post('/logout', (req, res, next) => {
     if (req.user) {
         req.logout();
         res.send('OK');

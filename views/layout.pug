@@ -1,12 +1,12 @@
 doctype html
 html
     head
+        block meta
+
         meta(charset="utf-8")
         meta(http-equiv="X-UA-Compatible" content="IE=edge")
         meta(name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0")
         meta(name="description" content=".")
-
-        title= title
 
         script(src='//code.getmdl.io/1.2.1/material.min.js' async defer)
         script(src='//cdnjs.cloudflare.com/ajax/libs/axios/0.15.2/axios.min.js' async defer)
@@ -21,7 +21,7 @@ html
     body
         div.mdl-layout__container
             div.mdl-layout.mdl-js-layout.mdl-layout--no-desktop-drawer-button
-                div.mdl-layout__header
+                div.mdl-layout__header.mdl-layout__header--scroll
                     div.mdl-layout__header-row
                         span.mdl-layout-title
                             img(src='/images/logo.png', height='40px', width='40px')

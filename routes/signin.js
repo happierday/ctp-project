@@ -11,7 +11,7 @@ module.exports = function () {
             delete req.session.returnTo;
         }
         req.session.save(function () {
-            res.redirect(returnTo || '/profile');
+            res.redirect(returnTo || '/');
         });
     });
 

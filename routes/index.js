@@ -9,7 +9,11 @@ module.exports = function () {
         // check if user is registered
         // if not registered, render 'index'
         // if registered, render 'homepage'
-        res.render('index', {title: 'Plady'});
+        if (!req.user) {
+            res.render('index');
+        } else {
+            res.render('dashboard');
+        }
     });
 
     return router;
