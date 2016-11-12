@@ -15,6 +15,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
 const index = require('./routes/index')();
+const dashboard = require('./routes/dashboard')();
 const signin = require('./routes/signin')();
 const domain = require('./routes/domain')();
 
@@ -35,7 +36,7 @@ const sessionMiddleware = session({
     }
 });
 
-const ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn('/');
+const ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn('/?login=true');
 
 const passport = require('passport');
 const Auth0Strategy = require('passport-auth0');
@@ -109,6 +110,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/', index);
+app.use('/dashboard', ensureLoggedIn, dashboard);
 app.use('/signin', signin);
 app.use('/domain', ensureLoggedIn, domain);
 app.post('/logout', (req, res, next) => {

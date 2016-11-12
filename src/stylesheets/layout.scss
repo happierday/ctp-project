@@ -1,3 +1,7 @@
+.logo {
+    border-radius: 50%;
+}
+
 img.user-avatar {
     width: 48px;
     height: 48px;
@@ -7,7 +11,7 @@ img.user-avatar {
 
 .mdl-layout__drawer-button {
     color: white;
-    background-color: rgba(66,66,66,0.6);
+    //background-color: rgba(66,66,66,0.6);
 }
 
 @media (min-width: 760px) {
