@@ -1,3 +1,6 @@
+/**
+ * Created by wei on 11/12/16.
+ */
 "use strict";
 
 module.exports = function () {
@@ -5,7 +8,7 @@ module.exports = function () {
     const router = express.Router();
 
     router.get('/', (req, res, next) => {
-        res.render('index');
+        res.render('dashboard');
     });
 
 
