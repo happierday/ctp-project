@@ -11,7 +11,7 @@
       "clientSecret": "JaE7_gSAcSY1IkLqCB2heE9TMeiZ1UNBxAk2Dbkb14oEkg3_NlRmQDLTVB00V20O",
       "callbackURL": "http://localhost:3000/signin"
     },
-    "cookie-secret": "hYemGJJsMqaDhXeLt7a91fGrIs5GOIVAK2eI6F5WpYA9Q9fqOflzVFDWpVYYxqm"
+    "cookie_secret": "hYemGJJsMqaDhXeLt7a91fGrIs5GOIVAK2eI6F5WpYA9Q9fqOflzVFDWpVYYxqm"
   },
   "production": {
     "username": "root",
@@ -25,6 +25,6 @@
       "clientSecret": "JaE7_gSAcSY1IkLqCB2heE9TMeiZ1UNBxAk2Dbkb14oEkg3_NlRmQDLTVB00V20O",
       "callbackURL": "http://localhost:3000/signin"
     },
-    "cookie-secret": "hYemGJJsMqaDhXeLt7a91fGrIs5GOIVAK2eI6F5WpYA9Q9fqOflzVFDWpVYYxqm"
+    "cookie_secret": "hYemGJJsMqaDhXeLt7a91fGrIs5GOIVAK2eI6F5WpYA9Q9fqOflzVFDWpVYYxqm"
   }
 }

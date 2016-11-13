@@ -25,7 +25,7 @@ const session = require('express-session');
 const sessionStore = require('connect-session-sequelize')(session.Store);
 const sessionMiddleware = session({
     name: 'sid',
-    secret: config.cookie-secret,
+    secret: config.cookie_secret,
     saveUninitialized: false,
     resave: false,
     proxy: false,
@@ -103,7 +103,7 @@ app.use(passport.session());
 app.use((req, res, next) => {
     if (req.method === 'GET') {
         res.locals.user = req.user;
-        res.locals.auth0 = auth0Config;
+        res.locals.auth0 = config.auth0;
     }
 
     next();
