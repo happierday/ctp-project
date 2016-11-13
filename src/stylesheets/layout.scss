@@ -17,6 +17,10 @@ img.user-avatar {
     margin-left: 24px;
 }
 
+footer.mdl-mega-footer {
+    clear: left;
+}
+
 @media (min-width: 760px) {
     .mdl-mega-footer__middle-section {
         width: 60%;

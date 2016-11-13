@@ -1,3 +1,28 @@
-main.mdl-layout__content{
-    left:240px;
+#dashboard-drawer {
+    width: auto;
+    transform: translateX(0);
+    float: left;
+    position: relative;
+    height: calc(100vh - 64px);
+}
+
+#page-content {
+    overflow: auto;
+    height: calc(100vh - 64px);
+}
+
+@media (max-width: 1024px) {
+    #dashboard-drawer {
+        .mdl-layout-title {
+            padding-right: 16px;
+        }
+    }
+}
+
+@media (min-width: 1025px) {
+    #dashboard-drawer {
+        .mdl-layout-title {
+            padding-right: 40px;
+        }
+    }
 }
