@@ -38,7 +38,7 @@ const sessionMiddleware = session({
     }
 });
 
-const ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn('/?login=true');
+const ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn('/?login');
 
 const passport = require('passport');
 const Auth0Strategy = require('passport-auth0');
