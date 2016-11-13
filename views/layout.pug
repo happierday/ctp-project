@@ -15,31 +15,34 @@ html
         link(rel='stylesheet', href='//fonts.googleapis.com/css?family=Roboto:300,400,500,700')
         link(rel='stylesheet', href='//fonts.googleapis.com/icon?family=Material+Icons')
         link(rel='stylesheet', href='//code.getmdl.io/1.2.1/material.deep_purple-pink.min.css')
-        link(rel='stylesheet', href='/stylesheets/layout-a6828764f18df3f6d1dc86eab3053518.css')
+        link(rel='stylesheet', href='/stylesheets/layout-3935d64fd1e95985d698ee51cd257a3f.css')
         block css
 
     body
         div.mdl-layout__container
             div.mdl-layout.mdl-js-layout.mdl-layout--fixed-header.mdl-layout--no-desktop-drawer-button
-                header.mdl-layout__header.mdl-layout__header--waterfall
+                header.mdl-layout__header.mdl-layout__header
                     div.mdl-layout__header-row
                         div.mdl-layout-title
                             a(href='/')
-                                img(src='/images/logo.png', height='40px', width='40px').logo
+                                img.logo(src='/images/logo.png', height='40px', width='40px')
                         div.mdl-layout-spacer
-                        nav.mdl-navigation
-
+                        div.mdl-textfield.mdl-js-textfield.mdl-textfield--expandable.mdl-textfield--floating-label
+                            label.mdl-button.mdl-js-button.mdl-button--icon(for='search')
+                                i.material-icons search
+                            div.mdl-textfield__expandable-holder
+                                input#search.mdl-textfield__input(type='text', name='search')
+                        nav.mdl-navigation.mdl-layout--large-screen-only
                             if (user)
                                 a.mdl-navigation__link.mdl-typography--text-uppercase(href='/dashboard') Dashboard
-                                img.user-avatar(src=user.picture)
+                                img.user-avatar(src=user.picture, height='40px', width='40px')
                                 button.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect.mdl-button--accent(onclick='logout()') Log Out
                             else
-                                button.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect.mdl-button--accent(onclick='lock.show()') Log in / Sign Up
-
+                                button.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect.mdl-button--accent.margin-left(onclick='lock.show()') Log in / Sign Up
                 div.mdl-layout__drawer
                     span.mdl-layout__title
                         a(href='/')
-                            img(src='/images/logo.png', height='40px', width='40px').logo
+                            img.logo(src='/images/logo.png', height='40px', width='40px')
                     nav.mdl-navigation
                         if(user)
                             a.mdl-navigation__link.mdl-typography--text-uppercase(href='/dashboard') Dashboard
@@ -107,19 +110,22 @@ html
                                         a(href='#') Privacy &amp; Terms
         if (user)
             script.
-                //var r=function(){location.reload()}
                 var r = function () {
                     location.href = '/'
-                    //location.replace('/')
-                    //location.reload()
                 }
-                var logout=function(){
+                var logout = function () {
                     axios.post('/logout').then(r).catch(r)
                 }
         else
             script(src="//cdn.auth0.com/js/lock/10.3/lock.min.js")
             script.
-                var lock=new Auth0Lock('#{auth0.clientID}','#{auth0.domain}',{auth:{redirectUrl: '#{auth0.callbackURL}',responseType: 'code',params:{scope: 'openid name email picture'}}})
-                if(location.search === '?login') {
+                var lock = new Auth0Lock('#{auth0.clientID}', '#{auth0.domain}', {
+                    auth: {
+                        redirectUrl: '#{auth0.callbackURL}',
+                        responseType: 'code',
+                        params: {scope: 'openid name email picture'}
+                    }
+                })
+                if (location.search === '?login') {
                     lock.show();
                 }
