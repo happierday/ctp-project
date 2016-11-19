@@ -39,6 +39,7 @@ const sessionMiddleware = session({
 });
 
 const ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn('/?login');
+const ensureLoggedOut = require('connect-ensure-login').ensureLoggedOut('/dashboard');
 
 const passport = require('passport');
 const Auth0Strategy = require('passport-auth0');
@@ -111,7 +112,7 @@ app.use((req, res, next) => {
 
 app.use('/', index);
 app.use('/dashboard', ensureLoggedIn, dashboard);
-app.use('/signin', signin);
+app.use('/signin', ensureLoggedOut, signin);
 app.use('/domain', ensureLoggedIn, domain);
 app.post('/logout', (req, res, next) => {
     if (req.user) {
