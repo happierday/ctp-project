@@ -38,8 +38,10 @@ const sessionMiddleware = session({
     }
 });
 
-const ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn('/?login');
-const ensureLoggedOut = require('connect-ensure-login').ensureLoggedOut('/dashboard');
+const connectEnsure = require('connect-ensure-login');
+
+const ensureLoggedIn = connectEnsure.ensureLoggedIn('/?login');
+const ensureLoggedOut = connectEnsure.ensureLoggedOut('/dashboard');
 
 const passport = require('passport');
 const Auth0Strategy = require('passport-auth0');
