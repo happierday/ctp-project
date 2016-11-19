@@ -9,7 +9,6 @@ html
         meta(name="description" content=".")
 
         script(src='//code.getmdl.io/1.2.1/material.min.js' async defer)
-        script(src='//cdnjs.cloudflare.com/ajax/libs/axios/0.15.2/axios.min.js' async defer)
         block js
 
         link(rel='stylesheet', href='//fonts.googleapis.com/css?family=Roboto:300,400,500,700')
@@ -110,11 +109,15 @@ html
                                         a(href='#') Privacy &amp; Terms
         if (user)
             script.
-                var r = function () {
-                    location.href = '/'
-                }
                 var logout = function () {
-                    axios.post('/logout').then(r).catch(r)
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', '/logout');
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState === 4) {
+                            location.href = '/';
+                        }
+                    };
+                    xhr.send();
                 }
         else
             script(src="//cdn.auth0.com/js/lock/10.3/lock.min.js")
