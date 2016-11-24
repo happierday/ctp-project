@@ -1,5 +1,5 @@
 .logo {
-    border-radius: 50%;
+    border-radius: 24px;
 }
 
 img.user-avatar {
@@ -9,9 +9,16 @@ img.user-avatar {
     margin-right: 24px;
 }
 
-.mdl-layout__drawer-button {
-    color: white;
-    //background-color: rgba(66,66,66,0.6);
+#search {
+    border-bottom: 1px solid rgba(255, 255, 255, .6);
+}
+
+.margin-left {
+    margin-left: 24px;
+}
+
+footer.mdl-mega-footer {
+    clear: both;
 }
 
 @media (min-width: 760px) {

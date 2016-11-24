@@ -4,6 +4,8 @@ const express = require('express');
 
 const app = express();
 
+const config = require('./config/config.json')[app.get('env')];
+
 const db = require('./models');
 
 const path = require('path');
@@ -23,7 +25,7 @@ const session = require('express-session');
 const sessionStore = require('connect-session-sequelize')(session.Store);
 const sessionMiddleware = session({
     name: 'sid',
-    secret: 'hYemGJJsMqaDhXeLt7a91fGrIs5GOIVAK2eI6F5WpYA9Q9fqOflzVFDWpVYYxqm',
+    secret: config.cookie_secret,
     saveUninitialized: false,
     resave: false,
     proxy: false,
@@ -36,15 +38,16 @@ const sessionMiddleware = session({
     }
 });
 
-const ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn('/?login=true');
+const connectEnsure = require('connect-ensure-login');
+
+const ensureLoggedIn = connectEnsure.ensureLoggedIn('/?login');
+const ensureLoggedOut = connectEnsure.ensureLoggedOut('/dashboard');
 
 const passport = require('passport');
 const Auth0Strategy = require('passport-auth0');
 
-const auth0Config = require('./config/auth0.json')[app.get('env')];
-
 // Configure Passport to use Auth0
-const strategy = new Auth0Strategy(auth0Config, (accessToken, refreshToken, extraParams, profile, done) => {
+const strategy = new Auth0Strategy(config.auth0, (accessToken, refreshToken, extraParams, profile, done) => {
     // accessToken is the token to call Auth0 API (not needed in the most cases)
     // extraParams.id_token has the JSON Web Token
     // profile has all the information from the user
@@ -103,7 +106,7 @@ app.use(passport.session());
 app.use((req, res, next) => {
     if (req.method === 'GET') {
         res.locals.user = req.user;
-        res.locals.auth0 = auth0Config;
+        res.locals.auth0 = config.auth0;
     }
 
     next();
@@ -111,7 +114,7 @@ app.use((req, res, next) => {
 
 app.use('/', index);
 app.use('/dashboard', ensureLoggedIn, dashboard);
-app.use('/signin', signin);
+app.use('/signin', ensureLoggedOut, signin);
 app.use('/domain', ensureLoggedIn, domain);
 app.post('/logout', (req, res, next) => {
     if (req.user) {

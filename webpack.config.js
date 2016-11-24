@@ -49,9 +49,9 @@ module.exports = {
     module: {
         loaders: [
             {test: /\.js$/, exclude: /node_modules/, loader: "babel-loader"},
-            {test: /\.css$/, loader: "style!css"},
-            {test: /\.scss$/, loader: "sass!style!css"},
-            {test: /\.pug$/, loader: "pug"}
+            {test: /\.css$/, loader: "style-loader!css-loader"},
+            {test: /\.scss$/, loader: "sass-loader!style-loader!css-loader"},
+            {test: /\.pug$/, loader: "pug-loader"}
         ]
     },
     plugins: [

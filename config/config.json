@@ -4,20 +4,27 @@
     "password": "123456",
     "database": "ctp-project",
     "host": "localhost",
-    "dialect": "postgres"
-  },
-  "test": {
-    "username": "root",
-    "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "auth0": {
+      "domain": "platucation.auth0.com",
+      "clientID": "qCNwFHgQhBM9GXokNVikZYy2cjhPiot1",
+      "clientSecret": "JaE7_gSAcSY1IkLqCB2heE9TMeiZ1UNBxAk2Dbkb14oEkg3_NlRmQDLTVB00V20O",
+      "callbackURL": "http://localhost:3000/signin"
+    },
+    "cookie_secret": "hYemGJJsMqaDhXeLt7a91fGrIs5GOIVAK2eI6F5WpYA9Q9fqOflzVFDWpVYYxqm"
   },
   "production": {
     "username": "root",
     "password": null,
     "database": "database_production",
     "host": "127.0.0.1",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "auth0": {
+      "domain": "platucation.auth0.com",
+      "clientID": "qCNwFHgQhBM9GXokNVikZYy2cjhPiot1",
+      "clientSecret": "JaE7_gSAcSY1IkLqCB2heE9TMeiZ1UNBxAk2Dbkb14oEkg3_NlRmQDLTVB00V20O",
+      "callbackURL": "http://localhost:3000/signin"
+    },
+    "cookie_secret": "hYemGJJsMqaDhXeLt7a91fGrIs5GOIVAK2eI6F5WpYA9Q9fqOflzVFDWpVYYxqm"
   }
 }
