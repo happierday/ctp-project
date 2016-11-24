@@ -43,14 +43,14 @@ module.exports = {
     },
     resolve: {
         alias: {
-            'vue$': 'vue/dist/vue.js'
+            'vue$': 'vue/dist/vue.common.js'
         }
     },
     module: {
         loaders: [
             {test: /\.js$/, exclude: /node_modules/, loader: "babel-loader"},
             {test: /\.css$/, loader: "style-loader!css-loader"},
-            {test: /\.scss$/, loader: "sass-loader!style-loader!css-loader"},
+            {test: /\.scss$/, loader: "style-loader!css-loader!sass-loader"},
             {test: /\.pug$/, loader: "pug-loader"}
         ]
     },
@@ -65,9 +65,9 @@ module.exports = {
                 this.wfs = wfs;
                 this.paths = paths.map((p) => path.join(__dirname, p));
                 return {
-                    watch: (files, dirs, missing, startTime, options, callback, callbackUndelayed)=> {
+                    watch: (files, dirs, missing, startTime, options, callback, callbackUndelayed) => {
                         this.wfs.watch(
-                            files.concat(this.paths.map((p) => fs.readdirSync(p).map((file) => path.join(p, file))).reduce((a, b) => a.concat(b))),
+                            files,
                             dirs.concat(this.paths), missing, startTime, options, function (err, filesModified, dirsModified, missingModified, fileTimestamps, dirTimestamps) {
                                 if (err) {
                                     callback(err);
@@ -85,7 +85,7 @@ module.exports = {
             }
 
             this.plugin('after-environment', function watchSassFiles() {
-                this.watchFileSystem = includingWatchFileSystem(this.watchFileSystem, ['src/stylesheets']);
+                this.watchFileSystem = includingWatchFileSystem(this.watchFileSystem, ['src/stylesheets', 'src/javascripts']);
             });
 
             this.plugin("done", function minifyCssAndUpdatePugAssets(statsData) { //Minifies and hashes css files for cache busting and updates asset paths in pug files
