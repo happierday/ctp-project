@@ -1,8 +1,12 @@
-html, body, #app, #creation {
+html, body, #app, .full-container {
     height: 100%;
     width: 100%;
     margin: 0;
     overflow: hidden;
+}
+
+#background-blog {
+    z-index: -1;
 }
 
 a.disabled {
@@ -11,7 +15,6 @@ a.disabled {
 
 .slide-fade-enter-active {
     transition: all .7s ease-out;
-    white-space: nowrap;
 }
 
 .slide-fade-leave-active {
@@ -29,7 +32,7 @@ a.disabled {
 }
 
 #creation {
-    background: linear-gradient(157deg, #78e4c8, #789ce4);
+    background: linear-gradient(157deg, rgba(120,228,200, 0.9), rgba(120,156,228, 0.9));
     background-size: 400% 400%;
 
     animation: AnimationName 15s ease infinite;

@@ -20,7 +20,6 @@ component.methods = {
     updateDomain(event) {
         const domain = event.target.value;
         if (testForNonAlphanumeric.test(domain)) {
-            console.log('bad');
             return;
         }
         this.$store.commit('updateDomain', domain);

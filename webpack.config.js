@@ -51,7 +51,15 @@ module.exports = {
             {test: /\.js$/, exclude: /node_modules/, loader: "babel-loader"},
             {test: /\.css$/, loader: "style-loader!css-loader"},
             {test: /\.scss$/, loader: "style-loader!css-loader!sass-loader"},
-            {test: /\.pug$/, loader: "pug-loader"}
+            {test: /\.pug$/, loader: "pug-loader"},
+            {
+                test: /.*\.(gif|png|jpe?g|svg)$/i,
+                loaders: [
+                    'file-loader?hash=sha512&digest=hex&name=[hash].[ext]',
+                    'image-webpack-loader?{optimizationLevel: 7, interlaced: false, pngquant:{quality: "65-90", speed: 4}, mozjpeg: {quality: 65}}'
+                ]
+            }
+
         ]
     },
     plugins: [
