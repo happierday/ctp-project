@@ -1,9 +1,0 @@
-div
-    h1 Welcome to Domain Creation.
-    h2 What would you like your domain name to be?
-    div
-        md-input-container
-            md-input(@keyup.enter='next', @change='updateDomain', :value='domain')
-        router-link#next-link(to='/create/layout', :class='{disabled:!isDomainValid}')
-            md-button.md-fab(:disabled='!isDomainValid')
-                md-icon arrow_forward

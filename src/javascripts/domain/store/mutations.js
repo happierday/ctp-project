@@ -1,7 +1,7 @@
 import {checkDomain} from "../api/validaton";
 import debounce from 'lodash.debounce';
 
-var checkDomainValid = debounce((state, domain) => {
+const checkDomainValid = debounce((state, domain) => {
     checkDomain(domain).then(() => state.isDomainValid = true).catch(() => state.isDomainValid = false);
 }, 500);
 
