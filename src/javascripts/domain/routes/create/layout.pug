@@ -1,0 +1,9 @@
+div
+    h1 Welcome to Domain Creation.
+    h2 What would you like your domain name to be?
+    div
+        div
+            mdl-textfield(@change='updateDomain', :value='domain', label='Domain Name', pattern='[^\s]+', error='Spaces are not allowed.')
+        div
+            router-link#next-link(to='/create/layout', :class='{disabled:!isDomainValid}')
+                mdl-button(:disabled='!isDomainValid', colored, raised, fab, icon='arrow_forward')

@@ -1,6 +1,6 @@
-import template from './index.pug';
+import template from './name.pug';
 
-const path = '/create';
+const path = '';
 const component = {};
 
 component.template = template();
@@ -14,13 +14,16 @@ component.computed = {
     }
 };
 
+const testForNonAlphanumeric = /[^a-zA-Z0-9]/;
+
 component.methods = {
-    updateDomain(domain) {
+    updateDomain(event) {
+        const domain = event.target.value;
+        if (testForNonAlphanumeric.test(domain)) {
+            console.log('bad');
+            return;
+        }
         this.$store.commit('updateDomain', domain);
-    },
-    next() {
-        console.log(document.querySelector('#next-link'));
-        document.querySelector('#next-link').click();
     }
 };
 
