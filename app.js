@@ -19,7 +19,7 @@ const bodyParser = require('body-parser');
 const index = require('./routes/index')();
 const dashboard = require('./routes/dashboard')();
 const signin = require('./routes/signin')();
-const domain = require('./routes/domain')();
+const domain = require('./routes/domain')(db.Domain);
 
 const session = require('express-session');
 const sessionStore = require('connect-session-sequelize')(session.Store);
