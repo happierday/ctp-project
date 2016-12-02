@@ -1,8 +1,6 @@
 import template from "./name.pug";
 import {DOMAIN_TAKEN, DOMAIN_VALID} from "../../store/constants";
 
-const testForNonAlphanumeric = /[^a-zA-Z0-9]/;
-
 module.exports = {
     template: template(),
 
@@ -11,15 +9,10 @@ module.exports = {
             const isDomainValid = this.$store.state.isDomainValid;
 
             if (isDomainValid == DOMAIN_TAKEN) {
-                const errorLabel = document.querySelector('.mdl-textfield__error');
+                const textField = document.querySelector('.mdl-textfield');
 
-                if (errorLabel) {
-                    errorLabel.style.visibility = 'visible';
-
-                    const textField = document.querySelector('.mdl-textfield');
-                    if (textField.className.indexOf('is-invalid') == -1) {
-                        textField.className += ' is-invalid';
-                    }
+                if (textField && textField.className.indexOf('is-invalid') == -1) {
+                    textField.className += ' is-invalid';
                 }
                 return 'Domain name has already been taken.';
             } else {
@@ -36,16 +29,7 @@ module.exports = {
 
     methods: {
         updateDomain(event) {
-            const domain = event.target.value;
-            const valid = domain.length && !testForNonAlphanumeric.test(domain);
-
-            if (valid) {
-                const errorLabel = document.querySelector('.mdl-textfield__error');
-                if (errorLabel) {
-                    errorLabel.style.visibility = 'hidden';
-                }
-            }
-            this.$store.commit('updateDomain', {domain, valid});
+            this.$store.commit('updateDomain', event.target.value);
         },
         nextPage() {
             if (this.$store.state.isDomainValid != DOMAIN_VALID) {
