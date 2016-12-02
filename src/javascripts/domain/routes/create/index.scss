@@ -61,7 +61,12 @@ a.disabled {
         color: rgba(255, 255, 255, 0.65);
     }
 
-    div + div {
-        margin-top: 25px;
+    .mdl-textfield {
+        margin-bottom: 25px;
+    }
+
+    button {
+        margin-left: 25px;
+        margin-right: 25px;
     }
 }
