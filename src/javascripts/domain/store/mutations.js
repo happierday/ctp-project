@@ -12,12 +12,14 @@ const checkDomainValid = debounce((state, domain) => {
     }).catch(console.log);
 }, 500);
 
+const testForNonAlphanumeric = /[^a-zA-Z0-9]/;
+
 export default {
-    updateDomain(state, {domain, valid}) {
+    updateDomain(state, domain) {
         state.domain = domain;
         state.isDomainValid = DOMAIN_INVALID;
 
-        if (!valid) {
+        if (!domain.length || testForNonAlphanumeric.test(domain)) {
             checkDomainValid.cancel();
             return;
         }
