@@ -3,7 +3,6 @@ import store from "./store";
 import VueRouter from "vue-router";
 import VueResource from "vue-resource";
 import VueMdl from "vue-mdl";
-import "babel-polyfill";
 
 Vue.use(VueMdl);
 
