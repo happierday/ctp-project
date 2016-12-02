@@ -1,18 +1,22 @@
 'use strict';
 module.exports = {
     up: function (queryInterface, Sequelize) {
-        return queryInterface.createTable('Sessions', {
-            sid: {
+        return queryInterface.createTable('Domains', {
+            name: {
                 type: Sequelize.STRING,
                 primaryKey: true
             },
-            data: {
+            owner: {
                 allowNull: false,
-                type: Sequelize.STRING(50000)
+                type: Sequelize.STRING
             },
-            expires: {
+            title: {
                 allowNull: false,
-                type: Sequelize.DATE
+                type: Sequelize.STRING
+            },
+            description: {
+                allowNull: false,
+                type: Sequelize.STRING
             },
             createdAt: {
                 allowNull: false,
@@ -25,6 +29,6 @@ module.exports = {
         });
     },
     down: function (queryInterface, Sequelize) {
-        return queryInterface.dropTable('Sessions');
+        return queryInterface.dropTable('Domains');
     }
 };
