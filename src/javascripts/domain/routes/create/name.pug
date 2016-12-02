@@ -3,8 +3,7 @@ div
     h3 What would you like your domain name to be?
     div
         div
-            mdl-textfield(@keyup.native='updateDomain', :value='domain', maxlength='128', label='Domain Name', pattern='[a-zA-Z0-9]+', error='Domain names can only be alphanumeric.')
+            mdl-textfield(@input.native='updateDomain', @keyup.enter.native='nextPage', :value='domain', maxlength='128', floating-label='Domain Name', pattern='[a-zA-Z0-9]+', :error='error')
         div
-            router-link(to='/create/layout', :class='{disabled:!isDomainValid}')
-                mdl-button(:disabled='!isDomainValid', colored, fab)
-                    i.material-icons arrow_forward
+            mdl-button(:disabled='!isDomainValid', @click.native='nextPage', colored, fab)
+                i.material-icons arrow_forward

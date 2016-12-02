@@ -1,10 +1,12 @@
 div
-    h2 Welcome to Domain Creation.
-    h3 What would you like your domain name to be?
+    h3 Give your domain a title.
     div
-        div
-            mdl-textfield(@keyup.native='updateDomain', :value='domain', maxlength='128', label='Domain Name', pattern='[a-zA-Z0-9]+', error='Domain names can only be alphanumeric.')
-        div
-            router-link(to='/create/layout', :class='{disabled:!isDomainValid}')
-                mdl-button(:disabled='!isDomainValid', colored, fab)
-                    i.material-icons arrow_forward
+        mdl-textfield(@input.native='updateTitle', @keyup.enter='createDomain', :value='title', maxlength='64', label='Domain Title')
+    h3 And a description.
+    div
+        mdl-textfield(@input.native='updateDescription', @keyup.enter='createDomain', :value='description', textarea, maxlength='128', label='Domain Description')
+    div
+        mdl-button(@click.native='lastPage', colored, fab)
+            i.material-icons arrow_backward
+        mdl-button(:disabled='emptyFields', @click.native='createDomain', colored, fab)
+            i.material-icons arrow_forward

@@ -10,9 +10,9 @@ const Create = {
     path: '/create',
     component: () => System.import('./routes/create/index.js'),
     children: [
-        {path: '/create', component: () => System.import('./routes/create/name.js')},
-        {path: '/create/layout', component: () => System.import('./routes/create/layout.js')},
-        {path: '*', redirect: '/create'}
+        {path: 'name', component: () => System.import('./routes/create/name.js')},
+        {path: 'layout', component: () => System.import('./routes/create/layout.js')},
+        {path: '*', redirect: 'name'}
     ]
 };
 
