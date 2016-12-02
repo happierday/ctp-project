@@ -1,13 +1,10 @@
+import Vue from "vue";
+import Blog from '../../components/blog';
 import template from "./index.pug";
 import './index.scss';
-import Name from "./name";
-import Layout from "./layout";
 
-const path = '/create';
-const component = {};
+Vue.component('blog', Blog);
 
-component.template = template();
-
-export default {
-    path: path, component: component, children: [Name, Layout]
-}
+module.exports = {
+    template: template()
+};
