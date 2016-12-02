@@ -1,10 +1,10 @@
 div
     h3 Give your domain a title.
     div
-        mdl-textfield(@input.native='updateTitle', @keyup.enter='createDomain', :value='title', maxlength='64', label='Domain Title')
+        mdl-textfield(@input.native='updateTitle', @keyup.enter='createDomain', :value='title', maxlength='64', floating-label='Domain Title')
     h3 And a description.
     div
-        mdl-textfield(@input.native='updateDescription', @keyup.enter='createDomain', :value='description', textarea, maxlength='128', label='Domain Description')
+        mdl-textfield(@input.native='updateDescription', @keyup.enter='createDomain', :value='description', textarea, rows='4',  maxlength='128', floating-label='Domain Description')
     div
         mdl-button(@click.native='lastPage', colored, fab)
             i.material-icons arrow_backward

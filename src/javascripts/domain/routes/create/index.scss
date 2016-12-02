@@ -5,8 +5,10 @@ html, body, #app, .full-container {
     overflow: hidden;
 }
 
-#background-blog {
+#background-blog, .mdl-layout__container {
     z-index: -1;
+    position: absolute;
+    top: 0;
 }
 
 a.disabled {
@@ -32,7 +34,9 @@ a.disabled {
 }
 
 #creation {
-    background: linear-gradient(157deg, rgba(120,228,200, 0.9), rgba(120,156,228, 0.9));
+    overflow: auto;
+
+    background: linear-gradient(157deg, rgba(120, 228, 200, 0.9), rgba(120, 156, 228, 0.9));
     background-size: 400% 400%;
 
     animation: AnimationName 15s ease infinite;
@@ -48,6 +52,7 @@ a.disabled {
             background-position: 34% 0
         }
     }
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -68,5 +73,15 @@ a.disabled {
     button {
         margin-left: 25px;
         margin-right: 25px;
+    }
+
+    textarea {
+        resize: none;
+    }
+}
+
+@media (max-height: 480px) {
+    #creation > div {
+        height: 100%;
     }
 }
