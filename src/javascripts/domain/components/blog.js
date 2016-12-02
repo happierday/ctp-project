@@ -6,8 +6,8 @@ const component = {};
 component.template = template();
 
 component.computed = {
-    domain() {
-        return this.$store.state.domain;
+    title() {
+        return this.$store.state.title;
     }
 };
 

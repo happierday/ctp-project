@@ -1,31 +1,26 @@
 import template from './name.pug';
 
-const path = '';
-const component = {};
-
-component.template = template();
-
-component.computed = {
-    isDomainValid() {
-        return this.$store.state.isDomainValid
-    },
-    domain() {
-        return this.$store.state.domain;
-    }
-};
-
 const testForNonAlphanumeric = /[^a-zA-Z0-9]/;
 
-component.methods = {
-    updateDomain(event) {
-        const domain = event.target.value;
-        if (testForNonAlphanumeric.test(domain)) {
-            return;
+module.exports = {
+    template: template(),
+
+    computed: {
+        isDomainValid() {
+            return this.$store.state.isDomainValid
+        },
+        domain() {
+            return this.$store.state.domain;
         }
-        this.$store.commit('updateDomain', domain);
+    },
+
+    methods: {
+        updateDomain(event) {
+            const domain = event.target.value;
+            if (testForNonAlphanumeric.test(domain)) {
+                return;
+            }
+            this.$store.commit('updateDomain', domain);
+        }
     }
 };
-
-export default {
-    path, component
-}

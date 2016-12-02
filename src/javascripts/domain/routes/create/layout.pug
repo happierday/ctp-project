@@ -1,9 +1,10 @@
 div
-    h1 Welcome to Domain Creation.
-    h2 What would you like your domain name to be?
+    h2 Welcome to Domain Creation.
+    h3 What would you like your domain name to be?
     div
         div
-            mdl-textfield(@change='updateDomain', :value='domain', label='Domain Name', pattern='[^\s]+', error='Spaces are not allowed.')
+            mdl-textfield(@keyup.native='updateDomain', :value='domain', maxlength='128', label='Domain Name', pattern='[a-zA-Z0-9]+', error='Domain names can only be alphanumeric.')
         div
-            router-link#next-link(to='/create/layout', :class='{disabled:!isDomainValid}')
-                mdl-button(:disabled='!isDomainValid', colored, raised, fab, icon='arrow_forward')
+            router-link(to='/create/layout', :class='{disabled:!isDomainValid}')
+                mdl-button(:disabled='!isDomainValid', colored, fab)
+                    i.material-icons arrow_forward
