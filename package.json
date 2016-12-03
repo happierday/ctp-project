@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "dev:nodemon": "nodemon ./bin/www --ignore src/ --ignore tests/ --ignore assets/ --ignore webpack.config.js --ignore models/",
-    "dev:nodemon:poll": "nodemon ./bin/www -L --ignore src/ --ignore tests/ --ignore assets/ --ignore webpack.config.js --ignore models/",
+    "dev:nodemon": "nodemon ./bin/www --ignore src/ --ignore tests/ --ignore assets/ --ignore webpack.config.js --ignore migrations/",
+    "dev:nodemon:poll": "nodemon ./bin/www -L --ignore src/ --ignore tests/ --ignore assets/ --ignore webpack.config.js --ignore migrations/",
     "dev:webpack": "webpack --watch",
     "dev:webpack:poll": "webpack --watch --watch-poll",
     "dev:poll": "npm-run-all --parallel dev:nodemon:poll dev:webpack:poll",
