@@ -29,7 +29,7 @@ module.exports = {
 
     methods: {
         updateDomain(event) {
-            this.$store.commit('updateDomain', event.target.value);
+            this.$store.dispatch('updateDomain', event.target.value);
         },
         nextPage() {
             if (this.$store.state.isDomainValid != DOMAIN_VALID) {

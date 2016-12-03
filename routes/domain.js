@@ -10,9 +10,8 @@ module.exports = function (Domain) {
 
     router.post('/create', (req, res, next) => {
         const {name, title, description} = req.body;
-        if (!validName(name) || !validTitle(title) || !validDescription(description)) {
 
-        }
+        
     });
 
     router.post('/validation/domain', (req, res, next) => {

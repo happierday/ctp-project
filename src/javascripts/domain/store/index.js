@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import actions from './actions';
 import getters from './getters';
 import mutations from './mutations';
 import {DOMAIN_INVALID} from './constants';
@@ -15,6 +16,7 @@ const state = {
 
 export default new Vuex.Store({
     state,
+    actions,
     getters,
     mutations
 });
