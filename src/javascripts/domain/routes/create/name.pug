@@ -1,0 +1,9 @@
+div
+    h2 Welcome to Domain Creation.
+    h3 What would you like your domain name to be?
+    div
+        div
+            mdl-textfield(@input.native='updateDomain', @keyup.enter.native='nextPage', :value='domain', maxlength='128', floating-label='Domain Name', pattern='[a-zA-Z0-9]+', :error='error')
+        div
+            mdl-button(:disabled='!isDomainValid', @click.native='nextPage', colored, fab)
+                i.material-icons arrow_forward

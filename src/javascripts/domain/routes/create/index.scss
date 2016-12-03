@@ -1,0 +1,87 @@
+html, body, #app, .full-container {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+
+#background-blog, .mdl-layout__container {
+    z-index: -1;
+    position: absolute;
+    top: 0;
+}
+
+a.disabled {
+    pointer-events: none;
+}
+
+.slide-fade-enter-active {
+    transition: all .7s ease-out;
+}
+
+.slide-fade-leave-active {
+    transition: all .7s ease-out;
+    white-space: nowrap;
+    position: absolute;
+    padding-right: 800px;
+    opacity: 0;
+}
+
+.slide-fade-enter {
+    position: absolute;
+    padding-left: 800px;
+    opacity: 0;
+}
+
+#creation {
+    overflow: auto;
+
+    background: linear-gradient(157deg, rgba(120, 228, 200, 0.9), rgba(120, 156, 228, 0.9));
+    background-size: 400% 400%;
+
+    animation: AnimationName 15s ease infinite;
+
+    @keyframes AnimationName {
+        0% {
+            background-position: 34% 0
+        }
+        50% {
+            background-position: 67% 100%
+        }
+        100% {
+            background-position: 34% 0
+        }
+    }
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    * {
+        color: rgba(255, 255, 255, 0.87);
+        text-align: center;
+    }
+
+    .mdl-textfield__label {
+        color: rgba(255, 255, 255, 0.65);
+    }
+
+    .mdl-textfield {
+        margin-bottom: 25px;
+    }
+
+    button {
+        margin-left: 25px;
+        margin-right: 25px;
+    }
+
+    textarea {
+        resize: none;
+    }
+}
+
+@media (max-height: 480px) {
+    #creation > div {
+        height: 100%;
+    }
+}
