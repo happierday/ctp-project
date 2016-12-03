@@ -4,20 +4,33 @@ module.exports = function (Domain) {
     const express = require('express');
     const router = express.Router();
 
-    router.get('/*', (req, res, next) => {
+    router.get('/*', ({}, res, next) => {
         res.render('domain');
     });
 
-    router.post('/create', (req, res, next) => {
-        const {name, title, description} = req.body;
+    router.post('/create', ({user, body}, res, next) => {
+        console.log(user.id);
+        Domain.findOne({where: {owner: user.id}}).then((domain) => {
+            if (domain) {
+                next(400);
+                return;
+            }
 
-        Domain.findOrCreate({where: {name}, defaults: {title, description, owner: req.user.id}}).spread((domain, created) => {
-            res.send(created);
+            const {name, title, description} = body;
+
+            Domain.create({
+                name,
+                title,
+                description,
+                owner: user.id
+            })
+                .then(() => res.send(true))
+                .catch((err) => res.send(false));
         });
     });
 
-    router.post('/validation/domain', (req, res, next) => {
-        Domain.findOne({where: {name: req.body.domain}}).then((domain) => {
+    router.post('/validation/domain', ({body}, res, next) => {
+        Domain.findOne({where: {name: body.domain}}).then((domain) => {
             res.send(!domain);
         });
     });

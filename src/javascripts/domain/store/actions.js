@@ -26,9 +26,7 @@ export default {
 
         checkDomainValid(commit, domain);
     },
-    createDomain(store, {state}) {
-        console.log(this);
-        console.log(store);
+    createDomain({state}) {
         return postDomain(state.domain, state.title, state.description);
     }
 }

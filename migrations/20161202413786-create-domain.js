@@ -8,7 +8,7 @@ module.exports = {
             },
             owner: {
                 allowNull: false,
-                type: Sequelize.STRING
+                type: Sequelize.INTEGER
             },
             title: {
                 allowNull: false,

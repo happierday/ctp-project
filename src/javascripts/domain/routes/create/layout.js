@@ -31,9 +31,12 @@ module.exports = {
             }
 
             this.$store.dispatch('createDomain').then(({body}) => {
-                if (body == 0) {
+                if (body == false) {
                     this.lastPage();
+                    return;
                 }
+
+                this.$router.push('/' + this.$store.state.domain + '/edit');
             });
         }
     }

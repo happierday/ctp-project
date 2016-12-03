@@ -5,23 +5,23 @@ module.exports = function (sequelize, DataTypes) {
         name: {
             type: DataTypes.STRING,
             primaryKey: true,
+            allowNull: false,
             validate: {
                 isAlphanumeric: true,
-                notNull: true,
                 len: [1, 128]
             }
         },
         title: {
             type: DataTypes.STRING,
+            allowNull: false,
             validate: {
-                notNull: true,
                 len: [1, 64]
             }
         },
         description: {
             type: DataTypes.STRING,
+            allowNull: false,
             validate: {
-                notNull: true,
                 len: [1, 128]
             }
         }
