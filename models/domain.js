@@ -4,6 +4,7 @@ module.exports = function (sequelize, DataTypes) {
         owner: DataTypes.INTEGER,
         name: {
             type: DataTypes.STRING,
+            primaryKey: true,
             validate: {
                 isAlphanumeric: true,
                 notNull: true,

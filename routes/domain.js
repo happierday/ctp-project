@@ -11,11 +11,15 @@ module.exports = function (Domain) {
     router.post('/create', (req, res, next) => {
         const {name, title, description} = req.body;
 
-        
+        Domain.findOrCreate({where: {name}, defaults: {title, description, owner: req.user.id}}).spread((domain, created) => {
+            res.send(created);
+        });
     });
 
     router.post('/validation/domain', (req, res, next) => {
-        res.send(true);
+        Domain.findOne({where: {name: req.body.domain}}).then((domain) => {
+            res.send(!domain);
+        });
     });
 
     return router;

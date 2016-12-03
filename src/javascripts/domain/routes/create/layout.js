@@ -30,7 +30,11 @@ module.exports = {
                 return;
             }
 
-            this.$router.push('layout');
+            this.$store.dispatch('createDomain').then(({body}) => {
+                if (body == 0) {
+                    this.lastPage();
+                }
+            });
         }
     }
 
