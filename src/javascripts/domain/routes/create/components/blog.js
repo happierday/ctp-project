@@ -8,7 +8,10 @@ component.template = template();
 component.computed = {
     title() {
         return this.$store.state.title;
+    },
+    description() {
+        return this.$store.state.description;
     }
 };
 
-export default component
+export default component;
