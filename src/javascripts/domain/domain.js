@@ -12,7 +12,8 @@ const Create = {
     children: [
         {path: 'name', component: () => System.import('./routes/create/name.js')},
         {path: 'layout', component: () => System.import('./routes/create/layout.js')},
-        {path: '*', redirect: 'name'}
+        {path: '*', redirect: 'name'},
+        {path: '', redirect: 'name'}
     ]
 };
 
