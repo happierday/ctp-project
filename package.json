@@ -46,6 +46,7 @@
     "lodash.debounce": "^4.0.8",
     "mocha": "^3.1.0",
     "node-sass": "^3.10.2",
+    "nodemon": "^1.11.0",
     "npm-run-all": "^3.1.1",
     "pug-loader": "^2.3.0",
     "rimraf": "^2.5.4",
