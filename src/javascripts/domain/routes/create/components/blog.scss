@@ -16,7 +16,7 @@ body::before {
 (max-width: 1024px) and (-webkit-max-device-pixel-ratio: 1.5),
 (max-width: 1024px) and (max-resolution: 1.5dppx) {
     body::before {
-        background-image: url('images/bg_1024.jpg');
+        background-image: url('//source.unsplash.com/category/nature/1024x768');
     }
 }
 
@@ -25,7 +25,7 @@ body::before {
 (min-width: 1025px) and (max-width: 2048px) and (-webkit-max-device-pixel-ratio: 1.5),
 (min-width: 1025px) and (max-width: 2048px) and (max-resolution: 1.5dppx) {
     body::before {
-        background-image: url('images/bg_2048.jpg');
+        background-image: url('//source.unsplash.com/category/nature/2048x1152');
     }
 }
 
@@ -34,7 +34,7 @@ body::before {
 (min-width: 2049px) and (-webkit-max-device-pixel-ratio: 1.5),
 (min-width: 2049px) and (max-resolution: 1.5dppx) {
     body::before {
-        background-image: url('images/bg_2880.jpg');
+        background-image: url('//source.unsplash.com/category/nature/2880x1800');
     }
 }
 
@@ -203,57 +203,19 @@ body .demo-blog {
 }
 
 .demo-blog .coffee-pic .mdl-card__media {
-    background-image: url('images/coffee.jpg');
+    background-image: url('//source.unsplash.com/960x720?coffee');
 }
 
 .demo-blog .something-else .mdl-card__media {
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-flex-direction: column;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    -webkit-justify-content: center;
-    -ms-flex-pack: center;
-    justify-content: center;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
-    align-items: center;
-}
-
-.demo-blog .something-else > button {
-    position: absolute;
-    top: 0;
-    right: 28px;
-    -webkit-transform: translate(0px, -28px);
-    transform: translate(0px, -28px);
-}
-
-.demo-blog .something-else .mdl-card__media {
-    font-size: 13px;
-    font-weight: 500;
-    border-top-left-radius: 2px;
-    border-top-right-radius: 2px;
-}
-
-.demo-blog .something-else .mdl-card__media img {
-    width: 64px;
-    height: 64px;
-    margin-bottom: 10px;
-}
-
-.demo-blog .something-else .mdl-card__supporting-text {
-    background-color: #F5F5F5;
-    border-bottom-left-radius: 2px;
-    border-bottom-right-radius: 2px;
+    background-image: url('//source.unsplash.com/480x360?lake');
 }
 
 .demo-blog .on-the-road-again .mdl-card__media {
-    background-image: url('images/road.jpg');
+    background-image: url('//source.unsplash.com/960x720?travel');
 }
 
 .demo-blog .shopping .mdl-card__media {
-    background-image: url('images/shopping.jpg');
+    background-image: url('//source.unsplash.com/960x720?shopping');
 }
 
 .demo-blog .demo-blog__posts > .demo-nav {
@@ -325,7 +287,7 @@ body .demo-blog {
 }
 
 .demo-blog--blogpost .demo-blog__posts > .mdl-card .mdl-card__media {
-    background-image: url('images/road_big.jpg');
+    background-image: url('//source.unsplash.com/category/nature/1600x900');
     height: 280px;
 }
 
@@ -504,16 +466,12 @@ body .demo-blog {
     z-index: 10;
 }
 
-.demo-blog .amazing .mdl-card__title {
-    background-color: #263238;
-}
-
 .demo-blog .minilogo {
     width: 44px;
     height: 44px;
     background-size: 50%;
     border-radius: 22px;
-    background: #F5F5F5 url('images/avatar.png') no-repeat center;
+    background: #F5F5F5 url('/images/logo.png') no-repeat center;
 }
 
 /* Fixes for IE 10 */
@@ -565,4 +523,9 @@ body .demo-blog {
 
 .text-center {
     text-align: center;
+}
+
+.readable {
+    font-weight:900;
+    text-shadow: 0 0 3px #000;
 }
