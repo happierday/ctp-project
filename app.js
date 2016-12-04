@@ -43,6 +43,8 @@ const connectEnsure = require('connect-ensure-login');
 const ensureLoggedIn = connectEnsure.ensureLoggedIn('/?login');
 const ensureLoggedOut = connectEnsure.ensureLoggedOut('/dashboard');
 
+const helmet = require('helmet');
+
 const passport = require('passport');
 const Auth0Strategy = require('passport-auth0');
 
@@ -95,6 +97,31 @@ app.set('view engine', 'pug');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(compression());
+
+app.use(helmet.dnsPrefetchControl({allow: true}));
+app.use(helmet.frameguard({action: 'deny'}));
+// app.use(helmet.hsts({
+//     maxAge: 15552000,
+//     includeSubDomains: true,
+//     preload: true,
+//     force: true
+// }));
+app.use(helmet.ieNoOpen());
+app.use(helmet.noSniff());
+app.use(helmet.xssFilter());
+app.use(helmet.contentSecurityPolicy({
+    directives: {
+        scriptSrc: ["'self'", "'unsafe-eval'", "code.getmdl.io", "cdn.auth0.com"],
+        styleSrc: ["'self'", "'unsafe-inline'", "code.getmdl.io", "fonts.googleapis.com"],
+        fontSrc: ["'self'", "fonts.gstatic.com"],
+        imgSrc: ["'self'", "data:", "*.googleusercontent.com", "www.gstatic.com", "cdn.auth0.com", "source.unsplash.com", "images.unsplash.com"]
+    },
+    reportOnly: false,
+    setAllHeaders: false,
+    disableAndroid: false,
+    browserSniff: false
+}));
+
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'assets', 'build')));

@@ -15,7 +15,7 @@ const PATHS = {
 };
 
 function ensureDirectoryExistence(filePath) {
-    var dirname = path.dirname(filePath);
+    const dirname = path.dirname(filePath);
     if (directoryExists(dirname)) {
         return true;
     }
@@ -32,9 +32,17 @@ function directoryExists(path) {
     }
 }
 
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+
+const config = require('./config/config.json')[process.env.NODE_ENV];
+const auth0 = {
+    callbackURL: JSON.stringify(config.auth0.callbackURL), clientID: JSON.stringify(config.auth0.clientID), domain: JSON.stringify(config.auth0.domain)
+};
+
 module.exports = {
     entry: {
-        'domain': path.join(PATHS.javascripts, 'domain', 'domain.js')
+        'domain': path.join(PATHS.javascripts, 'domain', 'domain.js'),
+        'layout': path.join(PATHS.javascripts, 'layout.js')
     },
     output: {
         path: PATHS.builtJavascripts,
@@ -63,6 +71,9 @@ module.exports = {
         ]
     },
     plugins: [
+        new webpack.DefinePlugin({
+            auth0: auth0
+        }),
         // new webpack.optimize.OccurrenceOrderPlugin(),
         // new webpack.optimize.DedupePlugin(),
         // new webpack.optimize.UglifyJsPlugin(),
