@@ -7,12 +7,20 @@ import {DOMAIN_INVALID} from './constants';
 
 Vue.use(Vuex);
 
-const state = {
-    domain: '',
-    isDomainValid: DOMAIN_INVALID,
-    title: '',
-    description: ''
-};
+let state;
+
+const dataEl = document.querySelector('#domain-data');
+if (dataEl) {
+    state = JSON.parse(dataEl.text);
+} else {
+    state = {
+        domain: '',
+        isDomainValid: DOMAIN_INVALID,
+        title: '',
+        description: '',
+        backgroundImage: null
+    };
+}
 
 export default new Vuex.Store({
     state,

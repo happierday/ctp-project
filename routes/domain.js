@@ -5,8 +5,15 @@ module.exports = function (Domain) {
     const router = express.Router();
     const request = require('request');
 
-    router.get('/*', ({}, res, next) => {
-        res.render('domain');
+    router.get('/json', ({user}, res, next) => {
+        Domain.findOne({where: {owner: user.id}, attributes: ['name', 'title', 'description', 'backgroundImage']}).then((domain) => {
+            if (!domain) {
+                next(403);
+                return;
+            }
+
+            res.send(domain.dataValues);
+        }).catch((err) => next(err));
     });
 
     router.post('/create', ({user, body}, res, next) => {
@@ -40,6 +47,10 @@ module.exports = function (Domain) {
         Domain.findOne({where: {name: body.domain}}).then((domain) => {
             res.send(!domain);
         });
+    });
+
+    router.get('/*', ({}, res, next) => {
+        res.render('domain');
     });
 
     return router;

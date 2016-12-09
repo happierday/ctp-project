@@ -145,14 +145,19 @@ const promisifiedPassportSession = ((passportSessionMiddleware) => {
     };
 })(passport.session());
 
-const getDomain = (req) => {
-    if (req.path !== '/domain/edit' || !req.session.passport || !req.session.passport.user) {
+const getDomain = (req, res) => {
+    if (!req.path.startsWith('/domain') || !req.session.passport || !req.session.passport.user) {
         return;
     }
 
     return new Promise((resolve, reject) => {
         db.Domain.findOne({where: {owner: req.session.passport.user}, attributes: ['name', 'title', 'description', 'backgroundImage']}).then((domain) => {
-            req.locals.domain = domain.dataValues;
+            if (!domain) {
+                reject(403);
+                return;
+            }
+
+            res.locals.domain = domain.dataValues;
             resolve();
         }).catch((err) => reject(err));
     });

@@ -36,8 +36,8 @@ module.exports = {
                     return;
                 }
 
-                this.$router.push('/' + this.$store.state.domain + '/edit');
-            });
+                this.$router.push('/edit');
+            }).catch(() => this.$router.push('/edit'));
         }
     }
 

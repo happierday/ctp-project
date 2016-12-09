@@ -14,16 +14,33 @@ const Create = {
         {path: 'layout', component: () => System.import('./routes/create/layout.js')},
         {path: '*', redirect: 'name'},
         {path: '', redirect: 'name'}
-    ]
+    ],
+    beforeEnter(to, from, next) {
+        if (document.querySelector('#domain-data')) {
+            next('/edit');
+        } else {
+            next();
+        }
+    }
 };
 const Edit = {
     path: '/edit',
-    component: () => System.import('./routes/edit/index.js')
+    component: () => System.import('./routes/edit/index.js'),
+    beforeEnter(to, from, next) {
+        if (!document.querySelector('#domain-data')) {
+            next('/create');
+        } else {
+            next();
+        }
+    }
+
 };
 
-
 Vue.use(VueRouter);
-const routes = [Create, Edit];
+const routes = [Create, Edit,
+    {path: '*', redirect: '/create'},
+    {path: '*', redirect: '/create'}
+];
 const router = new VueRouter({routes, mode: 'history', base: '/domain'});
 
 Vue.use(VueResource);
