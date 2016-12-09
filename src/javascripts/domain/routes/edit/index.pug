@@ -63,9 +63,14 @@ div.blog.mdl-layout.mdl-js-layout
                     span.visuallyhidden share
 
         mdl-fab-flinger
-            button.mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--accent
+            button#compose.mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--accent
                 i.material-icons edit
-            button.mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--accent
+            div.mdl-tooltip.mdl-tooltip--left(data-mdl-for="compose") Compose
+            button#upload.mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--accent
                 i.material-icons cloud_upload
+            div.mdl-tooltip.mdl-tooltip--left(data-mdl-for="upload") Upload
+            button#settings.mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--accent
+                i.material-icons settings
+            div.mdl-tooltip.mdl-tooltip--left(data-mdl-for="settings") Settings
 
     div(v-else='backgroundImage') Loading...

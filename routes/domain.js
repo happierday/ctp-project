@@ -1,9 +1,16 @@
 "use strict";
 
-module.exports = function (Domain) {
+module.exports = function (Domain, bucket ) {
     const express = require('express');
     const router = express.Router();
     const request = require('request');
+    const Multer = require('multer');
+    const multer = Multer({
+        storage: Multer.MemoryStorage,
+        limits: {
+            fileSize: 4 * 1024 * 1024 // no larger than 4mb for google cloud cdn support
+        }
+    });
 
     router.get('/json', ({user}, res, next) => {
         Domain.findOne({where: {owner: user.id}, attributes: ['name', 'title', 'description', 'backgroundImage']}).then((domain) => {
@@ -47,6 +54,21 @@ module.exports = function (Domain) {
         Domain.findOne({where: {name: body.domain}}).then((domain) => {
             res.send(!domain);
         });
+    });
+
+    router.post('/edit/upload', multer.single('image'), ({file}, res, next) => {
+        if (!file) {
+            next(400);
+            return;
+        }
+
+        const gcsname = Date.now() + file.originalname;
+        const stream = file.createWriteStream({
+            metadata: {
+                contentType: req.file.mimetype
+            }
+        });
+
     });
 
     router.get('/*', ({}, res, next) => {

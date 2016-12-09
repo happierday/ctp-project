@@ -1,7 +1,7 @@
 'use strict';
 module.exports = function (sequelize, DataTypes) {
     const Domain = sequelize.define('Domain', {
-        owner: DataTypes.INTEGER,
+        owner: DataTypes.STRING,
         name: {
             type: DataTypes.STRING,
             primaryKey: true,

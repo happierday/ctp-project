@@ -27,7 +27,7 @@ const Edit = {
     path: '/edit',
     component: () => System.import('./routes/edit/index.js'),
     beforeEnter(to, from, next) {
-        if (!document.querySelector('#domain-data')) {
+        if (!document.querySelector('#domain-data') && from.path !== '/create/layout') {
             next('/create');
         } else {
             next();

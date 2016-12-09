@@ -16,10 +16,14 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
+const Storage = require('@google-cloud/storage');
+const storage = Storage();
+const bucket = storage.bucket(config.gcs.bucket);
+
 const index = require('./routes/index')();
 const dashboard = require('./routes/dashboard')();
 const signin = require('./routes/signin')();
-const domain = require('./routes/domain')(db.Domain);
+const domain = require('./routes/domain')(db.Domain, bucket);
 
 const session = require('express-session');
 const sessionStore = require('connect-session-sequelize')(session.Store);
@@ -53,19 +57,20 @@ const strategy = new Auth0Strategy(config.auth0, (accessToken, refreshToken, ext
     // accessToken is the token to call Auth0 API (not needed in the most cases)
     // extraParams.id_token has the JSON Web Token
     // profile has all the information from the user
-    console.log(profile);
+    console.log(profile.id);
     db.User.upsert({
-        externalID: profile.id,
+        id: profile.id,
         name: profile.displayName,
         email: profile.emails[0].value,
         picture: profile.picture
     }).then(() => {
         return db.User.findOne({
-            $where: {
-                externalID: profile.id
+            where: {
+                id: profile.id
             }
         });
     }).then((user) => {
+        console.log(user.id);
         done(null, user);
     }).catch((err) => {
         logger(err);
@@ -77,6 +82,7 @@ passport.use(strategy);
 
 // This can be used to keep a smaller payload
 passport.serializeUser((user, done) => {
+    console.log(user);
     done(null, user.id);
 });
 
@@ -150,10 +156,12 @@ const getDomain = (req, res) => {
         return;
     }
 
+    console.log(req.session);
+
     return new Promise((resolve, reject) => {
         db.Domain.findOne({where: {owner: req.session.passport.user}, attributes: ['name', 'title', 'description', 'backgroundImage']}).then((domain) => {
             if (!domain) {
-                reject(403);
+                resolve();
                 return;
             }
 
