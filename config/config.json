@@ -14,7 +14,7 @@
     "cookie_secret": "hYemGJJsMqaDhXeLt7a91fGrIs5GOIVAK2eI6F5WpYA9Q9fqOflzVFDWpVYYxqm",
     "gcs": {
       "project": "",
-      "bucket": "test"
+      "bucket": "platucation"
     }
   },
   "production": {

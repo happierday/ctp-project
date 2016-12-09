@@ -1,6 +1,6 @@
 "use strict";
 
-module.exports = function (Domain, bucket ) {
+module.exports = function (Domain, bucket) {
     const express = require('express');
     const router = express.Router();
     const request = require('request');
@@ -13,7 +13,10 @@ module.exports = function (Domain, bucket ) {
     });
 
     router.get('/json', ({user}, res, next) => {
-        Domain.findOne({where: {owner: user.id}, attributes: ['name', 'title', 'description', 'backgroundImage']}).then((domain) => {
+        Domain.findOne({
+            where: {owner: user.id},
+            attributes: ['name', 'title', 'description', 'backgroundImage']
+        }).then((domain) => {
             if (!domain) {
                 next(403);
                 return;
@@ -56,19 +59,38 @@ module.exports = function (Domain, bucket ) {
         });
     });
 
-    router.post('/edit/upload', multer.single('image'), ({file}, res, next) => {
-        if (!file) {
+    router.post('/edit/upload', multer.single('image'), ({file, domain}, res, next) => {
+        if (!file || !domain) {
             next(400);
             return;
         }
 
         const gcsname = Date.now() + file.originalname;
-        const stream = file.createWriteStream({
+        const gcsfile = bucket.file(domain.name + '/' + gcsname);
+
+        const stream = gcsfile.createWriteStream({
             metadata: {
-                contentType: req.file.mimetype
-            }
+                contentType: file.mimetype
+            },
+            public: true,
+            gzip: true,
+            resumable: false
         });
 
+        stream.on('error', (err) => {
+            file.cloudStorageError = err;
+            next(err);
+        });
+
+        stream.on('finish', () => {
+            file.cloudStorageObject = gcsname;
+            file.cloudStoragePublicUrl = 'https://storage.googleapis.com/' + bucket.name + gcsname;
+            next();
+        });
+
+        stream.end(file.buffer);
+    }, ({body, file}, res, next) => {
+        body.url = file.cloudStoragePublicUrl;
     });
 
     router.get('/*', ({}, res, next) => {
