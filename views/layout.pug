@@ -9,6 +9,7 @@ html
         meta(name="description" content=".")
 
         script(src='//code.getmdl.io/1.2.1/material.min.js' async defer)
+        script(src='/javascripts/layout-e141657853f97bf68009.js' async defer)
         block js
 
         link(rel='stylesheet', href='//fonts.googleapis.com/css?family=Roboto:300,400,500,700')
@@ -35,9 +36,9 @@ html
                             if (user)
                                 a.mdl-navigation__link.mdl-typography--text-uppercase(href='/dashboard') Dashboard
                                 img.user-avatar(src=user.picture, height='40px', width='40px')
-                                button.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect.mdl-button--accent(onclick='logout()') Log Out
+                                button.logout-button.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect.mdl-button--accent Log Out
                             else
-                                button.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect.mdl-button--accent.margin-left(onclick='lock.show()') Log in / Sign Up
+                                button.login-button.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect.mdl-button--accent.margin-left Log in / Sign Up
                 div.mdl-layout__drawer
                     span.mdl-layout__title
                         a(href='/')
@@ -51,10 +52,9 @@ html
                     div.mdl-layout-spacer
                     nav.mdl-navigation
                         if (user)
-                            button.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect.mdl-button--accent(onclick='logout()') Log Out
+                            button.logout-button.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect.mdl-button--accent Log Out
                         else
-                            button.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect.mdl-button--accent(onclick='lock.show()') Log in / Sign Up
-
+                            button.login-button.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect.mdl-button--accent Log in / Sign Up
                 main.mdl-layout__content
                     block content
 
@@ -107,28 +107,3 @@ html
                                         a(href='#') Help
                                     li
                                         a(href='#') Privacy &amp; Terms
-        if (user)
-            script.
-                var logout = function () {
-                    var xhr = new XMLHttpRequest();
-                    xhr.open('POST', '/logout');
-                    xhr.onreadystatechange = function () {
-                        if (xhr.readyState === 4) {
-                            location.href = '/';
-                        }
-                    };
-                    xhr.send();
-                }
-        else
-            script(src="//cdn.auth0.com/js/lock/10.3/lock.min.js")
-            script.
-                var lock = new Auth0Lock('#{auth0.clientID}', '#{auth0.domain}', {
-                    auth: {
-                        redirectUrl: '#{auth0.callbackURL}',
-                        responseType: 'code',
-                        params: {scope: 'openid name email picture'}
-                    }
-                })
-                if (location.search === '?login') {
-                    lock.show();
-                }
