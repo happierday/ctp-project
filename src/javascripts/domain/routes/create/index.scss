@@ -11,10 +11,6 @@ html, body, #app, .full-container {
     top: 0;
 }
 
-a.disabled {
-    pointer-events: none;
-}
-
 .slide-fade-enter-active {
     transition: all .7s ease-out;
 }

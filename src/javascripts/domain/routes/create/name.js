@@ -9,7 +9,7 @@ module.exports = {
             const isDomainValid = this.$store.state.isDomainValid;
 
             if (isDomainValid == DOMAIN_TAKEN) {
-                const textField = document.querySelector('.mdl-textfield');
+                const textField = this.$refs.textfield.$el;
 
                 if (textField && textField.className.indexOf('is-invalid') == -1) {
                     textField.className += ' is-invalid';

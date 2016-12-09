@@ -1,13 +1,15 @@
 extends layout
 
 block css
-    link(rel='stylesheet', href='/stylesheets/dashboard-418335c17d9834b2d43d4520b74ce0ec.css')
+    link(rel='stylesheet', href='/stylesheets/dashboard-38a269c4497a68118fb3038073180422.css')
 
 block content
-    div#dashboard-drawer.mdl-layout__drawer
-        span.mdl-layout-title #{user.name}
+    div#dashboard-drawer.mdl-layout__drawer.mdl-color--grey-100
+        div.mdl-layout-title.mdl-color--grey-200.mdl-color-text--grey-800 #{user.name}
         nav.mdl-navigation
-            a.mdl-navigation__link.mdl-typography--text-uppercase(href="link") Link
+            a.mdl-navigation__link.mdl-color-text--grey-800(href="")
+                i.material-icons.mdl-color-text--grey-600 home
+                | Home
     div#page-content
         table.mdl-data-table.mdl-js-data-table.mdl-data-table--selectable.mdl-shadow--2dp
             thead

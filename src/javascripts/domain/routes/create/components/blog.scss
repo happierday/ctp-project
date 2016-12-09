@@ -16,7 +16,7 @@ body::before {
 (max-width: 1024px) and (-webkit-max-device-pixel-ratio: 1.5),
 (max-width: 1024px) and (max-resolution: 1.5dppx) {
     body::before {
-        background-image: url('//source.unsplash.com/category/nature/1024x768');
+        background-image: url('https://source.unsplash.com/category/nature/1024x768');
     }
 }
 
@@ -25,7 +25,7 @@ body::before {
 (min-width: 1025px) and (max-width: 2048px) and (-webkit-max-device-pixel-ratio: 1.5),
 (min-width: 1025px) and (max-width: 2048px) and (max-resolution: 1.5dppx) {
     body::before {
-        background-image: url('//source.unsplash.com/category/nature/2048x1152');
+        background-image: url('https://source.unsplash.com/category/nature/2048x1152');
     }
 }
 
@@ -34,15 +34,15 @@ body::before {
 (min-width: 2049px) and (-webkit-max-device-pixel-ratio: 1.5),
 (min-width: 2049px) and (max-resolution: 1.5dppx) {
     body::before {
-        background-image: url('//source.unsplash.com/category/nature/2880x1800');
+        background-image: url('https://source.unsplash.com/category/nature/2880x1800');
     }
 }
 
-body .demo-blog {
+body .blog {
     font-family: 'Roboto', 'Helvetica', sans-serif;
 }
 
-.demo-blog .demo-blog__posts {
+.blog .blog__posts {
     max-width: 900px;
     padding: 0;
     display: -webkit-flex;
@@ -55,13 +55,13 @@ body .demo-blog {
     flex-shrink: 0;
 }
 
-.demo-blog.mdl-layout .mdl-layout__content {
+.blog.mdl-layout .mdl-layout__content {
     padding-top: 230px;
     position: relative;
     -webkit-overflow-scrolling: touch;
 }
 
-.demo-blog .mdl-card {
+.blog .mdl-card {
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
@@ -74,14 +74,14 @@ body .demo-blog {
     min-height: 360px;
 }
 
-.demo-blog .mdl-card__title {
+.blog .mdl-card__title {
     padding: 16px;
     -webkit-flex-grow: 1;
     -ms-flex-positive: 1;
     flex-grow: 1;
 }
 
-.demo-blog .mdl-card__media {
+.blog .mdl-card__media {
     box-sizing: border-box;
     background-size: cover;
     padding: 24px;
@@ -100,12 +100,12 @@ body .demo-blog {
     cursor: pointer;
 }
 
-.demo-blog .mdl-card__media a,
-.demo-blog .mdl-card__title a {
+.blog .mdl-card__media a,
+.blog .mdl-card__title a {
     color: inherit;
 }
 
-.demo-blog .mdl-card__supporting-text {
+.blog .mdl-card__supporting-text {
     width: 100%;
     padding: 16px;
     min-height: 64px;
@@ -117,28 +117,28 @@ body .demo-blog {
     align-items: center;
 }
 
-.demo-blog .mdl-card__supporting-text strong {
+.blog .mdl-card__supporting-text strong {
     font-weight: 400;
 }
 
-.demo-blog .mdl-card__media ~ .mdl-card__supporting-text {
+.blog .mdl-card__media ~ .mdl-card__supporting-text {
     min-height: 64px;
 }
 
-.demo-blog .mdl-card__supporting-text:not(:last-child) {
+.blog .mdl-card__supporting-text:not(:last-child) {
     box-sizing: border-box;
     min-height: 76px;
 }
 
-.demo-blog:not(.demo-blog--blogpost) .mdl-card__supporting-text ~ .mdl-card__supporting-text {
+.blog:not(.blog--blogpost) .mdl-card__supporting-text ~ .mdl-card__supporting-text {
     border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.demo-blog .mdl-card__actions:first-child {
+.blog .mdl-card__actions:first-child {
     margin-left: 0;
 }
 
-.demo-blog .meta {
+.blog .meta {
     box-sizing: border-box;
     padding: 16px;
     display: -webkit-flex;
@@ -156,7 +156,7 @@ body .demo-blog {
     height: auto;
 }
 
-.demo-blog .meta > .meta__favorites {
+.blog .meta > .meta__favorites {
     -webkit-flex-direction: row;
     -ms-flex-direction: row;
     flex-direction: row;
@@ -165,23 +165,23 @@ body .demo-blog {
     font-weight: 500;
 }
 
-.demo-blog .meta > .meta__favorites .material-icons {
+.blog .meta > .meta__favorites .material-icons {
     font-size: 2em;
     cursor: pointer;
     margin-left: 12px;
 }
 
-.demo-blog .mdl-card .meta.meta--fill {
+.blog .mdl-card .meta.meta--fill {
     -webkit-justify-content: space-between;
     -ms-flex-pack: justify;
     justify-content: space-between;
 }
 
-.demo-blog .meta > *:first-child {
+.blog .meta > *:first-child {
     margin-right: 16px;
 }
 
-.demo-blog .meta > * {
+.blog .meta > * {
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
@@ -190,35 +190,35 @@ body .demo-blog {
     flex-direction: column;
 }
 
-.demo-blog.is-small-screen .demo-blog__posts > .mdl-card.coffee-pic {
+.blog.is-small-screen .blog__posts > .mdl-card.coffee-pic {
     -webkit-order: 0;
     -ms-flex-order: 0;
     order: 0;
 }
 
-.demo-blog.is-small-screen .demo-blog__posts > .mdl-card.something-else {
+.blog.is-small-screen .blog__posts > .mdl-card.something-else {
     -webkit-order: -1;
     -ms-flex-order: -1;
     order: -1;
 }
 
-.demo-blog .coffee-pic .mdl-card__media {
-    background-image: url('//source.unsplash.com/960x720?coffee');
+.blog .coffee-pic .mdl-card__media {
+    background-image: url('https://source.unsplash.com/960x720?coffee');
 }
 
-.demo-blog .something-else .mdl-card__media {
-    background-image: url('//source.unsplash.com/480x360?water');
+.blog .something-else .mdl-card__media {
+    background-image: url('https://source.unsplash.com/480x360?lake');
 }
 
-.demo-blog .on-the-road-again .mdl-card__media {
-    background-image: url('//source.unsplash.com/960x720?travel');
+.blog .on-the-road-again .mdl-card__media {
+    background-image: url('https://source.unsplash.com/960x720?travel');
 }
 
-.demo-blog .shopping .mdl-card__media {
-    background-image: url('//source.unsplash.com/960x720?shopping');
+.blog .shopping .mdl-card__media {
+    background-image: url('https://source.unsplash.com/960x720?shopping');
 }
 
-.demo-blog .demo-blog__posts > .demo-nav {
+.blog .blog__posts > .demo-nav {
     margin: 12px 15px;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -236,73 +236,73 @@ body .demo-blog {
     font-weight: 500;
 }
 
-.demo-blog .demo-blog__posts > .demo-nav > .demo-nav__button {
+.blog .blog__posts > .demo-nav > .demo-nav__button {
     color: white;
     text-decoration: none;
 }
 
-.demo-blog .demo-blog__posts > .demo-nav .mdl-button {
+.blog .blog__posts > .demo-nav .mdl-button {
     color: rgba(0, 0, 0, 0.54);
     background-color: white;
 }
 
-.demo-blog .demo-blog__posts > .demo-nav > .demo-nav__button:first-child .mdl-button {
+.blog .blog__posts > .demo-nav > .demo-nav__button:first-child .mdl-button {
     margin-right: 16px;
 }
 
-.demo-blog .demo-blog__posts > .demo-nav > .demo-nav__button:last-child .mdl-button {
+.blog .blog__posts > .demo-nav > .demo-nav__button:last-child .mdl-button {
     margin-left: 16px;
 }
 
-.demo-blog .mdl-card > a {
+.blog .mdl-card > a {
     color: inherit;
     text-decoration: none;
     font-weight: inherit;
 }
 
-.demo-blog .mdl-card h3 {
+.blog .mdl-card h3 {
     margin: 0;
 }
 
-.demo-blog .mdl-card h3 a {
+.blog .mdl-card h3 a {
     text-decoration: none;
 }
 
-.demo-blog .mdl-card h3.quote:before, .demo-blog .mdl-card h3.quote:after {
+.blog .mdl-card h3.quote:before, .blog .mdl-card h3.quote:after {
     display: block;
     font-size: 3em;
     margin-top: 0.5em;
 }
 
-.demo-blog .mdl-card h3.quote:before {
+.blog .mdl-card h3.quote:before {
     content: '“';
 }
 
-.demo-blog .mdl-card h3.quote:after {
+.blog .mdl-card h3.quote:after {
     content: '”';
 }
 
-.demo-blog--blogpost .custom-header {
+.blog--blogpost .custom-header {
     background-color: transparent;
 }
 
-.demo-blog--blogpost .demo-blog__posts > .mdl-card .mdl-card__media {
-    background-image: url('//source.unsplash.com/category/nature/1600x900');
+.blog--blogpost .blog__posts > .mdl-card .mdl-card__media {
+    background-image: url('https://source.unsplash.com/category/nature/1600x900');
     height: 280px;
 }
 
-.demo-blog--blogpost .comments {
+.blog--blogpost .comments {
     background-color: #EEE;
 }
 
-.demo-blog--blogpost .meta > * {
+.blog--blogpost .meta > * {
     -webkit-align-items: center;
     -ms-flex-align: center;
     -ms-grid-row-align: center;
     align-items: center;
 }
 
-.demo-blog--blogpost .meta + .mdl-card__supporting-text {
+.blog--blogpost .meta + .mdl-card__supporting-text {
     border: 0;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -312,14 +312,14 @@ body .demo-blog {
     flex-direction: column;
 }
 
-.demo-blog--blogpost .meta + .mdl-card__supporting-text p {
+.blog--blogpost .meta + .mdl-card__supporting-text p {
     max-width: 512px;
     margin: 16px auto;
     font-size: 16px;
     line-height: 28px;
 }
 
-.demo-blog--blogpost .comments {
+.blog--blogpost .comments {
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
@@ -336,7 +336,7 @@ body .demo-blog {
     box-sizing: border-box;
 }
 
-.demo-blog--blogpost .comments > form {
+.blog--blogpost .comments > form {
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
@@ -346,7 +346,7 @@ body .demo-blog {
     margin-bottom: 16px;
 }
 
-.demo-blog--blogpost .comments > form .mdl-textfield {
+.blog--blogpost .comments > form .mdl-textfield {
     -webkit-flex-grow: 1;
     -ms-flex-positive: 1;
     flex-grow: 1;
@@ -357,22 +357,22 @@ body .demo-blog {
 /* Workaround for Firefox.
  * User agent stylesheet kept overwriting the font in FF only.
  */
-.demo-blog--blogpost .comments > form .mdl-textfield .mdl-textfield__input {
+.blog--blogpost .comments > form .mdl-textfield .mdl-textfield__input {
     font-family: 'Roboto', 'Helvetica', sans-serif;
 }
 
-.demo-blog--blogpost .comments > form .mdl-textfield input,
-.demo-blog--blogpost .comments > form .mdl-textfield textarea {
+.blog--blogpost .comments > form .mdl-textfield input,
+.blog--blogpost .comments > form .mdl-textfield textarea {
     resize: none;
 }
 
-.demo-blog--blogpost .comments > form button {
+.blog--blogpost .comments > form button {
     margin-top: 20px;
     background-color: rgba(0, 0, 0, 0.24);
     color: white;
 }
 
-.demo-blog--blogpost .comments .comment {
+.blog--blogpost .comments .comment {
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
@@ -384,7 +384,7 @@ body .demo-blog {
     align-items: stretch;
 }
 
-.demo-blog--blogpost .comments .comment > .comment__header {
+.blog--blogpost .comments .comment > .comment__header {
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
@@ -397,14 +397,14 @@ body .demo-blog {
     margin-bottom: 16px;
 }
 
-.demo-blog--blogpost .comments .comment > .comment__header > .comment__avatar {
+.blog--blogpost .comments .comment > .comment__header > .comment__avatar {
     width: 48px;
     height: 48px;
     border-radius: 24px;
     margin-right: 16px;
 }
 
-.demo-blog--blogpost .comments .comment > .comment__header > .comment__author {
+.blog--blogpost .comments .comment > .comment__header > .comment__author {
     -webkit-flex-grow: 1;
     -ms-flex-positive: 1;
     flex-grow: 1;
@@ -416,11 +416,11 @@ body .demo-blog {
     flex-direction: column;
 }
 
-.demo-blog--blogpost .comments .comment > .comment__text {
+.blog--blogpost .comments .comment > .comment__text {
     line-height: 1.5em;
 }
 
-.demo-blog--blogpost .comments .comment > .comment__actions {
+.blog--blogpost .comments .comment > .comment__actions {
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
@@ -437,17 +437,17 @@ body .demo-blog {
     margin-top: 16px;
 }
 
-.demo-blog--blogpost .comments .comment > .comment__actions button {
+.blog--blogpost .comments .comment > .comment__actions button {
     margin-right: 16px;
     color: rgba(0, 0, 0, 0.24);
 }
 
-.demo-blog--blogpost .comments .comment > .comment__answers {
+.blog--blogpost .comments .comment > .comment__answers {
     padding-top: 32px;
     padding-left: 48px;
 }
 
-.demo-blog--blogpost .demo-back {
+.blog--blogpost .demo-back {
     position: absolute;
     top: 16px;
     left: 16px;
@@ -455,18 +455,18 @@ body .demo-blog {
     z-index: 9999;
 }
 
-.demo-blog .section-spacer {
+.blog .section-spacer {
     -webkit-flex-grow: 1;
     -ms-flex-positive: 1;
     flex-grow: 1;
 }
 
-.demo-blog .something-else {
+.blog .something-else {
     overflow: visible;
     z-index: 10;
 }
 
-.demo-blog .minilogo {
+.blog .minilogo {
     width: 44px;
     height: 44px;
     background-size: 50%;
@@ -509,7 +509,7 @@ body .demo-blog {
     background: transparent;
 }
 
-.demo-blog .mdl-mini-footer {
+.blog .mdl-mini-footer {
     margin-top: 80px;
     height: 120px;
     padding: 40px;

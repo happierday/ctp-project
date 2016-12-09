@@ -124,11 +124,55 @@ app.use(helmet.contentSecurityPolicy({
 
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'assets', 'build')));
-app.use(express.static(path.join(__dirname, 'assets', 'static')));
+app.use(express.static(path.join(__dirname, 'assets', 'build'), {index: false, maxAge: 15552000000}));
+app.use(express.static(path.join(__dirname, 'assets', 'static'), {index: false, maxAge: 15552000000}));
 app.use(sessionMiddleware);
-app.use(passport.initialize());
-app.use(passport.session());
+
+const passportInitializeMiddleWare = passport.initialize();
+
+const promisifiedPassportSession = ((passportSessionMiddleware) => {
+    return (req, res) => {
+        return new Promise((resolve, reject) => {
+            passportSessionMiddleware(req, res, (err) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+
+                resolve();
+            });
+        });
+    };
+})(passport.session());
+
+const getDomain = (req) => {
+    if (req.path !== '/domain/edit' || !req.session.passport || !req.session.passport.user) {
+        return;
+    }
+
+    return new Promise((resolve, reject) => {
+        db.Domain.findOne({where: {owner: req.session.passport.user}, attributes: ['name', 'title', 'description', 'backgroundImage']}).then((domain) => {
+            req.locals.domain = domain.dataValues;
+            resolve();
+        }).catch((err) => reject(err));
+    });
+};
+
+app.use((req, res, next) => { //Make all database calls asynchronously
+    if (req.subdomains.length) { //Dont initialize passport on subdomains
+        next();
+        return;
+    }
+
+    passportInitializeMiddleWare(req, res, (err) => {
+        if (err) {
+            next(err);
+            return;
+        }
+
+        Promise.all([promisifiedPassportSession, getDomain].map((fn) => fn(req, res))).then(() => next()).catch((err) => next(err));
+    });
+});
 
 app.use((req, res, next) => {
     if (req.method === 'GET') {

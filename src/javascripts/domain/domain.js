@@ -16,10 +16,14 @@ const Create = {
         {path: '', redirect: 'name'}
     ]
 };
+const Edit = {
+    path: '/edit',
+    component: () => System.import('./routes/edit/index.js')
+};
 
 
 Vue.use(VueRouter);
-const routes = [Create];
+const routes = [Create, Edit];
 const router = new VueRouter({routes, mode: 'history', base: '/domain'});
 
 Vue.use(VueResource);

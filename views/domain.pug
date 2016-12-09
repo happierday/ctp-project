@@ -7,11 +7,15 @@ html
         meta(name="description" content=".")
         title= 'Create a new domain'
         script(src='//code.getmdl.io/1.2.1/material.min.js' async defer)
-        script(src='/javascripts/domain-7ad60d769c6ec7a79e9a.js' async defer)
+        script(src='/javascripts/domain-6fd31460e0e1b27cc6f3.js' async defer)
         link(rel='stylesheet' href='//fonts.googleapis.com/css?family=Roboto:300,400,500,700')
         link(rel='stylesheet' href='//fonts.googleapis.com/icon?family=Material+Icons')
         link(rel='stylesheet' href='//code.getmdl.io/1.2.1/material.deep_purple-pink.min.css')
         link(rel='stylesheet' href='/stylesheets/domain-d41d8cd98f00b204e9800998ecf8427e.css')
+
+        if (domain)
+            script(type="application/json" id="domain-data")= domain
+
     body
         div#app
             router-view
