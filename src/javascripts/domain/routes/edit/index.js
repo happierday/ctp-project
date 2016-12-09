@@ -1,6 +1,10 @@
+import Vue from "vue";
+import MdlFabFlinger from './components/mdl-fab-flinger';
 import template from "./index.pug";
 import "./index.scss";
 import {getDomain} from "../../api/domain";
+
+Vue.component('mdl-fab-flinger', MdlFabFlinger);
 
 module.exports = {
     template: template(),
@@ -19,7 +23,11 @@ module.exports = {
             return this.$store.state.description;
         },
         backgroundImage() {
-            return this.$store.state.backgroundImage;
+            if (!this.$store.state.backgroundImage) {
+                return;
+            }
+
+            return 'url("' + this.$store.state.backgroundImage + '")';
         }
     }
 };

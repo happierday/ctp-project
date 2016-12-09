@@ -1,0 +1,73 @@
+.mdl-button--fab_flinger-container {
+    position: fixed;
+    bottom: 90px;
+    right: 90px;
+}
+
+.mdl-button--fab_flinger-container.is-showing-options > button i {
+    transition: transform 0.1s linear;
+    transform: translate(-12px, -12px) rotate(45deg);
+}
+
+.mdl-button--fab_flinger-container.is-showing-options .mdl-button--fab_flinger-options {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.mdl-button--fab_flinger-container.is-showing-options .mdl-button--fab_flinger-options button {
+    display: block;
+    animation-name: enter;
+    animation-fill-mode: forwards;
+    animation-duration: 0.1s;
+    transform-origin: bottom center;
+}
+
+.mdl-button--fab_flinger-container.is-showing-options .mdl-button--fab_flinger-options button:nth-of-type(1) {
+    animation-delay: 0.1s;
+}
+
+.mdl-button--fab_flinger-container.is-showing-options .mdl-button--fab_flinger-options button:nth-of-type(2) {
+    animation-delay: 0.2s;
+}
+
+.mdl-button--fab_flinger-container.is-showing-options .mdl-button--fab_flinger-options button:nth-of-type(3) {
+    animation-delay: 0.3s;
+}
+
+.mdl-button--fab_flinger-container.is-showing-options .mdl-button--fab_flinger-options button:nth-of-type(4) {
+    animation-delay: 0.4s;
+}
+
+.mdl-button--fab_flinger-container.is-showing-options .mdl-button--fab_flinger-options button:nth-of-type(5) {
+    animation-delay: 0.5s;
+}
+
+.mdl-button--fab_flinger-container.is-showing-options .mdl-button--fab_flinger-options button:nth-of-type(6) {
+    animation-delay: 0.6s;
+}
+
+.mdl-button--fab_flinger-container .mdl-button--fab_flinger-options {
+    position: absolute;
+    bottom: 100%;
+    margin-bottom: 10px;
+}
+
+.mdl-button--fab_flinger-container .mdl-button--fab_flinger-options button {
+    transform: scale(0);
+    display: none;
+}
+
+@keyframes enter {
+    from {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+    }
+    to {
+        -webkit-transform: scale(0.8);
+        transform: scale(0.8);
+    }
+}
+
+.mdl-button--fab_flinger-options .mdl-button--accent.mdl-button--accent.mdl-button--fab {
+    background-color: rgb(103,58,183);
+}

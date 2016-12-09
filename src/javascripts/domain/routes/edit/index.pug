@@ -1,5 +1,5 @@
 div.blog.mdl-layout.mdl-js-layout
-    div.mdl-layout__content(v-if='backgroundImage')
+    div.mdl-layout__content(v-if='backgroundImage', :style='{backgroundImage}')
         h1.text-center.readable.mdl-color-text--grey-50 {{title}}
         h2.text-center.readable.mdl-color-text--grey-100 {{description}}
         div.blog__posts.mdl-grid
@@ -61,5 +61,11 @@ div.blog.mdl-layout.mdl-js-layout
                 button.mdl-mini-footer--social-btn.social-btn__share
                     i.material-icons(role='presentation') share
                     span.visuallyhidden share
+
+        mdl-fab-flinger
+            button.mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--accent
+                i.material-icons edit
+            button.mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--accent
+                i.material-icons cloud_upload
 
     div(v-else='backgroundImage') Loading...
