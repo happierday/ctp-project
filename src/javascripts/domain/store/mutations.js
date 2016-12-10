@@ -33,7 +33,7 @@ export default {
                 saving: false,
                 createdAt: new Date(),
                 title: '',
-                url: '#',
+                url: null,
                 file: null
             });
         } else {
@@ -44,7 +44,7 @@ export default {
                 createdAt: new Date(),
                 title: '',
                 text: '',
-                url: '#',
+                url: null,
                 file: null
             });
         }
@@ -57,12 +57,12 @@ export default {
         blogPost.saving = true;
         delete blogPost.old;
     },
-    savedBlogPost(state, {blogPost, newState}) {
+    savedBlogPost(state, {blogPost, changes}) {
         blogPost.saving = false;
 
-        for (let key in newState) {
-            if (newState.hasOwnProperty(key)) {
-                state[key] = newState[key];
+        for (let key in changes) {
+            if (changes.hasOwnProperty(key)) {
+                blogPost[key] = changes[key];
             }
         }
     },
