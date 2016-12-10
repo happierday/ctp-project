@@ -63,13 +63,13 @@ div.blog.mdl-layout.mdl-js-layout(:style='{backgroundImage}')
                     span.visuallyhidden share
 
         mdl-fab-flinger
-            button#compose.mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--accent
+            mdl-button#compose.mdl-js-ripple-effect.mdl-button--accent(fab)
                 i.material-icons edit
             div.mdl-tooltip.mdl-tooltip--left(data-mdl-for="compose") Compose
-            button#upload.mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--accent
+            mdl-button#upload.mdl-js-ripple-effect.mdl-button--accent(fab)
                 i.material-icons cloud_upload
             div.mdl-tooltip.mdl-tooltip--left(data-mdl-for="upload") Upload
-            button#settings.mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--accent
+            mdl-button#settings.mdl-js-ripple-effect.mdl-button--accent(fab)
                 i.material-icons settings
             div.mdl-tooltip.mdl-tooltip--left(data-mdl-for="settings") Settings
 

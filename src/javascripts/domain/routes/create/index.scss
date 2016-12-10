@@ -5,7 +5,7 @@ html, body, #app, .full-container {
     overflow: hidden;
 }
 
-#background-blog, .mdl-layout__container {
+#background-blog, #background-blog .mdl-layout__container {
     z-index: -1;
     position: absolute;
     top: 0;

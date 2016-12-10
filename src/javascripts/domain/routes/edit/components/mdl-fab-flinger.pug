@@ -1,5 +1,5 @@
 div#fab_ctn.mdl-button--fab_flinger-container(:class='{"is-showing-options": showing}')
-    button#fab_btn.mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--colored(@click='flingFab')
+    mdl-button#fab_btn.mdl-js-ripple-effect(@click.native='flingFab', colored, fab)
         i.material-icons add
     div.mdl-button--fab_flinger-options
         slot

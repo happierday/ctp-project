@@ -6,7 +6,7 @@ div
     div
         mdl-textfield(@input.native='updateDescription', @keyup.enter='createDomain', :value='description', textarea, rows='4',  maxlength='128', floating-label='Domain Description')
     div
-        mdl-button(@click.native='lastPage', colored, fab)
+        mdl-button.mdl-js-ripple-effect(@click.native='lastPage', colored, fab)
             i.material-icons arrow_backward
-        mdl-button(:disabled='emptyFields', @click.native='createDomain', colored, fab)
+        mdl-button.mdl-js-ripple-effect(:disabled='emptyFields', @click.native='createDomain', colored, fab)
             i.material-icons arrow_forward
