@@ -6,12 +6,23 @@ module.exports = {
                 type: Sequelize.STRING,
                 primaryKey: true
             },
+            owner: {
+                allowNull: false,
+                type: Sequelize.STRING
+            },
             type: {
                 allowNull: false,
                 type: Sequelize.STRING
             },
+            title: {
+                allowNull: false,
+                type: Sequelize.STRING
+            },
+            text: {
+                type: Sequelize.STRING
+            },
             url: {
-                type: Sequelize.DATE
+                type: Sequelize.STRING
             },
             createdAt: {
                 allowNull: false,

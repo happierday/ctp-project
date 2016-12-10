@@ -41,7 +41,15 @@ const routes = [Create, Edit,
     {path: '*', redirect: '/create'},
     {path: '*', redirect: '/create'}
 ];
-const router = new VueRouter({routes, mode: 'history', base: '/domain'});
+const router = new VueRouter({
+    routes, mode: 'history', base: '/domain', scrollBehavior (to, from, savedPosition) {
+        if (savedPosition) {
+            return savedPosition
+        } else {
+            return {x: 0, y: 0}
+        }
+    }
+});
 
 Vue.use(VueResource);
 Vue.http.options.root = '/domain';

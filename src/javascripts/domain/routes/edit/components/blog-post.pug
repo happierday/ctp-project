@@ -1,0 +1,19 @@
+div.mdl-card.mdl-cell.mdl-cell--6-col(:class='{saving: blogPost.saving}')
+    div.mdl-card__media.mdl-color-text--grey-50(@click='handleMediaClick', @dragover.prevent, @drop.prevent='updateFile')
+        div(v-if='blogPost.editing')
+            div(v-if='blogPost.type === "upload"')
+                input.file-input(ref='file-input', type="file", @change='updateFile')
+                i.material-icons cloud_upload
+            mdl-textfield.blog-post-title(@change.native='updateTitle', :value='blogPost.title',  maxlength='128', floating-label='Title')
+        div(v-else)
+            div(v-if='blogPost.type === "upload"')
+                i.material-icons cloud_download
+            h3 {{blogPost.title}}
+    div.mdl-card__supporting-text.meta.mdl-color-text--grey-600
+        div.minilogo(:style='{backgroundImage: user.picture}')
+        div
+            strong {{user.name}}
+            span {{blogPost.createdAt.toDateString()}}
+        div.editing-buttons(v-if='blogPost.editing')
+            mdl-button.mdl-js-ripple-effect(@click.native='cancel') Cancel
+            mdl-button.mdl-js-ripple-effect(@click.native='save') Save

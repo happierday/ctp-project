@@ -11,3 +11,13 @@ export const postDomain = (name, title, description) => {
 export const getDomain = (name, title, description) => {
     return http.get('json', {name, title, description});
 };
+
+export const sendBlogPost = (body) => {
+    const fd = new FormData();
+    for (let key in body) {
+        if (body.hasOwnProperty(key)) {
+            fd.append(key, body[key]);
+        }
+    }
+    return http.post('edit/upload', fd);
+};

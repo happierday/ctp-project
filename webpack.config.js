@@ -36,7 +36,9 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 const config = require('./config/config.json')[process.env.NODE_ENV];
 const auth0 = {
-    callbackURL: JSON.stringify(config.auth0.callbackURL), clientID: JSON.stringify(config.auth0.clientID), domain: JSON.stringify(config.auth0.domain)
+    callbackURL: JSON.stringify(config.auth0.callbackURL),
+    clientID: JSON.stringify(config.auth0.clientID),
+    domain: JSON.stringify(config.auth0.domain)
 };
 
 module.exports = {

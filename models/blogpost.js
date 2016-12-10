@@ -5,10 +5,19 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.STRING,
             primaryKey: true
         },
+        owner: {
+            allowNull: false,
+            type: DataTypes.STRING
+        },
         type: {
             allowNull: false,
             type: DataTypes.STRING
         },
+        title: {
+            allowNull: false,
+            type: DataTypes.STRING
+        },
+        text: DataTypes.STRING,
         url: DataTypes.STRING
     }, {
         classMethods: {

@@ -1,6 +1,6 @@
 "use strict";
 
-module.exports = function (Domain, bucket) {
+module.exports = function (Domain, BlogPost, bucket) {
     const express = require('express');
     const router = express.Router();
     const request = require('request');
@@ -12,18 +12,8 @@ module.exports = function (Domain, bucket) {
         }
     });
 
-    router.get('/json', ({user}, res, next) => {
-        Domain.findOne({
-            where: {owner: user.id},
-            attributes: ['name', 'title', 'description', 'backgroundImage']
-        }).then((domain) => {
-            if (!domain) {
-                next(403);
-                return;
-            }
-
-            res.send(domain.dataValues);
-        }).catch((err) => next(err));
+    router.get('/json', (req, res, next) => {
+        res.send(res.locals.domain);
     });
 
     router.post('/create', ({user, body}, res, next) => {
@@ -59,7 +49,8 @@ module.exports = function (Domain, bucket) {
         });
     });
 
-    router.post('/edit/upload', multer.single('image'), ({file, domain}, res, next) => {
+    router.post('/edit/upload', multer.single('file'), ({file}, res, next) => {
+        const domain = res.locals.domain;
         if (!file || !domain) {
             next(400);
             return;
@@ -70,7 +61,9 @@ module.exports = function (Domain, bucket) {
 
         const stream = gcsfile.createWriteStream({
             metadata: {
-                contentType: file.mimetype
+                contentType: file.mimetype,
+                cacheControl: 'public, max-age=15552000',
+                contentDisposition: `attachment; filename="${file.originalname}"`
             },
             public: true,
             gzip: true,
@@ -78,19 +71,22 @@ module.exports = function (Domain, bucket) {
         });
 
         stream.on('error', (err) => {
-            file.cloudStorageError = err;
             next(err);
         });
 
         stream.on('finish', () => {
             file.cloudStorageObject = gcsname;
-            file.cloudStoragePublicUrl = 'https://storage.googleapis.com/' + bucket.name + gcsname;
+            file.cloudStoragePublicUrl = `https://storage.googleapis.com/${bucket.name}/${domain.name}/${gcsname}`;
             next();
         });
 
         stream.end(file.buffer);
-    }, ({body, file}, res, next) => {
+    }, ({body, file, user}, res, next) => {
         body.url = file.cloudStoragePublicUrl;
+        body.owner = user.id;
+        body.id = Date.now() + '||' + body.owner;
+
+        BlogPost.create(body).then((body) => res.send(file.cloudStoragePublicUrl)).catch((err) => next(err));
     });
 
     router.get('/*', ({}, res, next) => {

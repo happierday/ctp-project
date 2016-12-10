@@ -3,6 +3,7 @@ div.blog.mdl-layout.mdl-js-layout(:style='{backgroundImage}')
         h1.text-center.readable.mdl-color-text--grey-50 {{title}}
         h2.text-center.readable.mdl-color-text--grey-100 {{description}}
         div.blog__posts.mdl-grid
+            blog-post(v-for="blogPost in blogPosts", :blogPost="blogPost")
             div.mdl-card.coffee-pic.mdl-cell.mdl-cell--8-col
                 div.mdl-card__media.mdl-color-text--grey-50
                     h3

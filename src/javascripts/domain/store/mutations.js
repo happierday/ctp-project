@@ -25,9 +25,34 @@ export default {
             }
         }
     },
-    addPost(state, type) {
-        state.posts.push({
-            type
-        });
+    addBlogPost({blogPosts}, type) {
+        if (type === 'upload') {
+            blogPosts.unshift({
+                type,
+                editing: true,
+                saving:false,
+                createdAt: new Date(),
+                title: ''
+            });
+        }
+    },
+    updateBlogPost(state, {blogPost, key, value}) {
+        blogPost[key] = value;
+    },
+    saveBlogPost(state, blogPost) {
+        blogPost.editing = false;
+        blogPost.saving = true;
+        delete blogPost.old;
+    },
+    savedBlogPost(state, {blogPost, url}) {
+        blogPost.saving = false;
+        blogPost.url = url;
+    },
+    cancelBlogPost({blogPosts}, blogPost) {
+        if (blogPost.old) {
+            blogPost = blogPost.old;
+        } else {
+            blogPosts.splice(blogPosts.indexOf(blogPost), 1);
+        }
     }
 }

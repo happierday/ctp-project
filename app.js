@@ -23,7 +23,7 @@ const bucket = storage.bucket(config.gcs.bucket);
 const index = require('./routes/index')();
 const dashboard = require('./routes/dashboard')();
 const signin = require('./routes/signin')();
-const domain = require('./routes/domain')(db.Domain, bucket);
+const domain = require('./routes/domain')(db.Domain, db.BlogPost, bucket);
 
 const session = require('express-session');
 const sessionStore = require('connect-session-sequelize')(session.Store);
@@ -155,16 +155,37 @@ const getDomain = (req, res) => {
         return;
     }
 
-    console.log(req.session);
-
     return new Promise((resolve, reject) => {
-        db.Domain.findOne({where: {owner: req.session.passport.user}, attributes: ['name', 'title', 'description', 'backgroundImage']}).then((domain) => {
-            if (!domain) {
-                resolve();
-                return;
+        db.Domain.findOne({
+            where: {owner: req.session.passport.user},
+            attributes: ['name', 'title', 'description', 'backgroundImage']
+        }).then((domain) => {
+            if (domain) {
+                res.locals.domain = domain.dataValues;
             }
 
-            res.locals.domain = domain.dataValues;
+            resolve();
+        }).catch((err) => reject(err));
+    });
+};
+
+
+const getBlogPosts = (req, res) => {
+    if (req.method !== 'GET' || !req.path.startsWith('/domain') || !req.session.passport || !req.session.passport.user) {
+        return;
+    }
+
+    return new Promise((resolve, reject) => {
+        db.BlogPost.findAll({
+            where: {owner: req.session.passport.user},
+            limit: 10,
+            order: [['id', 'DESC']],
+            attributes: ['id', 'type', 'title', 'url', 'createdAt']
+        }).then((blogPosts) => {
+            if (blogPosts) {
+                res.locals.blogPosts = blogPosts.map((blogPost) => blogPost.dataValues);
+            }
+
             resolve();
         }).catch((err) => reject(err));
     });
@@ -182,14 +203,21 @@ app.use((req, res, next) => { //Make all database calls asynchronously
             return;
         }
 
-        Promise.all([promisifiedPassportSession, getDomain].map((fn) => fn(req, res))).then(() => next()).catch((err) => next(err));
+        Promise.all([promisifiedPassportSession, getDomain, getBlogPosts].map((fn) => fn(req, res))).then(() => next()).catch((err) => next(err));
     });
 });
 
 app.use((req, res, next) => {
     if (req.method === 'GET') {
-        res.locals.user = req.user;
-        res.locals.auth0 = config.auth0;
+        if (req.user) {
+            res.locals.user = {name: req.user.name, picture: req.user.picture};
+
+            if (res.locals.domain) {
+                res.locals.domain.user = res.locals.user;
+                res.locals.domain.blogPosts = res.locals.blogPosts;
+
+            }
+        }
     }
 
     next();

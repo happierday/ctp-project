@@ -1,4 +1,4 @@
-import {validateDomain, postDomain} from "../api/domain";
+import {validateDomain, postDomain, sendBlogPost} from "../api/domain";
 import debounce from "lodash.debounce";
 import {DOMAIN_INVALID, DOMAIN_TAKEN, DOMAIN_VALID} from "./constants";
 
@@ -28,5 +28,12 @@ export default {
     },
     createDomain({state}) {
         return postDomain(state.domain, state.title, state.description);
+    },
+    saveBlogPost({commit}, blogPost) {
+        commit('saveBlogPost', blogPost);
+
+        sendBlogPost(blogPost).then(({body}) => {
+            commit('savedBlogPost', {blogPost, url: body});
+        });
     }
 }

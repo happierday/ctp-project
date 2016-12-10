@@ -1,0 +1,35 @@
+.blog .minilogo {
+    width: 44px;
+    height: 44px;
+    border-radius: 22px;
+    background: #C4C4C4 no-repeat center;
+    background-size: 44px;
+}
+
+.mdl-card {
+    .mdl-textfield__input {
+        font-weight: 400;
+        color: #757575;
+    }
+
+    .editing-buttons {
+        margin-left: auto;
+        display: inline-block !important;
+    }
+
+    .material-icons {
+        top: 0;
+        position: absolute;
+        font-size: 200px;
+        left: calc(50% - 100px);
+    }
+
+    .file-input {
+        display: none;
+    }
+}
+
+.mdl-card.saving {
+    opacity: 0.5;
+    pointer-events: none;
+}
