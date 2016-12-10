@@ -29,5 +29,10 @@ module.exports = {
 
             return 'url("' + this.$store.state.backgroundImage + '")';
         }
+    },
+    method: {
+        addUpload(){
+            this.$store.commit('addPost', 'upload');
+        }
     }
 };

@@ -24,5 +24,10 @@ export default {
                 state[key] = newState[key];
             }
         }
+    },
+    addPost(state, type) {
+        state.posts.push({
+            type
+        });
     }
 }

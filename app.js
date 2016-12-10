@@ -82,7 +82,6 @@ passport.use(strategy);
 
 // This can be used to keep a smaller payload
 passport.serializeUser((user, done) => {
-    console.log(user);
     done(null, user.id);
 });
 

@@ -66,7 +66,7 @@ div.blog.mdl-layout.mdl-js-layout(:style='{backgroundImage}')
             mdl-button#compose.mdl-js-ripple-effect.mdl-button--accent(fab)
                 i.material-icons edit
             div.mdl-tooltip.mdl-tooltip--left(data-mdl-for="compose") Compose
-            mdl-button#upload.mdl-js-ripple-effect.mdl-button--accent(fab)
+            mdl-button#upload.mdl-js-ripple-effect.mdl-button--accent(@click.native='addUpload', fab)
                 i.material-icons cloud_upload
             div.mdl-tooltip.mdl-tooltip--left(data-mdl-for="upload") Upload
             mdl-button#settings.mdl-js-ripple-effect.mdl-button--accent(fab)
