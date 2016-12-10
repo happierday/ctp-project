@@ -33,11 +33,15 @@ const Edit = {
             next();
         }
     }
+};
 
+const Post = {
+    path: '/post/:id',
+    component: () => System.import('./routes/post/index.js')
 };
 
 Vue.use(VueRouter);
-const routes = [Create, Edit,
+const routes = [Create, Edit, Post,
     {path: '*', redirect: '/create'},
     {path: '*', redirect: '/create'}
 ];

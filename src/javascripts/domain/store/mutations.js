@@ -30,9 +30,22 @@ export default {
             blogPosts.unshift({
                 type,
                 editing: true,
-                saving:false,
+                saving: false,
                 createdAt: new Date(),
-                title: ''
+                title: '',
+                url: '#',
+                file: null
+            });
+        } else {
+            blogPosts.unshift({
+                type,
+                editing: true,
+                saving: false,
+                createdAt: new Date(),
+                title: '',
+                text: '',
+                url: '#',
+                file: null
             });
         }
     },
@@ -44,9 +57,14 @@ export default {
         blogPost.saving = true;
         delete blogPost.old;
     },
-    savedBlogPost(state, {blogPost, url}) {
+    savedBlogPost(state, {blogPost, newState}) {
         blogPost.saving = false;
-        blogPost.url = url;
+
+        for (let key in newState) {
+            if (newState.hasOwnProperty(key)) {
+                state[key] = newState[key];
+            }
+        }
     },
     cancelBlogPost({blogPosts}, blogPost) {
         if (blogPost.old) {

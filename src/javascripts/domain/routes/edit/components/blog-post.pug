@@ -1,10 +1,12 @@
 div.mdl-card.mdl-cell.mdl-cell--6-col(:class='{saving: blogPost.saving}')
-    div.mdl-card__media.mdl-color-text--grey-50(@click='handleMediaClick', @dragover.prevent, @drop.prevent='updateFile')
+    div.mdl-card__media.mdl-color-text--grey-50(@click='handleMediaClick', @dragover.prevent, @drop.prevent='updateFile', :style='{backgroundImage: backgroundImage}')
         div(v-if='blogPost.editing')
+            mdl-textfield.blog-post-title(@change.native='updateTitle', @keyup.enter='save', :value='blogPost.title',  maxlength='128', floating-label='Title')
+            input.file-input(ref='file-input', type="file", @change='updateFile')
             div(v-if='blogPost.type === "upload"')
-                input.file-input(ref='file-input', type="file", @change='updateFile')
                 i.material-icons cloud_upload
-            mdl-textfield.blog-post-title(@change.native='updateTitle', :value='blogPost.title',  maxlength='128', floating-label='Title')
+            div(v-else)
+                mdl-textfield(@change.native='updateText', @keyup.enter='save', :value='blogPost.text', textarea, rows='4',  maxlength='128', floating-label='Text')
         div(v-else)
             div(v-if='blogPost.type === "upload"')
                 i.material-icons cloud_download

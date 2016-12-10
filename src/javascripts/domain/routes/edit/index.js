@@ -38,6 +38,9 @@ module.exports = {
     methods: {
         addUpload(){
             this.$store.commit('addBlogPost', 'upload');
+        },
+        addText(){
+            this.$store.commit('addBlogPost', 'text');
         }
     }
 };

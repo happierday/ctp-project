@@ -33,7 +33,7 @@ export default {
         commit('saveBlogPost', blogPost);
 
         sendBlogPost(blogPost).then(({body}) => {
-            commit('savedBlogPost', {blogPost, url: body});
+            commit('savedBlogPost', {blogPost, body});
         });
     }
 }

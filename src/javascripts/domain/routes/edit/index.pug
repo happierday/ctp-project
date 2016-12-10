@@ -4,46 +4,6 @@ div.blog.mdl-layout.mdl-js-layout(:style='{backgroundImage}')
         h2.text-center.readable.mdl-color-text--grey-100 {{description}}
         div.blog__posts.mdl-grid
             blog-post(v-for="blogPost in blogPosts", :blogPost="blogPost")
-            div.mdl-card.coffee-pic.mdl-cell.mdl-cell--8-col
-                div.mdl-card__media.mdl-color-text--grey-50
-                    h3
-                        a(href='entry.html') Coffee Pic
-                div.mdl-card__supporting-text.meta.mdl-color-text--grey-600
-                    div.minilogo
-                    div
-                        strong The Newist
-                        span 2 days ago
-            div.mdl-card.something-else.mdl-cell.mdl-cell--8-col.mdl-cell--4-col-desktop
-                div.mdl-card__media.mdl-color-text--grey-50
-                    h3
-                        a(href='entry.html') Lakeside Pic
-                div.mdl-card__supporting-text.meta.mdl-color-text--grey-600
-                    div.minilogo
-                    div
-                        strong The Newist
-                        span 2 days ago
-            div.mdl-card.on-the-road-again.mdl-cell.mdl-cell--12-col
-                div.mdl-card__media.mdl-color-text--grey-50
-                    h3
-                        a(href='entry.html') On the road again
-                div.mdl-color-text--grey-600.mdl-card__supporting-text
-                    | Enim labore aliqua consequat ut quis ad occaecat aliquip incididunt. Sunt nulla eu enim irure enim nostrud aliqua consectetur ad consectetur sunt ullamco officia. Ex officia laborum et consequat duis.
-                div.mdl-card__supporting-text.meta.mdl-color-text--grey-600
-                    div.minilogo
-                    div
-                        strong The Newist
-                        span 2 days ago
-            div.mdl-card.shopping.mdl-cell.mdl-cell--12-col
-                div.mdl-card__media.mdl-color-text--grey-50
-                    h3
-                        a(href='entry.html') Shopping
-                div.mdl-card__supporting-text.mdl-color-text--grey-600
-                    | Enim labore aliqua consequat ut quis ad occaecat aliquip incididunt. Sunt nulla eu enim irure enim nostrud aliqua consectetur ad consectetur sunt ullamco officia. Ex officia laborum et consequat duis.
-                div.mdl-card__supporting-text.meta.mdl-color-text--grey-600
-                    div.minilogo
-                    div
-                        strong The Newist
-                        span 2 days ago
             nav.demo-nav.mdl-cell.mdl-cell--12-col
                 div.section-spacer
                 a.demo-nav__button(href='entry.html', title='show more')
@@ -64,7 +24,7 @@ div.blog.mdl-layout.mdl-js-layout(:style='{backgroundImage}')
                     span.visuallyhidden share
 
         mdl-fab-flinger
-            mdl-button#compose.mdl-js-ripple-effect.mdl-button--accent(fab)
+            mdl-button#compose.mdl-js-ripple-effect.mdl-button--accent(@click.native='addText', fab)
                 i.material-icons edit
             div.mdl-tooltip.mdl-tooltip--left(data-mdl-for="compose") Compose
             mdl-button#upload.mdl-js-ripple-effect.mdl-button--accent(@click.native='addUpload', fab)
@@ -74,4 +34,4 @@ div.blog.mdl-layout.mdl-js-layout(:style='{backgroundImage}')
                 i.material-icons settings
             div.mdl-tooltip.mdl-tooltip--left(data-mdl-for="settings") Settings
 
-    div(v-else='backgroundImage') Loading...
+    div(v-else) Loading...

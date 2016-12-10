@@ -49,45 +49,58 @@ module.exports = function (Domain, BlogPost, bucket) {
         });
     });
 
-    router.post('/edit/upload', multer.single('file'), ({file}, res, next) => {
-        const domain = res.locals.domain;
-        if (!file || !domain) {
-            next(400);
-            return;
-        }
+    router.post('/edit/upload',
+        (req, res, next) => {
+            if (!res.locals.domain) {
+                next(400);
+                return;
+            }
 
-        const gcsname = Date.now() + file.originalname;
-        const gcsfile = bucket.file(domain.name + '/' + gcsname);
-
-        const stream = gcsfile.createWriteStream({
-            metadata: {
-                contentType: file.mimetype,
-                cacheControl: 'public, max-age=15552000',
-                contentDisposition: `attachment; filename="${file.originalname}"`
-            },
-            public: true,
-            gzip: true,
-            resumable: false
-        });
-
-        stream.on('error', (err) => {
-            next(err);
-        });
-
-        stream.on('finish', () => {
-            file.cloudStorageObject = gcsname;
-            file.cloudStoragePublicUrl = `https://storage.googleapis.com/${bucket.name}/${domain.name}/${gcsname}`;
             next();
+        },
+        multer.single('file'),
+        ({file}, res, next) => {
+            if (!file) {
+                next();
+                return;
+            }
+
+            const domain = res.locals.domain;
+
+            const gcsname = Date.now() + file.originalname;
+            const gcsfile = bucket.file(domain.name + '/' + gcsname);
+
+            const stream = gcsfile.createWriteStream({
+                metadata: {
+                    contentType: file.mimetype,
+                    cacheControl: 'public, max-age=15552000',
+                    contentDisposition: `attachment; filename="${file.originalname}"`
+                },
+                public: true,
+                gzip: true,
+                resumable: false
+            });
+
+            stream.on('error', (err) => {
+                next(err);
+            });
+
+            stream.on('finish', () => {
+                file.cloudStorageObject = gcsname;
+                file.cloudStoragePublicUrl = `https://storage.googleapis.com/${bucket.name}/${domain.name}/${gcsname}`;
+                next();
+            });
+
+            stream.end(file.buffer);
+        }, ({body, file, user}, res, next) => {
+            body.owner = user.id;
+            body.id = Date.now() + '||' + res.locals.domain.name;
+            body.url = file ? file.cloudStoragePublicUrl : null;
+
+            console.log(body);
+
+            BlogPost.create(body).then((blogPost) => res.send({url: body.url, id: body.id})).catch((err) => next(err));
         });
-
-        stream.end(file.buffer);
-    }, ({body, file, user}, res, next) => {
-        body.url = file.cloudStoragePublicUrl;
-        body.owner = user.id;
-        body.id = Date.now() + '||' + body.owner;
-
-        BlogPost.create(body).then((body) => res.send(file.cloudStoragePublicUrl)).catch((err) => next(err));
-    });
 
     router.get('/*', ({}, res, next) => {
         res.render('domain');

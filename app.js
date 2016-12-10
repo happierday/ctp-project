@@ -119,7 +119,7 @@ app.use(helmet.contentSecurityPolicy({
         scriptSrc: ["'self'", "'unsafe-eval'", "code.getmdl.io", "cdn.auth0.com"],
         styleSrc: ["'self'", "'unsafe-inline'", "code.getmdl.io", "fonts.googleapis.com"],
         fontSrc: ["'self'", "fonts.gstatic.com"],
-        imgSrc: ["'self'", "data:", "*.googleusercontent.com", "www.gstatic.com", "cdn.auth0.com", "source.unsplash.com", "images.unsplash.com"]
+        imgSrc: ["'self'", "data:", "*.googleusercontent.com", "www.gstatic.com", "cdn.auth0.com", "source.unsplash.com", "images.unsplash.com", "storage.googleapis.com"]
     },
     reportOnly: false,
     setAllHeaders: false,
