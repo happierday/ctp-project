@@ -12,7 +12,11 @@ module.exports = {
     template: template(),
     created() {
         if (!this.backgroundImage) {
-            getDomain().then(({body}) => {
+            getDomain(this.$router.currentRoute.path).then(({body}) => {
+                if (body.type === '') {
+                    window.location = '/404';
+                    return;
+                }
                 this.$store.commit('replaceState', body);
             });
         }
@@ -26,6 +30,9 @@ module.exports = {
         },
         description() {
             return this.$store.state.description;
+        },
+        ownDomain() {
+            return this.$router.currentRoute.path === '/edit';
         },
         backgroundImage() {
             if (!this.$store.state.backgroundImage) {

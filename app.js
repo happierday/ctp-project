@@ -151,16 +151,32 @@ const promisifiedPassportSession = ((passportSessionMiddleware) => {
 })(passport.session());
 
 const getDomain = (req, res) => {
-    if (!req.path.startsWith('/domain') || !req.session.passport || !req.session.passport.user) {
+    let query = {
+        attributes: ['name', 'title', 'description', 'backgroundImage'],
+        where: {},
+    };
+
+    if (req.path.startsWith('/domain/create') || req.path.startsWith('/domain/edit')) {
+        if (!req.session.passport || !req.session.passport.user) {
+            return;
+        }
+        query.where.owner = req.session.passport.user;
+    } else if (req.vparams) {
+        if (!req.vparams.domain) {
+            return;
+        }
+        query.where.name = req.vparams.domain;
+        query.include = [{model: db.User, as: 'user'}];
+    } else {
         return;
     }
 
     return new Promise((resolve, reject) => {
-        db.Domain.findOne({
-            where: {owner: req.session.passport.user},
-            attributes: ['name', 'title', 'description', 'backgroundImage']
-        }).then((domain) => {
+        db.Domain.findOne(query).then((domain) => {
             if (domain) {
+                if (domain.dataValues.user) {
+                    domain.dataValues.user = domain.dataValues.user.dataValues;
+                }
                 res.locals.domain = domain.dataValues;
             }
 
@@ -169,19 +185,42 @@ const getDomain = (req, res) => {
     });
 };
 
-
 const getBlogPosts = (req, res) => {
-    if (req.method !== 'GET' || !req.path.startsWith('/domain') || !req.session.passport || !req.session.passport.user) {
+    if (req.method !== 'GET') {
         return;
     }
 
+    let query = {
+        where: {},
+        limit: 10,
+        order: [['id', 'DESC']],
+        attributes: ['id', 'type', 'title', 'url', 'createdAt']
+    };
+
+    if (req.path.startsWith('/domain/create') || req.path.startsWith('/domain/edit')) {
+        if (!req.session.passport || !req.session.passport.user) {
+            return;
+        }
+        query.where.owner = req.session.passport.user;
+    } else if (req.vparams) {
+        if (!req.vparams.domain) {
+            return;
+        }
+
+        if (req.vparams.post) {
+            query.limit = 1;
+            query.where.id = req.vparams.post;
+        } else {
+            query.where.domain = req.vparams.domain;
+        }
+
+    } else {
+        return;
+    }
+
+
     return new Promise((resolve, reject) => {
-        db.BlogPost.findAll({
-            where: {owner: req.session.passport.user},
-            limit: 10,
-            order: [['id', 'DESC']],
-            attributes: ['id', 'type', 'title', 'url', 'createdAt']
-        }).then((blogPosts) => {
+        db.BlogPost.findAll(query).then((blogPosts) => {
             if (blogPosts) {
                 res.locals.blogPosts = blogPosts.map((blogPost) => blogPost.dataValues);
             }
@@ -203,6 +242,14 @@ app.use((req, res, next) => { //Make all database calls asynchronously
             return;
         }
 
+        if (req.path.startsWith('/domain/view')) {
+            const split = req.path.split('/');
+            req.vparams = {
+                domain: split[3],
+                post: split[4]
+            }
+        }
+
         Promise.all([promisifiedPassportSession, getDomain, getBlogPosts].map((fn) => fn(req, res))).then(() => next()).catch((err) => next(err));
     });
 });
@@ -210,13 +257,17 @@ app.use((req, res, next) => { //Make all database calls asynchronously
 app.use((req, res, next) => {
     if (req.method === 'GET') {
         if (req.user) {
-            res.locals.user = {name: req.user.name, picture: req.user.picture};
+            res.locals.user = {name: req.user.name, picture: req.user.picture, email: req.user.email};
 
             if (res.locals.domain) {
-                res.locals.domain.user = res.locals.user;
-                res.locals.domain.blogPosts = res.locals.blogPosts;
-
+                if (!res.locals.domain.user) {
+                    res.locals.domain.user = res.locals.user;
+                }
             }
+        }
+
+        if (res.locals.domain) {
+            res.locals.domain.blogPosts = res.locals.blogPosts;
         }
     }
 

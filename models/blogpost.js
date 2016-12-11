@@ -5,6 +5,10 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.STRING,
             primaryKey: true
         },
+        domain: {
+            allowNull: false,
+            type: DataTypes.STRING
+        },
         owner: {
             allowNull: false,
             type: DataTypes.STRING
@@ -21,8 +25,9 @@ module.exports = function (sequelize, DataTypes) {
         url: DataTypes.STRING
     }, {
         classMethods: {
-            associate: function (models) {
-                // associations can be defined here
+            associate: function ({BlogPost, Domain, User}) {
+                BlogPost.belongsTo(Domain, {foreignKey: 'domain', as: 'home'});
+                BlogPost.belongsTo(User, {foreignKey: 'owner', as: 'user'});
             }
         }
     });

@@ -23,6 +23,10 @@
     flex-shrink: 0;
 }
 
+.blog .blog-post-container {
+    min-height: calc(100vh - 467px);
+}
+
 .blog.mdl-layout .mdl-layout__content {
     position: relative;
 }

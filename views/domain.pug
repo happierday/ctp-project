@@ -4,10 +4,10 @@ html
         meta(charset="utf-8")
         meta(http-equiv="X-UA-Compatible" content="IE=edge")
         meta(name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0")
-        meta(name="description" content=".")
-        title= 'Create a new domain'
+        meta(name="description" content=(domain ? domain.description : 'Create a new domain'))
+        title=(domain ? domain.title : 'Domain Creation')
         script(src='//code.getmdl.io/1.2.1/material.min.js' async defer)
-        script(src='/javascripts/domain-d32a2665b30f7715084f.js' async defer)
+        script(src='/javascripts/domain-25ec8c3570c47ac6fada.js' async defer)
         link(rel='stylesheet' href='//fonts.googleapis.com/css?family=Roboto:300,400,500,700')
         link(rel='stylesheet' href='//fonts.googleapis.com/icon?family=Material+Icons')
         link(rel='stylesheet' href='//code.getmdl.io/1.2.1/material.deep_purple-pink.min.css')

@@ -3,7 +3,8 @@ div.blog.mdl-layout.mdl-js-layout(:style='{backgroundImage}')
         h1.text-center.readable.mdl-color-text--grey-50 {{title}}
         h2.text-center.readable.mdl-color-text--grey-100 {{description}}
         div.blog__posts.mdl-grid
-            blog-post(v-for="blogPost in blogPosts", :blogPost="blogPost")
+            div.blog-post-container.mdl-grid.mdl-cell.mdl-cell--12-col
+                blog-post(v-for="blogPost in blogPosts", :blogPost="blogPost")
             nav.demo-nav.mdl-cell.mdl-cell--12-col
                 div.section-spacer
                 a.demo-nav__button(href='entry.html', title='show more')
@@ -23,7 +24,7 @@ div.blog.mdl-layout.mdl-js-layout(:style='{backgroundImage}')
                     i.material-icons(role='presentation') share
                     span.visuallyhidden share
 
-        mdl-fab-flinger
+        mdl-fab-flinger(v-if='ownDomain')
             mdl-button#compose.mdl-js-ripple-effect.mdl-button--accent(@click.native='addText', fab)
                 i.material-icons edit
             div.mdl-tooltip.mdl-tooltip--left(data-mdl-for="compose") Compose
