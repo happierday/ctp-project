@@ -9,9 +9,8 @@ html
         meta(name="description" content=".")
 
         script(src='//code.getmdl.io/1.2.1/material.min.js' async defer)
-        script(src='/javascripts/layout-51430bee6e153607de17.js' async defer)
+        script(src='/javascripts/layout-13c0fbbf46f07fcbd041.js' async defer)
         block js
-
         link(rel='stylesheet', href='//fonts.googleapis.com/css?family=Roboto:300,400,500,700')
         link(rel='stylesheet', href='//fonts.googleapis.com/icon?family=Material+Icons')
         link(rel='stylesheet', href='//code.getmdl.io/1.2.1/material.deep_purple-pink.min.css')
@@ -32,7 +31,7 @@ html
                                 i.material-icons search
                             div.mdl-textfield__expandable-holder
                                 input#search.mdl-textfield__input(type='text', name='search')
-                        nav.mdl-navigation.mdl-layout--large-screen-only
+                        nav.mdl-navigation
                             if (user)
                                 a.mdl-navigation__link.mdl-typography--text-uppercase(href='/dashboard') Dashboard
                                 img.user-avatar(src=user.picture, height='40px', width='40px')
@@ -101,7 +100,7 @@ html
                                             a(href='#') Contracts
                         div.mdl-mega-footer__bottom-section
                             div
-                                div.mdl-logo EduPlat
+                                div.mdl-logo Pladii
                                 ul.mdl-mega-footer__link-list
                                     li
                                         a(href='#') Help
