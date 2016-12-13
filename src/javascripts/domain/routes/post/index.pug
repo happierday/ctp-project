@@ -2,7 +2,6 @@ div
     div.blog.blog--blogpost.mdl-layout.mdl-js-layout(v-if='blogPost', :style='{backgroundImage: domainBackgroundImage}')
         main.mdl-layout__content
             h1.text-center.readable.mdl-color-text--grey-50 {{title}}
-            h2.text-center.readable.mdl-color-text--grey-100 {{description}}
             div.demo-back
                 a.mdl-button.mdl-js-button.mdl-js-ripple-effect.mdl-button--icon(href='#', @click.prevent='goBack')
                     i.material-icons(role='presentation') arrow_back

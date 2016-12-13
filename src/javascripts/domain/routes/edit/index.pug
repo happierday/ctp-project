@@ -2,7 +2,6 @@ div
     div.blog.mdl-layout.mdl-js-layout(:style='{backgroundImage}')
         main.mdl-layout__content(v-if='backgroundImage')
             h1.text-center.readable.mdl-color-text--grey-50 {{title}}
-            h2.text-center.readable.mdl-color-text--grey-100 {{description}}
             div.blog__posts.mdl-grid
                 div.blog-post-container.mdl-grid.mdl-cell.mdl-cell--12-col
                     blog-post(v-for="blogPost in blogPosts", :blogPost="blogPost")
