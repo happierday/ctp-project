@@ -229,6 +229,7 @@ const getBlogPosts = (req, res) => {
         if (!req.vparams.domain) {
             return;
         }
+        query.where.domain = req.vparams.domain;
 
         if (req.vparams.post) {
             if (req.vparams.post.indexOf('-') != -1) {
@@ -240,8 +241,6 @@ const getBlogPosts = (req, res) => {
             } else {
                 return;
             }
-        } else {
-            query.where.domain = req.vparams.domain;
         }
     } else {
         return;
