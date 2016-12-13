@@ -6,15 +6,36 @@
     background-size: cover;
     background: url(https://s-media-cache-ak0.pinimg.com/originals/85/ab/e0/85abe04bd63d91622a949b9b686edd8f.jpg) center;
 }
-
-.popular-user {
-    height: 175px;
-    background-color: darkgray;
+.mdl-grid{
+    width: 50%;
+    margin: 0 auto;
+}
+.mdl-card__media{
+    margin: 0;
 }
 
-.popular-user-content {
-    height: 1000px;
-    background-color: #789ce4;
-    width: 100%;
+.mdl-card__actions {
+    display: flex;
+    box-sizing:border-box;
+    align-items: center;
+}
+.pop-user-card > .mdl-card__title {
+    align-items: flex-start;
+}
 
+.pop-user-card > .mdl-card__title > h1 {
+    margin-top: 0;
+}
+.pop-user-card.mdl-card {
+    width: 256px;
+    height: 276px;
+    background: center / cover;
+}
+.pop-user-card > .mdl-card__actions {
+    box-sizing:border-box;
+    height: 52px;
+    align-items: center;
+}
+.mdl-card__media > img {
+    max-width: 100%;
 }

@@ -20,7 +20,7 @@ const Storage = require('@google-cloud/storage');
 const storage = Storage();
 const bucket = storage.bucket(config.gcs.bucket);
 
-const index = require('./routes/index')();
+const index = require('./routes/index')(db.Domain);
 const dashboard = require('./routes/dashboard')();
 const signin = require('./routes/signin')();
 const domain = require('./routes/domain')(db.Domain, db.BlogPost, bucket);
@@ -191,7 +191,6 @@ const getDomain = (req, res) => {
                 }
                 res.locals.domain = domain.dataValues;
             }
-
             resolve();
         }).catch((err) => reject(err));
     });
@@ -245,13 +244,11 @@ const getBlogPosts = (req, res) => {
     } else {
         return;
     }
-
     return new Promise((resolve, reject) => {
         db.BlogPost.findAll(query).then((blogPosts) => {
             if (blogPosts) {
                 res.locals.blogPosts = blogPosts.map((blogPost) => blogPost.dataValues);
             }
-
             resolve();
         }).catch((err) => reject(err));
     });
