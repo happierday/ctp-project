@@ -1,7 +1,6 @@
 'use strict';
 module.exports = function (sequelize, DataTypes) {
     const Domain = sequelize.define('Domain', {
-        owner: DataTypes.STRING,
         name: {
             type: DataTypes.STRING,
             primaryKey: true,
@@ -10,6 +9,10 @@ module.exports = function (sequelize, DataTypes) {
                 isAlphanumeric: true,
                 len: [1, 128]
             }
+        },
+        owner: {
+            allowNull: false,
+            type: DataTypes.STRING
         },
         title: {
             type: DataTypes.STRING,
@@ -30,6 +33,12 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: false,
             validate: {
                 len: [1, 2000]
+            }
+        }
+    }, {
+        classMethods: {
+            associate: function ({Domain, User}) {
+                Domain.belongsTo(User, {foreignKey: 'owner', as: 'user'});
             }
         }
     });

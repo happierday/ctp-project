@@ -185,55 +185,6 @@
     content: '”';
 }
 
-.blog--blogpost .custom-header {
-    background-color: transparent;
-}
-
-.blog--blogpost .comments {
-    background-color: #EEE;
-}
-
-.blog--blogpost .meta > * {
-    align-items: center;
-}
-
-.blog--blogpost .meta + .mdl-card__supporting-text {
-    border: 0;
-    display: flex;
-    flex-direction: column;
-}
-
-.blog--blogpost .meta + .mdl-card__supporting-text p {
-    max-width: 512px;
-    margin: 16px auto;
-    font-size: 16px;
-    line-height: 28px;
-}
-
-.blog--blogpost .comments {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: stretch;
-    padding: 32px;
-    box-sizing: border-box;
-}
-
-.blog--blogpost .comments > form {
-    display: flex;
-    flex-direction: row;
-    margin-bottom: 16px;
-}
-
-.blog--blogpost .comments > form .mdl-textfield {
-    flex-grow: 1;
-    margin-right: 16px;
-    color: rgb(97, 97, 97);
-}
-
-/* Workaround for Firefox.
- * User agent stylesheet kept overwriting the font in FF only.
- */
 .blog--blogpost .comments > form .mdl-textfield .mdl-textfield__input {
     font-family: 'Roboto', 'Helvetica', sans-serif;
 }
@@ -363,4 +314,12 @@
 .readable {
     font-weight:900;
     text-shadow: 0 0 3px #000;
+}
+
+.blog .minilogo {
+    width: 44px;
+    height: 44px;
+    border-radius: 22px;
+    background: #C4C4C4 no-repeat center;
+    background-size: 44px;
 }

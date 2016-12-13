@@ -12,8 +12,8 @@ module.exports = function (Domain, BlogPost, bucket) {
         }
     });
 
-    router.get('/json', (req, res, next) => {
-        res.send(res.locals.domain);
+    router.get('*/json', (req, res, next) => {
+        res.send(res.locals.domain || res.locals.blogPosts);
     });
 
     router.post('/create', ({user, body}, res, next) => {
@@ -94,10 +94,9 @@ module.exports = function (Domain, BlogPost, bucket) {
             stream.end(file.buffer);
         }, ({body, file, user}, res, next) => {
             body.owner = user.id;
-            body.id = Date.now() + '||' + res.locals.domain.name;
+            body.domain = res.locals.domain.name;
+            body.id = Date.now() + '-' + body.domain;
             body.url = file ? file.cloudStoragePublicUrl : null;
-
-            console.log(body);
 
             BlogPost.create(body).then((blogPost) => res.send({url: body.url, id: body.id})).catch((err) => next(err));
         });

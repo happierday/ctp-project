@@ -4,12 +4,12 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "dev:nodemon": "nodemon ./bin/www --ignore src/ --ignore tests/ --ignore assets/ --ignore webpack.config.js --ignore migrations/",
+    "dev:nodemon": "nodemon ./bin/www --ignore src/ --ignore tests/ --ignore assets/ --ignore webpack.config.js --ignore migrations/ --ignore seeders/",
     "dev:webpack": "webpack --watch",
     "dev": "npm-run-all --parallel dev:nodemon dev:webpack",
     "build": "webpack",
     "test": "mocha ./bin/test",
-    "migrate": "sequelize db:migrate:undo:all && sequelize db:migrate"
+    "migrate": "sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:all"
   },
   "dependencies": {
     "@google-cloud/storage": "^0.6.0",
@@ -32,7 +32,6 @@
     "pug": "^2.0.0-beta6",
     "request": "^2.79.0",
     "sequelize": "^3.27.0",
-    "sequelize-cli": "^2.4.0",
     "serve-favicon": "^2.3.2"
   },
   "devDependencies": {

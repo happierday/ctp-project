@@ -1,37 +1,38 @@
-div.blog.mdl-layout.mdl-js-layout(:style='{backgroundImage}')
-    div.mdl-layout__content(v-if='backgroundImage')
-        h1.text-center.readable.mdl-color-text--grey-50 {{title}}
-        h2.text-center.readable.mdl-color-text--grey-100 {{description}}
-        div.blog__posts.mdl-grid
-            blog-post(v-for="blogPost in blogPosts", :blogPost="blogPost")
-            nav.demo-nav.mdl-cell.mdl-cell--12-col
-                div.section-spacer
-                a.demo-nav__button(href='entry.html', title='show more')
-                    | More
-                    button.mdl-button.mdl-js-button.mdl-js-ripple-effect.mdl-button--icon
-                        i.material-icons(role='presentation') arrow_forward
-        footer.mdl-mini-footer
-            div.mdl-mini-footer--left-section
-                button.mdl-mini-footer--social-btn.social-btn.social-btn__twitter
-                    span.visuallyhidden Twitter
-                button.mdl-mini-footer--social-btn.social-btn.social-btn__blogger
-                    span.visuallyhidden Facebook
-                button.mdl-mini-footer--social-btn.social-btn.social-btn__gplus
-                    span.visuallyhidden Google Plus
-            div.mdl-mini-footer--right-section
-                button.mdl-mini-footer--social-btn.social-btn__share
-                    i.material-icons(role='presentation') share
-                    span.visuallyhidden share
+div
+    div.blog.mdl-layout.mdl-js-layout(:style='{backgroundImage}')
+        main.mdl-layout__content(v-if='backgroundImage')
+            h1.text-center.readable.mdl-color-text--grey-50 {{title}}
+            div.blog__posts.mdl-grid
+                div.blog-post-container.mdl-grid.mdl-cell.mdl-cell--12-col
+                    blog-post(v-for="blogPost in blogPosts", :blogPost="blogPost")
+                nav.demo-nav.mdl-cell.mdl-cell--12-col
+                    div.section-spacer
+                    a.demo-nav__button(href='#', @click.prevent='showMore')
+                        | Show More
+                        button.mdl-button.mdl-js-button.mdl-js-ripple-effect.mdl-button--icon
+                            i.material-icons(role='presentation') arrow_forward
+            footer.mdl-mini-footer
+                div.mdl-mini-footer--left-section
+                    button.mdl-mini-footer--social-btn.social-btn.social-btn__twitter
+                        span.visuallyhidden Twitter
+                    button.mdl-mini-footer--social-btn.social-btn.social-btn__blogger
+                        span.visuallyhidden Facebook
+                    button.mdl-mini-footer--social-btn.social-btn.social-btn__gplus
+                        span.visuallyhidden Google Plus
+                div.mdl-mini-footer--right-section
+                    button.mdl-mini-footer--social-btn.social-btn__share
+                        i.material-icons(role='presentation') share
+                        span.visuallyhidden share
 
-        mdl-fab-flinger
-            mdl-button#compose.mdl-js-ripple-effect.mdl-button--accent(@click.native='addText', fab)
-                i.material-icons edit
-            div.mdl-tooltip.mdl-tooltip--left(data-mdl-for="compose") Compose
-            mdl-button#upload.mdl-js-ripple-effect.mdl-button--accent(@click.native='addUpload', fab)
-                i.material-icons cloud_upload
-            div.mdl-tooltip.mdl-tooltip--left(data-mdl-for="upload") Upload
-            mdl-button#settings.mdl-js-ripple-effect.mdl-button--accent(fab)
-                i.material-icons settings
-            div.mdl-tooltip.mdl-tooltip--left(data-mdl-for="settings") Settings
+            mdl-fab-flinger(v-if='ownDomain')
+                mdl-button#compose.mdl-js-ripple-effect.mdl-button--accent(@click.native='addText', fab)
+                    i.material-icons edit
+                div.mdl-tooltip.mdl-tooltip--left(data-mdl-for="compose") Compose
+                mdl-button#upload.mdl-js-ripple-effect.mdl-button--accent(@click.native='addUpload', fab)
+                    i.material-icons cloud_upload
+                div.mdl-tooltip.mdl-tooltip--left(data-mdl-for="upload") Upload
+                mdl-button#settings.mdl-js-ripple-effect.mdl-button--accent(fab)
+                    i.material-icons settings
+                div.mdl-tooltip.mdl-tooltip--left(data-mdl-for="settings") Settings
 
-    div(v-else) Loading...
+        div(v-else) Loading...

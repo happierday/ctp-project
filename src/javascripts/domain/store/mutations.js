@@ -49,6 +49,24 @@ export default {
             });
         }
     },
+    addBlogPosts({blogPosts}, newBlogPosts) {
+        let post;
+        outer: for (let i = 0; i < newBlogPosts.length; i++) {
+            post = newBlogPosts[i];
+
+            for (let x = 0; x < blogPosts.length; x++) {
+                if (blogPosts[x].id === post.id) {
+                    continue outer;
+                }
+            }
+
+            if (!post.url) {
+                post.url = 'https://source.unsplash.com/720x480?nature=' + Math.floor(Math.random() * 5000);
+            }
+            post.createdAt = new Date(post.createdAt);
+            blogPosts.push(post);
+        }
+    },
     updateBlogPost(state, {blogPost, key, value}) {
         blogPost[key] = value;
     },
@@ -64,6 +82,10 @@ export default {
             if (changes.hasOwnProperty(key)) {
                 blogPost[key] = changes[key];
             }
+        }
+
+        if (!blogPost.url) {
+            blogPost.url = 'https://source.unsplash.com/720x480?nature=' + Math.floor(Math.random() * 5000);
         }
     },
     cancelBlogPost({blogPosts}, blogPost) {

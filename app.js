@@ -137,30 +137,58 @@ const passportInitializeMiddleWare = passport.initialize();
 
 const promisifiedPassportSession = ((passportSessionMiddleware) => {
     return (req, res) => {
+        if (req.subdomains.length || req.vparams) { //Dont initialize passport on subdomains
+            return;
+        }
+
         return new Promise((resolve, reject) => {
-            passportSessionMiddleware(req, res, (err) => {
+            passportInitializeMiddleWare(req, res, (err) => {
                 if (err) {
                     reject(err);
                     return;
                 }
 
-                resolve();
+                passportSessionMiddleware(req, res, (err) => {
+                    if (err) {
+                        reject(err);
+                        return;
+                    }
+
+                    resolve();
+                });
             });
         });
     };
 })(passport.session());
 
 const getDomain = (req, res) => {
-    if (!req.path.startsWith('/domain') || !req.session.passport || !req.session.passport.user) {
+    let query = {
+        attributes: ['name', 'title', 'description', 'backgroundImage'],
+        where: {},
+    };
+
+    if (req.path.startsWith('/domain/create') || req.path.startsWith('/domain/edit')) {
+        if (!req.session.passport || !req.session.passport.user || (req.eparams && req.eparams.post && req.eparams.post !== 'upload' && req.eparams.post !== 'json' && req.eparams.post.indexOf('-') == -1)) {
+            return;
+        }
+        query.where.owner = req.session.passport.user;
+    } else if (req.vparams) {
+        if (!req.vparams.domain || (req.vparams.post && req.vparams.post.indexOf('-') == -1)) {
+            return;
+        }
+
+        query.where.name = req.vparams.domain;
+        query.include = [{model: db.User, as: 'user'}];
+    } else {
         return;
     }
 
     return new Promise((resolve, reject) => {
-        db.Domain.findOne({
-            where: {owner: req.session.passport.user},
-            attributes: ['name', 'title', 'description', 'backgroundImage']
-        }).then((domain) => {
+        db.Domain.findOne(query).then((domain) => {
             if (domain) {
+                if (domain.dataValues.user) {
+                    domain.dataValues.user = domain.dataValues.user.dataValues;
+                }
                 res.locals.domain = domain.dataValues;
             }
             resolve();
@@ -168,18 +196,56 @@ const getDomain = (req, res) => {
     });
 };
 
-
 const getBlogPosts = (req, res) => {
-    if (req.method !== 'GET' || !req.path.startsWith('/domain') || !req.session.passport || !req.session.passport.user) {
+    if (req.method !== 'GET') {
+        return;
+    }
+
+    let query = {
+        where: {},
+        limit: 6,
+        order: [['id', 'DESC']],
+        attributes: ['id', 'type', 'title', 'text', 'url', 'createdAt']
+    };
+
+    if (req.path.startsWith('/domain/create') || req.path.startsWith('/domain/edit')) {
+        if (!req.session.passport || !req.session.passport.user) {
+            return;
+        }
+        query.where.owner = req.session.passport.user;
+
+        if (req.eparams && req.eparams.post && req.eparams.post !== 'upload' && req.eparams.post !== 'json') {
+            if (req.eparams.post.indexOf('-') != -1) {
+                query.limit = 1;
+                query.where.id = req.eparams.post;
+            } else if (/^\d+$/.test(req.eparams.post)) {
+                query.offset = req.eparams.post;
+            } else {
+                return;
+            }
+        }
+    } else if (req.vparams) {
+        if (!req.vparams.domain) {
+            return;
+        }
+        query.where.domain = req.vparams.domain;
+
+        if (req.vparams.post) {
+            if (req.vparams.post.indexOf('-') != -1) {
+                query.limit = 1;
+                query.where.id = req.vparams.post;
+            }
+            if (/^\d+$/.test(req.vparams.post)) {
+                query.offset = req.vparams.post;
+            } else {
+                return;
+            }
+        }
+    } else {
         return;
     }
     return new Promise((resolve, reject) => {
-        db.BlogPost.findAll({
-            where: {owner: req.session.passport.user},
-            limit: 10,
-            order: [['id', 'DESC']],
-            attributes: ['id', 'type', 'title', 'url', 'createdAt']
-        }).then((blogPosts) => {
+        db.BlogPost.findAll(query).then((blogPosts) => {
             if (blogPosts) {
                 res.locals.blogPosts = blogPosts.map((blogPost) => blogPost.dataValues);
             }
@@ -189,31 +255,36 @@ const getBlogPosts = (req, res) => {
 };
 
 app.use((req, res, next) => { //Make all database calls asynchronously
-    if (req.subdomains.length) { //Dont initialize passport on subdomains
-        next();
-        return;
+    if (req.path.startsWith('/domain/view')) {
+        const split = req.path.split('/');
+        req.vparams = {
+            domain: split[3],
+            post: split[4]
+        }
+    } else if (req.path.startsWith('/domain/edit')) {
+        const split = req.path.split('/');
+        req.eparams = {
+            post: split[3]
+        }
     }
 
-    passportInitializeMiddleWare(req, res, (err) => {
-        if (err) {
-            next(err);
-            return;
-        }
-
-        Promise.all([promisifiedPassportSession, getDomain, getBlogPosts].map((fn) => fn(req, res))).then(() => next()).catch((err) => next(err));
-    });
+    Promise.all([promisifiedPassportSession, getDomain, getBlogPosts].map((fn) => fn(req, res))).then(() => next()).catch((err) => next(err));
 });
 
 app.use((req, res, next) => {
     if (req.method === 'GET') {
         if (req.user) {
-            res.locals.user = {name: req.user.name, picture: req.user.picture};
+            res.locals.user = {name: req.user.name, picture: req.user.picture, email: req.user.email};
 
             if (res.locals.domain) {
-                res.locals.domain.user = res.locals.user;
-                res.locals.domain.blogPosts = res.locals.blogPosts;
-
+                if (!res.locals.domain.user) {
+                    res.locals.domain.user = res.locals.user;
+                }
             }
+        }
+
+        if (res.locals.domain) {
+            res.locals.domain.blogPosts = res.locals.blogPosts;
         }
     }
 
@@ -223,7 +294,13 @@ app.use((req, res, next) => {
 app.use('/', index);
 app.use('/dashboard', ensureLoggedIn, dashboard);
 app.use('/signin', ensureLoggedOut, signin);
-app.use('/domain', ensureLoggedIn, domain);
+app.use('/domain', (req, res, next) => {
+    if (req.vparams) {
+        next();
+        return;
+    }
+    ensureLoggedIn(req, res, next);
+}, domain);
 app.post('/logout', (req, res, next) => {
     if (req.user) {
         req.logout();
