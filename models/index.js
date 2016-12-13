@@ -29,10 +29,6 @@ Object.keys(db).forEach(function (modelName) {
     if (db[modelName].associate) {
         db[modelName].associate(db);
     }
-
-    if (db[modelName].seed) {
-        db[modelName].seed(db);
-    }
 });
 
 db.sequelize = sequelize;
