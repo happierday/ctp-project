@@ -1,6 +1,6 @@
 import Vue from "vue";
-import MdlFabFlinger from './components/mdl-fab-flinger';
-import BlogPost from './components/blog-post';
+import MdlFabFlinger from "./components/mdl-fab-flinger";
+import BlogPost from "./components/blog-post";
 import template from "./index.pug";
 import "./index.scss";
 
@@ -12,6 +12,8 @@ module.exports = {
     created() {
         if (!this.backgroundImage) {
             this.$store.dispatch('getDomain', this.$router.currentRoute.path);
+        } else if (this.$store.state.blogPosts.length == 1) {
+            this.showMore();
         }
     },
     computed: {
@@ -25,7 +27,7 @@ module.exports = {
             return this.$store.state.description;
         },
         ownDomain() {
-            return this.$router.currentRoute.path === '/edit';
+            return this.$router.currentRoute.path.startsWith('/edit');
         },
         backgroundImage() {
             if (!this.$store.state.backgroundImage) {
@@ -43,7 +45,11 @@ module.exports = {
             this.$store.commit('addBlogPost', 'text');
         },
         showMore(){
-            this.$store.dispatch('showMoreBlogPosts', this.$router.currentRoute.path);
+            let routeString = this.$router.currentRoute.path;
+            if (routeString.charAt(routeString.length - 1) !== '/') {
+                routeString += '/';
+            }
+            this.$store.dispatch('showMoreBlogPosts', routeString);
         }
     }
 };

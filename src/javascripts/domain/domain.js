@@ -41,13 +41,18 @@ const Domain = {
     component: () => System.import('./routes/edit/index.js')
 };
 
-const Post = {
+const ViewPost = {
     path: '/view/:domain/:post',
     component: () => System.import('./routes/post/index.js')
 };
 
+const EditPost = {
+    path: '/edit/:post',
+    component: () => System.import('./routes/post/index.js')
+};
+
 Vue.use(VueRouter);
-const routes = [Domain, Post, Create, Edit,
+const routes = [ViewPost, EditPost, Domain, Create, Edit,
     {path: '*', redirect: '/create'},
     {path: '*', redirect: '/create'}
 ];

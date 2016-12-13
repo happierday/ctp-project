@@ -36,8 +36,8 @@ module.exports = {
                     return;
                 }
 
-                this.$router.replace('/edit');
-            }).catch(() => this.$router.replace('/edit'));
+                this.$router.push('/edit');
+            }).catch(() => this.$router.push('/edit'));
         }
     }
 

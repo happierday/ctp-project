@@ -13,7 +13,7 @@ export const getDomainJSON = (route) => {
 };
 
 export const getBlogPostsJSON = (route, offset) => {
-    return http.get('/domain' + route + '/' + offset + '/json');
+    return http.get('/domain' + route + offset + '/json');
 };
 
 export const sendBlogPost = (body) => {

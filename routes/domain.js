@@ -95,7 +95,7 @@ module.exports = function (Domain, BlogPost, bucket) {
         }, ({body, file, user}, res, next) => {
             body.owner = user.id;
             body.domain = res.locals.domain.name;
-            body.id = Date.now() + '||' + body.domain;
+            body.id = Date.now() + '-' + body.domain;
             body.url = file ? file.cloudStoragePublicUrl : null;
 
             BlogPost.create(body).then((blogPost) => res.send({url: body.url, id: body.id})).catch((err) => next(err));

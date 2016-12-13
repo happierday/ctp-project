@@ -9,7 +9,7 @@ export default {
             return {name: this.$store.state.user.name, picture: 'url("' + this.$store.state.user.picture + '")'};
         },
         backgroundImage() {
-            if (this.blogPost.editing || this.blogPost.type !== 'text') {
+            if (this.blogPost.editing || this.blogPost.type !== 'text' || !this.blogPost.url) {
                 return;
             }
 
@@ -46,7 +46,13 @@ export default {
                 if (type === 'upload') {
                     window.location.href = url;
                 } else {
-                    this.$router.push('post/' + this.blogPost.id);
+                    let routeString = this.$router.currentRoute.path;
+                    if (routeString.charAt(routeString.length - 1) !== '/') {
+                        routeString += '/';
+                    }
+
+                    routeString += this.blogPost.id;
+                    this.$router.push(routeString);
                 }
             }
         }

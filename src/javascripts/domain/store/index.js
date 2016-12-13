@@ -14,8 +14,7 @@ let state = {
     description: '',
     backgroundImage: null,
     user: null,
-    blogPosts : [],
-    post: null
+    blogPosts : []
 };
 
 const dataEl = document.querySelector('#domain-data');

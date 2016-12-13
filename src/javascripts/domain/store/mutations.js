@@ -51,8 +51,15 @@ export default {
     },
     addBlogPosts({blogPosts}, newBlogPosts) {
         let post;
-        for (let i = 0; i < newBlogPosts.length; i++) {
+        outer: for (let i = 0; i < newBlogPosts.length; i++) {
             post = newBlogPosts[i];
+
+            for (let x = 0; x < blogPosts.length; x++) {
+                if (blogPosts[x].id === post.id) {
+                    continue outer;
+                }
+            }
+
             if (!post.url) {
                 post.url = 'https://source.unsplash.com/720x480?nature=' + Math.floor(Math.random() * 5000);
             }
@@ -75,6 +82,10 @@ export default {
             if (changes.hasOwnProperty(key)) {
                 blogPost[key] = changes[key];
             }
+        }
+
+        if (!blogPost.url) {
+            blogPost.url = 'https://source.unsplash.com/720x480?nature=' + Math.floor(Math.random() * 5000);
         }
     },
     cancelBlogPost({blogPosts}, blogPost) {

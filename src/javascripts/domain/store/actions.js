@@ -46,7 +46,7 @@ export default {
         });
     },
     showMoreBlogPosts({state, commit}, route) {
-        getBlogPostsJSON(route, state.blogPosts.length).then(({body}) => {
+        getBlogPostsJSON(route, state.blogPosts.length == 1 ? 0 : state.blogPosts.length).then(({body}) => {
             commit('addBlogPosts', body);
         });
     }
