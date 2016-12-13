@@ -8,8 +8,12 @@ export const postDomain = (name, title, description) => {
     return http.post('create', {name, title, description});
 };
 
-export const getDomain = (route) => {
+export const getDomainJSON = (route) => {
     return http.get('/domain' + route + '/json');
+};
+
+export const getBlogPostsJSON = (route, offset) => {
+    return http.get('/domain' + route + '/' + offset + '/json');
 };
 
 export const sendBlogPost = (body) => {

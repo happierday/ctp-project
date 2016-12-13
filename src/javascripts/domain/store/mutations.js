@@ -49,6 +49,17 @@ export default {
             });
         }
     },
+    addBlogPosts({blogPosts}, newBlogPosts) {
+        let post;
+        for (let i = 0; i < newBlogPosts.length; i++) {
+            post = newBlogPosts[i];
+            if (!post.url) {
+                post.url = 'https://source.unsplash.com/720x480?nature=' + Math.floor(Math.random() * 5000);
+            }
+            post.createdAt = new Date(post.createdAt);
+            blogPosts.push(post);
+        }
+    },
     updateBlogPost(state, {blogPost, key, value}) {
         blogPost[key] = value;
     },

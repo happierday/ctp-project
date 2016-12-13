@@ -157,14 +157,15 @@ const getDomain = (req, res) => {
     };
 
     if (req.path.startsWith('/domain/create') || req.path.startsWith('/domain/edit')) {
-        if (!req.session.passport || !req.session.passport.user) {
+        if (!req.session.passport || !req.session.passport.user || (req.eparams && req.eparams.post && req.eparams.post !== 'upload')) {
             return;
         }
         query.where.owner = req.session.passport.user;
     } else if (req.vparams) {
-        if (!req.vparams.domain) {
+        if (!req.vparams.domain || (req.vparams.post && req.vparams.post.indexOf('||') == -1)) {
             return;
         }
+
         query.where.name = req.vparams.domain;
         query.include = [{model: db.User, as: 'user'}];
     } else {
@@ -192,7 +193,7 @@ const getBlogPosts = (req, res) => {
 
     let query = {
         where: {},
-        limit: 10,
+        limit: 6,
         order: [['id', 'DESC']],
         attributes: ['id', 'type', 'title', 'url', 'createdAt']
     };
@@ -202,22 +203,33 @@ const getBlogPosts = (req, res) => {
             return;
         }
         query.where.owner = req.session.passport.user;
+
+        if (req.eparams && req.eparams.post && req.eparams.post !== 'upload') {
+            if (req.eparams.post.indexOf('||') != -1) {
+                query.limit = 1;
+                query.where.id = req.eparams.post;
+            } else {
+                query.offset = req.eparams.post;
+            }
+        }
     } else if (req.vparams) {
         if (!req.vparams.domain) {
             return;
         }
 
         if (req.vparams.post) {
-            query.limit = 1;
-            query.where.id = req.vparams.post;
+            if (req.vparams.post.indexOf('||') != -1) {
+                query.limit = 1;
+                query.where.id = req.vparams.post;
+            } else {
+                query.offset = req.vparams.post;
+            }
         } else {
             query.where.domain = req.vparams.domain;
         }
-
     } else {
         return;
     }
-
 
     return new Promise((resolve, reject) => {
         db.BlogPost.findAll(query).then((blogPosts) => {
@@ -247,6 +259,11 @@ app.use((req, res, next) => { //Make all database calls asynchronously
             req.vparams = {
                 domain: split[3],
                 post: split[4]
+            }
+        } else if (req.path.startsWith('/domain/edit')) {
+            const split = req.path.split('/');
+            req.eparams = {
+                post: split[3]
             }
         }
 

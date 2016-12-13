@@ -3,7 +3,6 @@ import MdlFabFlinger from './components/mdl-fab-flinger';
 import BlogPost from './components/blog-post';
 import template from "./index.pug";
 import "./index.scss";
-import {getDomain} from "../../api/domain";
 
 Vue.component('mdl-fab-flinger', MdlFabFlinger);
 Vue.component('blog-post', BlogPost);
@@ -12,13 +11,7 @@ module.exports = {
     template: template(),
     created() {
         if (!this.backgroundImage) {
-            getDomain(this.$router.currentRoute.path).then(({body}) => {
-                if (body.type === '') {
-                    window.location = '/404';
-                    return;
-                }
-                this.$store.commit('replaceState', body);
-            });
+            this.$store.dispatch('getDomain', this.$router.currentRoute.path);
         }
     },
     computed: {
@@ -48,6 +41,9 @@ module.exports = {
         },
         addText(){
             this.$store.commit('addBlogPost', 'text');
+        },
+        showMore(){
+            this.$store.dispatch('showMoreBlogPosts', this.$router.currentRoute.path);
         }
     }
 };

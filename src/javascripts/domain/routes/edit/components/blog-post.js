@@ -13,7 +13,7 @@ export default {
                 return;
             }
 
-            return this.blogPost.url ? `url("${this.blogPost.url}")` : 'url("https://source.unsplash.com/720x480")';
+            return 'url("' + this.blogPost.url + '")';
         }
     },
     methods: {

@@ -7,7 +7,7 @@ div.blog.mdl-layout.mdl-js-layout(:style='{backgroundImage}')
                 blog-post(v-for="blogPost in blogPosts", :blogPost="blogPost")
             nav.demo-nav.mdl-cell.mdl-cell--12-col
                 div.section-spacer
-                a.demo-nav__button(href='entry.html', title='show more')
+                a.demo-nav__button(href='#', title='show more', @click.prevent='showMore')
                     | More
                     button.mdl-button.mdl-js-button.mdl-js-ripple-effect.mdl-button--icon
                         i.material-icons(role='presentation') arrow_forward

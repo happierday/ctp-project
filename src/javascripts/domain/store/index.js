@@ -29,6 +29,9 @@ if (dataEl) {
 }
 
 for (let i = 0; i < state.blogPosts.length; i++) {
+    if (!state.blogPosts[i].url) {
+        state.blogPosts[i].url = 'https://source.unsplash.com/720x480?nature=' + Math.floor(Math.random() * 5000);
+    }
     state.blogPosts[i].createdAt = new Date(state.blogPosts[i].createdAt);
 }
 
