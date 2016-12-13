@@ -1,5 +1,11 @@
 import template from './layout.pug';
 
+function createDomainData() {
+    const el = document.createElement('div');
+    el.id = 'domain-data';
+    document.body.appendChild(el);
+}
+
 module.exports = {
     template: template(),
 
@@ -36,9 +42,12 @@ module.exports = {
                     return;
                 }
 
-                this.$router.push('/edit');
-            }).catch(() => this.$router.push('/edit'));
+                createDomainData();
+                this.$router.replace('/edit');
+            }).catch(() => {
+                createDomainData();
+                this.$router.replace('/edit');
+            });
         }
     }
-
 };

@@ -27,6 +27,12 @@ module.exports = {
          Example:
          return queryInterface.bulkDelete('Person', null, {});
          */
+
+        return queryInterface.bulkDelete('Users', userSeeds).then(function () {
+            return queryInterface.bulkDelete('Domains', domainSeeds);
+        }).then(function () {
+            return queryInterface.bulkDelete('BlogPosts', blogPostsSeed);
+        });
     }
 };
 
