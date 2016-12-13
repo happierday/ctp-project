@@ -9,7 +9,11 @@ module.exports = {
             owner: {
                 allowNull: false,
                 type: Sequelize.STRING,
-                unique: true
+                unique: true,
+                references: {
+                    model: 'Users',
+                    key: 'id'
+                }
             },
             title: {
                 allowNull: false,
