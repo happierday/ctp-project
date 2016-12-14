@@ -4,21 +4,20 @@ block meta
     title= 'Pladii'
 
 block css
-    link(rel='stylesheet' href='/stylesheets/index-b30d45de2c7fd0a3fc226c4fd124494b.css')
+    link(rel='stylesheet' href='/stylesheets/index-d41d8cd98f00b204e9800998ecf8427e.css')
 
 block content
     div.mdl-grid
         each val in domains_array
-            div.pop-user-card.mdl-card.mdl-shadow--2dp.demo-card-square.mdl-cell.mdl-cell--3-col.mdl-cell--4-col-tablet.mdl-cell--12-col-phone
-                figure.mdl-card__media
-                    img(src=val.backgroundImage)
+            div.mdl-card.mdl-shadow--2dp.mdl-cell.mdl-cell--3-col.mdl-cell--4-col-tablet.mdl-cell--12-col-phone
+                div.mdl-card__media(style="background-image:url('" + val.backgroundImage + "')")
+                    a(href="/domain/view/" + val.name, style='color:white')
+                        h3 #{val.name}
                 div.mdl-card__title
                     h1.mdl-card__title-text #{val.title}
-                    div.mdl-layout-spacer
                 div.mdl-card__supporting-text
                     p #{val.description}
                 div.mdl-card__actions.mdl-card--border
-                    a.mdl-button.mdl-button--colored.mdl-js-button.mdl-js-ripple-effect(href="/domain/view/{{domain.name}}") Read More
-                    div.mdl-layout-spacer
+                    a.mdl-button.mdl-button--colored.mdl-js-button.mdl-js-ripple-effect(href="/domain/view/" + val.name) Read More
                     button.mdl-button.mdl-button--icon.mdl-button--colored
                         i.material-icons favorite

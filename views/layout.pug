@@ -9,7 +9,7 @@ html
         meta(name="description" content=".")
 
         script(src='//code.getmdl.io/1.2.1/material.min.js' async defer)
-        script(src='/javascripts/layout-8513709a08a193894b56.js' async defer)
+        script(src='/javascripts/layout-a6853489274bef228d66.js' async defer)
         block js
         link(rel='stylesheet', href='//fonts.googleapis.com/css?family=Roboto:300,400,500,700')
         link(rel='stylesheet', href='//fonts.googleapis.com/icon?family=Material+Icons')
@@ -33,6 +33,7 @@ html
                                 input#search.mdl-textfield__input(type='text', name='search')
                         nav.mdl-navigation.mdl-layout--large-screen-only
                             if (user)
+                                a.mdl-navigation__link.mdl-typography--text-uppercase(href='/domain/create') Create
                                 a.mdl-navigation__link.mdl-typography--text-uppercase(href='/dashboard') Dashboard
                                 img.user-avatar(src=user.picture, height='40px', width='40px')
                                 button.logout-button.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect.mdl-button--accent Log Out
@@ -44,6 +45,7 @@ html
                             img.logo(src='/images/logo.png', height='40px', width='40px')
                     nav.mdl-navigation
                         if(user)
+                            a.mdl-navigation__link.mdl-typography--text-uppercase(href='/domain/create') Create
                             a.mdl-navigation__link.mdl-typography--text-uppercase(href='/dashboard') Dashboard
                         else
                             a.mdl-navigation__link.mdl-typography--text-uppercase(href='/') Home
